@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adjust — Weekly Summary</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { primary: '#1D9E75' } } } }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+</head>
+<body class="flex h-screen overflow-hidden bg-gray-50">
+
+  <div id="sidebar"></div>
+
+  <main class="ml-[200px] flex-1 overflow-y-auto">
+
+    <!-- Top bar -->
+    <header class="flex items-center justify-between px-8 py-5 border-b border-gray-200 bg-white sticky top-0 z-20">
+      <div>
+        <h1 class="text-lg font-bold text-gray-900">Weekly summary</h1>
+        <p class="text-sm text-gray-500 mt-0.5">WEEK 9 · TERM 2</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="relative">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35"/></svg>
+          <input type="text" placeholder="Search insights..." class="pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1D9E75] w-44" />
+        </div>
+        <button class="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+        </button>
+        <button class="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="px-8 py-6 space-y-6">
+
+      <!-- Stat cards -->
+      <div class="grid grid-cols-3 gap-5" id="stat-cards"></div>
+
+      <!-- Adjustments per student -->
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Adjustments per student</p>
+          <button class="text-xs font-semibold text-[#1D9E75] hover:underline">EXPORT REPORT ↗</button>
+        </div>
+        <div class="space-y-2.5" id="student-rows"></div>
+      </div>
+
+      <!-- Bottom two columns -->
+      <div class="grid grid-cols-2 gap-5">
+
+        <!-- Chart -->
+        <div class="bg-white border border-gray-200 rounded-xl p-5">
+          <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Top adjustment types</p>
+          <canvas id="adj-chart" height="200"></canvas>
+        </div>
+
+        <!-- Focus card -->
+        <div class="rounded-xl p-6 flex flex-col justify-between" style="background:#1D9E75">
+          <div>
+            <div class="w-10 h-10 rounded-full flex items-center justify-center mb-4" style="background:rgba(255,255,255,0.2)">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            </div>
+            <p class="text-[10px] font-bold uppercase tracking-widest mb-2" style="color:rgba(255,255,255,0.6)">Focus areas for Week 10</p>
+            <h3 class="text-lg font-bold text-white leading-snug mb-3">Prioritise visual scaffolds for the upcoming Geometry block.</h3>
+            <p class="text-sm" style="color:rgba(255,255,255,0.8)">Impacts 3 students (Maya, Jack, Sofia)</p>
+          </div>
+          <div class="mt-6">
+            <button class="inline-flex items-center gap-2 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors" style="background:rgba(255,255,255,0.2)" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+              View geometry unit →
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/sidebar.js"></script>
+  <script src="js/summary.js"></script>
+</body>
+</html>

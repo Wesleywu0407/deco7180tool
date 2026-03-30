@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adjust — Lesson Planner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { primary: '#1D9E75' } } } }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="flex h-screen overflow-hidden bg-gray-50">
+
+  <div id="sidebar"></div>
+
+  <main class="ml-[200px] flex-1 flex flex-col overflow-hidden">
+
+    <!-- Top bar -->
+    <header class="flex items-center justify-between px-8 py-5 border-b border-gray-200 bg-white flex-shrink-0 z-20">
+      <h1 class="text-lg font-bold text-gray-900">Lesson Planner</h1>
+      <div class="flex items-center gap-3">
+        <button class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Export</button>
+        <button class="px-5 py-2 bg-[#1D9E75] text-white text-sm font-semibold rounded-full hover:bg-[#178a63] transition-colors">Share</button>
+        <button class="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+        </button>
+        <button class="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- 3-column layout -->
+    <div class="flex flex-1 overflow-hidden">
+
+      <!-- LEFT: Class Roster -->
+      <aside class="w-[260px] flex-shrink-0 border-r border-gray-200 bg-white overflow-y-auto px-4 py-5">
+        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Class roster</p>
+        <div id="roster" class="space-y-2"></div>
+      </aside>
+
+      <!-- MIDDLE: Lesson Context -->
+      <section class="flex-1 overflow-y-auto px-6 py-5">
+        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Lesson context</p>
+        <div id="lesson-context"></div>
+      </section>
+
+      <!-- RIGHT: Suggested Adjustments -->
+      <aside class="w-[280px] flex-shrink-0 border-l border-gray-200 bg-white overflow-y-auto px-4 py-5 flex flex-col">
+        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Suggested adjustments</p>
+        <div id="adjustments-list" class="flex-1 space-y-3"></div>
+        <div id="progress-section" class="mt-4 pt-4 border-t border-gray-100 hidden">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Progress</span>
+            <span id="progress-label" class="text-xs text-gray-600 font-medium"></span>
+          </div>
+          <div class="progress-track">
+            <div id="progress-fill" class="progress-fill" style="width:0%"></div>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/sidebar.js"></script>
+  <script src="js/planner.js"></script>
+</body>
+</html>

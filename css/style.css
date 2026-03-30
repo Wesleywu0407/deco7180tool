@@ -1,0 +1,106 @@
+/* ─── Base ──────────────────────────────────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  min-width: 1024px;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 3px; }
+
+/* ─── Sidebar link reset ────────────────────────────────────────────────────── */
+aside a { text-decoration: none; }
+
+/* ─── Avatar ────────────────────────────────────────────────────────────────── */
+.avatar {
+  width: 2rem; height: 2rem;
+  border-radius: 9999px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 700; color: white;
+  flex-shrink: 0;
+}
+
+/* ─── Progress bar ──────────────────────────────────────────────────────────── */
+.progress-track {
+  width: 100%; height: 6px;
+  background: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: #1D9E75;
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+/* ─── Tag ───────────────────────────────────────────────────────────────────── */
+.tag {
+  display: inline-flex; align-items: center;
+  padding: 1px 8px;
+  border-radius: 4px;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+/* ─── Lesson card hover ─────────────────────────────────────────────────────── */
+.lesson-card {
+  cursor: pointer;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+.lesson-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-color: #1D9E75;
+}
+.lesson-card:hover .lesson-title { color: #1D9E75; }
+
+/* ─── Roster card ───────────────────────────────────────────────────────────── */
+.roster-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: white;
+}
+.roster-card:hover { border-color: #d1d5db; background: #f9fafb; }
+.roster-card.selected { border-color: #1D9E75; background: #e6f7f2; }
+.roster-card.selected .roster-name { color: #1D9E75; }
+
+/* ─── Adjustment card ───────────────────────────────────────────────────────── */
+.adj-card { transition: opacity 0.2s; }
+.adj-card.checked { opacity: 0.55; }
+
+/* ─── Checkbox ──────────────────────────────────────────────────────────────── */
+.checkbox-box {
+  width: 20px; height: 20px; border-radius: 4px;
+  border: 2px solid #d1d5db;
+  cursor: pointer; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.checkbox-box:hover { border-color: #1D9E75; }
+.checkbox-box.checked { background: #1D9E75; border-color: #1D9E75; }
+
+/* ─── Add lesson card ───────────────────────────────────────────────────────── */
+.add-card {
+  border: 2px dashed #d1d5db;
+  border-radius: 12px; padding: 20px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 8px; cursor: pointer; min-height: 160px;
+  transition: all 0.15s;
+}
+.add-card:hover { border-color: #1D9E75; background: #e6f7f2; }
+.add-card:hover .add-icon { border-color: #1D9E75; color: #1D9E75; }
+.add-card:hover .add-label { color: #1D9E75; }
+.add-icon {
+  width: 32px; height: 32px; border-radius: 9999px;
+  border: 2px solid #d1d5db; color: #9ca3af;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 300; transition: all 0.15s;
+}
+.add-label { font-size: 14px; color: #9ca3af; font-weight: 500; transition: color 0.15s; }
