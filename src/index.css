@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #f9fafb;
+    color: #111827;
+    min-width: 1024px;
+  }
+}
+
+@layer components {
+  /* ── Sidebar ── */
+  .sidebar {
+    @apply fixed top-0 left-0 h-screen w-[200px] bg-white border-r border-gray-200 flex flex-col z-30;
+  }
+
+  .sidebar-nav-item {
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-600 cursor-pointer transition-colors hover:bg-gray-50;
+  }
+
+  .sidebar-nav-item.active {
+    @apply bg-[#e6f7f2] text-[#1D9E75] font-semibold;
+  }
+
+  /* ── Top bar ── */
+  .topbar {
+    @apply flex items-center justify-between px-8 py-5 border-b border-gray-200 bg-white;
+  }
+
+  /* ── Buttons ── */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-[#1D9E75] text-white text-sm font-semibold rounded-lg hover:bg-[#178a63] transition-colors cursor-pointer;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-50 transition-colors cursor-pointer bg-white;
+  }
+
+  .btn-text {
+    @apply text-sm text-gray-500 hover:text-gray-700 cursor-pointer transition-colors;
+  }
+
+  /* ── Tags ── */
+  .tag {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold uppercase tracking-wide;
+  }
+
+  .tag-blue  { @apply bg-blue-100 text-blue-700; }
+  .tag-purple{ @apply bg-purple-100 text-purple-700; }
+  .tag-amber { @apply bg-amber-100 text-amber-700; }
+  .tag-pink  { @apply bg-pink-100 text-pink-700; }
+  .tag-green { @apply bg-green-100 text-green-700; }
+
+  /* ── Avatar circles ── */
+  .avatar {
+    @apply w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0;
+  }
+
+  .avatar-blue   { @apply bg-blue-500; }
+  .avatar-purple { @apply bg-purple-600; }
+  .avatar-amber  { @apply bg-amber-500; }
+  .avatar-pink   { @apply bg-pink-500; }
+  .avatar-green  { @apply bg-green-500; }
+  .avatar-teal   { @apply bg-[#1D9E75]; }
+
+  /* ── Cards ── */
+  .card {
+    @apply bg-white border border-gray-200 rounded-xl p-5;
+  }
+
+  /* ── Progress bar ── */
+  .progress-track {
+    @apply w-full h-1.5 bg-gray-200 rounded-full overflow-hidden;
+  }
+
+  .progress-fill {
+    @apply h-full bg-[#1D9E75] rounded-full transition-all duration-300;
+  }
+
+  /* ── Section label ── */
+  .section-label {
+    @apply text-xs font-bold text-gray-400 uppercase tracking-widest mb-3;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #e5e7eb transparent;
+  }
+}
