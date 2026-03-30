@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adjust — Settings</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { primary: '#1D9E75' } } } }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="flex h-screen overflow-hidden bg-gray-50">
+
+  <div id="sidebar"></div>
+
+  <main class="ml-[200px] flex-1 overflow-y-auto">
+
+    <!-- Top bar -->
+    <header class="flex items-center justify-between px-8 py-5 border-b border-gray-200 bg-white sticky top-0 z-20">
+      <div>
+        <h1 class="text-lg font-bold text-gray-900">Settings</h1>
+        <p class="text-sm text-gray-500 mt-0.5">Manage your preferences</p>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="px-8 py-6 max-w-2xl space-y-6">
+
+      <!-- ── 1. Profile ─────────────────────────────────────────────── -->
+      <section class="bg-white border border-gray-200 rounded-xl p-6">
+        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Profile</p>
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-full bg-[#1D9E75] flex items-center justify-center text-base font-bold text-white flex-shrink-0">MC</div>
+          <div class="flex-1">
+            <p class="text-base font-semibold text-gray-900">Mrs. Chen</p>
+            <p class="text-sm text-gray-500 mt-0.5">SEN Specialist</p>
+            <p class="text-sm text-gray-400 mt-0.5">Year 5 · Class 5B</p>
+          </div>
+          <button class="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-50 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            Edit profile
+          </button>
+        </div>
+      </section>
+
+      <!-- ── 2. Notifications ───────────────────────────────────────── -->
+      <section class="bg-white border border-gray-200 rounded-xl p-6">
+        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Notifications</p>
+        <div class="space-y-5">
+
+          <!-- Toggle 1 -->
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-semibold text-gray-800">Recommended adjustment alerts</p>
+              <p class="text-xs text-gray-400 mt-0.5">Get notified when new adjustments are suggested for your students</p>
+            </div>
+            <button id="toggle-alerts" onclick="toggleSwitch(this)" data-on="true"
+              class="relative w-11 h-6 rounded-full transition-colors duration-200 bg-[#1D9E75] flex-shrink-0">
+              <span class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 translate-x-5"></span>
+            </button>
+          </div>
+
+          <hr class="border-gray-100" />
+
+          <!-- Toggle 2 -->
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-semibold text-gray-800">Weekly summary reminders</p>
+              <p class="text-xs text-gray-400 mt-0.5">Receive a reminder at the start of each week to review your summary</p>
+            </div>
+            <button id="toggle-summary" onclick="toggleSwitch(this)" data-on="true"
+              class="relative w-11 h-6 rounded-full transition-colors duration-200 bg-[#1D9E75] flex-shrink-0">
+              <span class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 translate-x-5"></span>
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── 3. Display ─────────────────────────────────────────────── -->
+      <section class="bg-white border border-gray-200 rounded-xl p-6">
+        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Display</p>
+        <div class="space-y-4">
+
+          <div class="flex items-center justify-between gap-6">
+            <div>
+              <p class="text-sm font-semibold text-gray-800">Current week</p>
+              <p class="text-xs text-gray-400 mt-0.5">Set the active teaching week</p>
+            </div>
+            <select class="text-sm border border-gray-200 rounded-lg px-3 py-2 text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#1D9E75] cursor-pointer">
+              <option>Week 7 · Term 2</option>
+              <option>Week 8 · Term 2</option>
+              <option selected>Week 9 · Term 2</option>
+              <option>Week 10 · Term 2</option>
+            </select>
+          </div>
+
+          <hr class="border-gray-100" />
+
+          <div class="flex items-center justify-between gap-6">
+            <div>
+              <p class="text-sm font-semibold text-gray-800">Class group</p>
+              <p class="text-xs text-gray-400 mt-0.5">Select the active class to display</p>
+            </div>
+            <select class="text-sm border border-gray-200 rounded-lg px-3 py-2 text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#1D9E75] cursor-pointer">
+              <option selected>Year 5 · Class 5B</option>
+              <option>Year 5 · Class 5A</option>
+              <option>Year 6 · Class 6B</option>
+            </select>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── 4. Data ────────────────────────────────────────────────── -->
+      <section class="bg-white border border-gray-200 rounded-xl p-6">
+        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Data</p>
+        <div class="flex items-center gap-3">
+          <button class="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-50 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Export all lesson plans
+          </button>
+          <button class="flex items-center gap-2 px-4 py-2 border border-red-300 text-red-600 text-sm font-semibold rounded-lg hover:bg-red-50 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            Clear all data
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/sidebar.js"></script>
+  <script>
+    renderSidebar('settings')
+
+    function toggleSwitch(btn) {
+      const isOn = btn.dataset.on === 'true'
+      btn.dataset.on = isOn ? 'false' : 'true'
+      btn.style.background = isOn ? '#d1d5db' : '#1D9E75'
+      btn.querySelector('span').style.transform = isOn ? 'translateX(0)' : 'translateX(20px)'
+    }
+  </script>
+</body>
+</html>
