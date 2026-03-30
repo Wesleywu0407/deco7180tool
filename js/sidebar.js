@@ -2,6 +2,20 @@
 // Call renderSidebar('lessons' | 'students' | 'summary' | 'settings' | 'support')
 
 function renderSidebar(activePage) {
+  const teacher = window.adjustTeacherProfile || {
+    fullName: 'Mrs. Chen',
+    role: 'SEN Specialist',
+    yearLevel: 'Year 5',
+    classGroup: 'Class 5B',
+  }
+  const teacherInitials = teacher.fullName
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join('')
+    .toUpperCase()
+
   const mainNav = [
     {
       id: 'lessons', label: 'Lesson plans', href: 'index.html',
@@ -30,8 +44,10 @@ function renderSidebar(activePage) {
 
   function navLink(item) {
     const isActive = item.id === activePage
-    const base = 'flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium cursor-pointer transition-colors no-underline'
-    const state = isActive ? 'bg-[#e6f7f2] text-[#1D9E75] font-semibold' : 'text-gray-600 hover:bg-gray-50'
+    const base = 'flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium cursor-pointer transition-all no-underline'
+    const state = isActive
+      ? 'bg-[#e6f7f2] text-[#1D9E75] font-semibold shadow-[inset_0_0_0_1px_rgba(29,158,117,0.14)]'
+      : 'text-gray-600 hover:bg-[#f7faf8] hover:text-gray-900'
     return `<a href="${item.href}" class="${base} ${state}">${item.icon}<span>${item.label}</span></a>`
   }
 
@@ -39,8 +55,20 @@ function renderSidebar(activePage) {
     <aside style="width:200px;min-width:200px" class="fixed top-0 left-0 h-screen bg-white border-r border-gray-200 flex flex-col z-30">
       <!-- Brand -->
       <div class="px-5 pt-6 pb-5 border-b border-gray-100">
-        <p class="text-base font-bold text-gray-900 leading-tight">Adjust</p>
-        <p class="text-[11px] text-gray-400 mt-0.5 leading-tight">SEN lesson planning tool</p>
+        <div class="flex items-center gap-3">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5.5 8.75a1.75 1.75 0 0 1 1.75-1.75H10a5 5 0 0 1 4 1.95V17a5 5 0 0 0-4-1.95H7.25A1.75 1.75 0 0 0 5.5 16.8v-8.05Z" fill="currentColor" stroke="none"/>
+              <path d="M18.5 8.75A1.75 1.75 0 0 0 16.75 7H14a5 5 0 0 0-4 1.95V17a5 5 0 0 1 4-1.95h2.75A1.75 1.75 0 0 1 18.5 16.8v-8.05Z" fill="currentColor" stroke="none"/>
+              <path d="M12 8.6V17" stroke="white" stroke-width="1.2"/>
+              <path d="M17.45 4.1 17.95 5.35 19.2 5.85 17.95 6.35 17.45 7.6 16.95 6.35 15.7 5.85 16.95 5.35 17.45 4.1Z" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-base font-bold text-gray-900 leading-tight">Adjust</p>
+            <p class="text-[11px] text-gray-400 mt-0.5 leading-tight">SEN lesson planning tool</p>
+          </div>
+        </div>
       </div>
 
       <!-- Main nav -->
@@ -50,7 +78,7 @@ function renderSidebar(activePage) {
 
       <!-- New Plan -->
       <div class="px-3 pb-3">
-        <button class="w-full flex items-center justify-center gap-2 px-4 py-2 bg-[#1D9E75] text-white text-xs font-semibold rounded-lg hover:bg-[#178a63] transition-colors">
+        <button onclick="location.href='planner.html?new=1'" class="w-full flex items-center justify-center gap-2 px-4 py-2 bg-[#1D9E75] text-white text-xs font-semibold rounded-lg hover:bg-[#178a63] transition-colors">
           + New Plan
         </button>
       </div>
@@ -62,10 +90,10 @@ function renderSidebar(activePage) {
 
       <!-- Teacher -->
       <div class="px-4 py-4 border-t border-gray-100 flex items-center gap-3">
-        <div class="w-8 h-8 rounded-full bg-[#1D9E75] flex items-center justify-center text-xs font-bold text-white flex-shrink-0">MC</div>
+        <div class="w-8 h-8 rounded-full bg-[#1D9E75] flex items-center justify-center text-xs font-bold text-white flex-shrink-0">${teacherInitials}</div>
         <div class="min-w-0">
-          <p class="text-xs font-semibold text-gray-800 truncate">Mrs. Chen · Year 5</p>
-          <p class="text-[11px] text-gray-400 truncate">Week 9 · Term 2</p>
+          <p class="text-xs font-semibold text-gray-800 truncate">${teacher.fullName} · ${teacher.yearLevel}</p>
+          <p class="text-[11px] text-gray-400 truncate">${teacher.classGroup} · ${teacher.role}</p>
         </div>
       </div>
     </aside>

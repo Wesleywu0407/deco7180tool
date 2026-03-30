@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 // ─── Nav item config ──────────────────────────────────────────────────────────
 const NAV_ITEMS = [
@@ -37,8 +37,20 @@ export default function Sidebar() {
     <aside className="sidebar">
       {/* ── App brand ─────────────────────────────────────── */}
       <div className="px-5 pt-6 pb-5 border-b border-gray-100">
-        <p className="text-base font-bold text-gray-900 leading-tight">Adjust</p>
-        <p className="text-[11px] text-gray-400 mt-0.5 leading-tight">SEN lesson planning tool</p>
+        <div className="flex items-center gap-3">
+          <div className="brand-mark" aria-hidden="true">
+            <svg className="h-[1.15rem] w-[1.15rem] text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5.5 8.75a1.75 1.75 0 0 1 1.75-1.75H10a5 5 0 0 1 4 1.95V17a5 5 0 0 0-4-1.95H7.25A1.75 1.75 0 0 0 5.5 16.8v-8.05Z" fill="currentColor" stroke="none" />
+              <path d="M18.5 8.75A1.75 1.75 0 0 0 16.75 7H14a5 5 0 0 0-4 1.95V17a5 5 0 0 1 4-1.95h2.75A1.75 1.75 0 0 1 18.5 16.8v-8.05Z" fill="currentColor" stroke="none" />
+              <path d="M12 8.6V17" stroke="white" strokeWidth={1.2} />
+              <path d="M17.45 4.1 17.95 5.35 19.2 5.85 17.95 6.35 17.45 7.6 16.95 6.35 15.7 5.85 16.95 5.35 17.45 4.1Z" fill="currentColor" stroke="none" />
+            </svg>
+          </div>
+          <div>
+            <p className="text-base font-bold text-gray-900 leading-tight">Adjust</p>
+            <p className="text-[11px] text-gray-400 mt-0.5 leading-tight">SEN lesson planning tool</p>
+          </div>
+        </div>
       </div>
 
       {/* ── Navigation ────────────────────────────────────── */}
@@ -59,15 +71,15 @@ export default function Sidebar() {
 
       {/* ── New Plan button ───────────────────────────────── */}
       <div className="px-3 pb-3">
-        <button className="w-full btn-primary justify-center py-2 text-xs rounded-lg">
+        <button onClick={() => { window.location.href = '/planner.html?new=1' }} className="w-full btn-primary justify-center py-2 text-xs rounded-lg">
           + New Plan
         </button>
       </div>
 
       {/* ── Footer links ─────────────────────────────────── */}
       <div className="px-5 py-3 border-t border-gray-100 flex gap-4">
-        <button className="text-xs text-gray-400 hover:text-gray-600 transition-colors">Settings</button>
-        <button className="text-xs text-gray-400 hover:text-gray-600 transition-colors">Support</button>
+        <a href="/settings.html" className="text-xs text-gray-400 hover:text-gray-600 transition-colors">Settings</a>
+        <a href="/support.html" className="text-xs text-gray-400 hover:text-gray-600 transition-colors">Support</a>
       </div>
 
       {/* ── Teacher info ─────────────────────────────────── */}

@@ -10,6 +10,11 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=2" />
+  <link rel="apple-touch-icon" href="./apple-touch-icon.svg?v=2" />
+  <meta name="application-name" content="Adjust" />
+  <meta name="apple-mobile-web-app-title" content="Adjust" />
+  <meta name="theme-color" content="#4CAF50" />
   <link rel="stylesheet" href="css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 </head>
@@ -22,8 +27,8 @@
     <!-- Top bar -->
     <header class="flex items-center justify-between px-8 py-5 border-b border-gray-200 bg-white sticky top-0 z-20">
       <div>
-        <h1 class="text-lg font-bold text-gray-900">Weekly summary</h1>
-        <p class="text-sm text-gray-500 mt-0.5">WEEK 9 · TERM 2</p>
+        <h1 class="text-lg font-bold text-gray-900">Weekly teaching insights</h1>
+        <p class="text-sm text-gray-500 mt-0.5">AI-assisted analysis of classroom support patterns, lesson complexity, and next-step planning.</p>
       </div>
       <div class="flex items-center gap-3">
         <div class="relative">
@@ -40,48 +45,187 @@
     </header>
 
     <!-- Content -->
-    <div class="px-8 py-6 space-y-6">
+    <div id="summary-content" class="px-8 py-6 space-y-6">
 
-      <!-- Stat cards -->
-      <div class="grid grid-cols-3 gap-5" id="stat-cards"></div>
-
-      <!-- Adjustments per student -->
-      <div>
-        <div class="flex items-center justify-between mb-3">
-          <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Adjustments per student</p>
-          <button class="text-xs font-semibold text-[#1D9E75] hover:underline">EXPORT REPORT ↗</button>
+      <div id="weekly-insight-banner" class="ai-summary-bar p-4">
+        <div class="flex items-start justify-between gap-4 mb-3">
+          <div class="flex items-start gap-4">
+            <div class="ai-summary-icon">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="page-label mb-2">AI Summary</p>
+              <h2 class="text-base font-semibold text-gray-900">Live teaching recommendation</h2>
+            </div>
+          </div>
+          <div class="text-[11px] text-[#5f7d72] uppercase tracking-[0.18em]">Adaptive</div>
         </div>
-        <div class="space-y-2.5" id="student-rows"></div>
+        <div id="weekly-insight-panel" class="ai-insight-panel">
+          <div class="ai-insight-section">
+            <p class="ai-insight-label">Pattern</p>
+            <p id="weekly-insight-text" class="text-sm text-gray-700 leading-relaxed"></p>
+          </div>
+          <div class="ai-insight-section">
+            <p class="ai-insight-label">Reason</p>
+            <p id="weekly-insight-reason" class="text-sm text-gray-700 leading-relaxed"></p>
+          </div>
+          <div class="ai-insight-section">
+            <p class="ai-insight-label">Action</p>
+            <p id="weekly-insight-action" class="text-sm text-gray-700 leading-relaxed"></p>
+          </div>
+        </div>
       </div>
 
-      <!-- Bottom two columns -->
-      <div class="grid grid-cols-2 gap-5">
-
-        <!-- Chart -->
-        <div class="bg-white border border-gray-200 rounded-xl p-5">
-          <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Top adjustment types</p>
-          <canvas id="adj-chart" height="200"></canvas>
-        </div>
-
-        <!-- Focus card -->
-        <div class="rounded-xl p-6 flex flex-col justify-between" style="background:#1D9E75">
-          <div>
-            <div class="w-10 h-10 rounded-full flex items-center justify-center mb-4" style="background:rgba(255,255,255,0.2)">
-              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+      <div class="summary-shell">
+        <aside class="summary-sidebar">
+          <div class="surface-card summary-filter-panel p-5">
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <div>
+                <p class="page-label mb-2">Filter</p>
+                <h2 class="text-base font-semibold text-gray-900">Refine weekly analysis</h2>
+              </div>
             </div>
-            <p class="text-[10px] font-bold uppercase tracking-widest mb-2" style="color:rgba(255,255,255,0.6)">Focus areas for Week 10</p>
-            <h3 class="text-lg font-bold text-white leading-snug mb-3">Prioritise visual scaffolds for the upcoming Geometry block.</h3>
-            <p class="text-sm" style="color:rgba(255,255,255,0.8)">Impacts 3 students (Maya, Jack, Sofia)</p>
+            <div class="space-y-5">
+              <div>
+                <p class="summary-filter-title">Adjustment Type</p>
+                <div id="summary-filter-adjustments" class="space-y-2"></div>
+              </div>
+              <div>
+                <p class="summary-filter-title">Students</p>
+                <div id="summary-filter-students" class="space-y-2"></div>
+              </div>
+              <div>
+                <p class="summary-filter-title">Lessons</p>
+                <div id="summary-filter-lessons" class="space-y-2"></div>
+              </div>
+            </div>
           </div>
-          <div class="mt-6">
-            <button class="inline-flex items-center gap-2 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors" style="background:rgba(255,255,255,0.2)" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
-              View geometry unit →
-            </button>
+        </aside>
+
+        <div class="summary-main space-y-6">
+          <div id="summary-hero" class="surface-card p-6" style="background:linear-gradient(180deg, rgba(29,158,117,0.09), rgba(255,255,255,0.96));"></div>
+
+          <div class="grid grid-cols-3 gap-5" id="stat-cards"></div>
+
+          <div class="grid grid-cols-1 gap-5">
+            <div class="surface-card p-5">
+              <div class="flex items-center justify-between gap-3 mb-4">
+                <div>
+                  <p class="page-label mb-2">Support Pressure</p>
+                  <h2 class="text-base font-semibold text-gray-900">Students impacted</h2>
+                </div>
+              </div>
+              <div id="top-support-students" class="space-y-3"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Adjustments per student</p>
+              <button id="export-report-btn" class="text-xs font-semibold text-[#1D9E75] hover:underline">EXPORT REPORT ↗</button>
+            </div>
+            <div class="space-y-2.5" id="student-rows"></div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-5">
+
+            <div class="bg-white border border-gray-200 rounded-xl p-5">
+              <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Top adjustment types</p>
+              <p id="chart-insight" class="text-sm text-gray-600 leading-relaxed mb-4"></p>
+              <canvas id="adj-chart" height="200"></canvas>
+            </div>
+
+            <div class="rounded-xl p-6 flex flex-col justify-between" style="background:#1D9E75">
+              <div>
+                <div class="w-10 h-10 rounded-full flex items-center justify-center mb-4" style="background:rgba(255,255,255,0.2)">
+                  <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                </div>
+                <p class="text-[10px] font-bold uppercase tracking-widest mb-2" style="color:rgba(255,255,255,0.6)">Focus areas for Week 10</p>
+                <h3 class="text-lg font-bold text-white leading-snug mb-3">Prioritise visual scaffolds for the upcoming Geometry block.</h3>
+                <p class="text-sm" style="color:rgba(255,255,255,0.8)">Impacts 3 students (Maya, Jack, Sofia)</p>
+              </div>
+              <div class="mt-6">
+                <button id="geometry-unit-btn" class="summary-cta inline-flex items-center gap-2 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors" style="background:rgba(255,255,255,0.2)">
+                  View geometry unit →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="surface-card p-5">
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <div>
+                <p class="page-label mb-2">Lesson Load</p>
+                <h2 class="text-base font-semibold text-gray-900">Most demanding lessons</h2>
+              </div>
+            </div>
+            <div id="top-support-lessons" class="space-y-3"></div>
+          </div>
+
+          <div class="surface-card p-5">
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <div>
+                <p class="page-label mb-2">Repeated Support</p>
+                <h2 class="text-base font-semibold text-gray-900">Students impacted across multiple lessons</h2>
+              </div>
+            </div>
+            <div id="repeated-support-students" class="space-y-3"></div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-5">
+            <div class="surface-card p-5">
+              <p class="page-label mb-3">Adjustment Types</p>
+              <h3 class="text-base font-semibold text-gray-900 mb-2">Adjustment breakdown</h3>
+              <p class="text-sm text-gray-500 mb-4">Select a category to highlight related students and lessons.</p>
+              <div id="adjustment-type-breakdown" class="space-y-3"></div>
+            </div>
+
+            <div class="p-5 rounded-2xl border border-[#cfe6dc]" style="background:linear-gradient(180deg, rgba(29,158,117,0.10), rgba(240,250,245,0.96));">
+              <p class="page-label mb-3">Teaching Insights</p>
+              <h3 class="text-base font-semibold text-gray-900 mb-4">Patterns and next actions</h3>
+              <div class="space-y-5">
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#5e7d73] mb-3">Patterns</p>
+                  <div id="repeated-support-patterns" class="space-y-3"></div>
+                </div>
+                <div class="border-t border-[#dbece5] pt-4">
+                  <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#5e7d73] mb-3">Actions</p>
+                  <div id="next-week-actions" class="space-y-3"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
     </div>
+
+    <div id="focus-overlay" class="focus-overlay hidden"></div>
+    <aside id="focus-panel" class="focus-panel hidden">
+      <div class="flex items-start justify-between gap-4 mb-5">
+        <div>
+          <p class="page-label mb-2">Focus Mode</p>
+          <h2 id="focus-title" class="text-lg font-semibold text-gray-900"></h2>
+          <p id="focus-subtitle" class="text-sm text-gray-500 mt-1"></p>
+        </div>
+        <button id="close-focus-panel" class="btn-ghost px-3">Close</button>
+      </div>
+      <div class="space-y-5">
+        <div>
+          <p class="ai-insight-label mb-2">Lessons impacted</p>
+          <div id="focus-lessons" class="space-y-2"></div>
+        </div>
+        <div>
+          <p class="ai-insight-label mb-2">Adjustment patterns</p>
+          <div id="focus-pattern" class="space-y-2"></div>
+        </div>
+        <div>
+          <p class="ai-insight-label mb-2">Recommended action</p>
+          <p id="focus-action" class="text-sm text-gray-700 leading-relaxed"></p>
+        </div>
+      </div>
+    </aside>
   </main>
 
   <script src="js/data.js"></script>

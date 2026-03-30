@@ -10,6 +10,11 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=2" />
+  <link rel="apple-touch-icon" href="./apple-touch-icon.svg?v=2" />
+  <meta name="application-name" content="Adjust" />
+  <meta name="apple-mobile-web-app-title" content="Adjust" />
+  <meta name="theme-color" content="#4CAF50" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body class="flex h-screen overflow-hidden bg-gray-50">
@@ -22,12 +27,15 @@
     <header class="flex items-center justify-between px-8 py-5 border-b border-gray-200 bg-white sticky top-0 z-20">
       <div>
         <h1 class="text-lg font-bold text-gray-900">SEN student profiles</h1>
-        <p class="text-sm text-gray-500 mt-0.5">5 SEN students in this class</p>
+        <p id="student-count" class="text-sm text-gray-500 mt-0.5">5 SEN students in this class</p>
       </div>
       <div class="flex items-center gap-3">
+        <button id="add-student-btn" class="btn-solid">
+          + Add student
+        </button>
         <div class="relative">
           <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35"/></svg>
-          <input type="text" placeholder="Search profiles..." class="pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1D9E75] w-44" />
+          <input id="student-search" type="text" placeholder="Search profiles..." class="pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1D9E75] w-44" />
         </div>
         <button class="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
           <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
@@ -46,6 +54,53 @@
         <p class="text-sm text-gray-500 mt-1">Manage individual support plans and classroom strategies.</p>
       </div>
       <div class="grid grid-cols-2 gap-5" id="profiles-grid"></div>
+    </div>
+
+    <div id="student-modal" class="fixed inset-0 bg-[rgba(17,24,39,0.35)] backdrop-blur-[2px] hidden items-center justify-center z-40 px-6">
+      <div class="surface-card w-full max-w-2xl p-6">
+        <div class="flex items-start justify-between gap-4 mb-5">
+          <div>
+            <p class="page-label mb-2">New student</p>
+            <h2 class="text-lg font-semibold text-gray-900">Add SEN student profile</h2>
+            <p class="text-sm text-gray-500 mt-1">Capture the essentials so this student appears across profiles and lesson planning.</p>
+          </div>
+          <button id="close-student-modal" class="btn-ghost px-3">Close</button>
+        </div>
+        <div id="student-form-error" class="status-banner mb-4 hidden" style="background:#fff6f6;border-color:#f3c5c5;color:#b42318"></div>
+        <form id="student-form" class="space-y-5">
+          <div class="settings-profile-grid">
+            <div class="full-span">
+              <label class="field-label" for="student-name">Full name</label>
+              <input id="student-name" name="name" class="input-shell" />
+            </div>
+            <div>
+              <label class="field-label" for="student-year">Year level</label>
+              <input id="student-year" name="year" class="input-shell" placeholder="Year 5" />
+            </div>
+            <div>
+              <label class="field-label" for="student-class">Class group</label>
+              <input id="student-class" name="cls" class="input-shell" placeholder="Class 5B" />
+            </div>
+            <div class="full-span">
+              <label class="field-label" for="student-needs">Learning needs</label>
+              <input id="student-needs" name="needs" class="input-shell" placeholder="Separate tags with commas" />
+              <p id="needs-preview" class="text-xs text-gray-400 mt-2">Add one or more tags such as Dyslexia, ASD, ADHD, Hearing.</p>
+            </div>
+            <div class="full-span">
+              <label class="field-label" for="student-notes">Teacher notes</label>
+              <textarea id="student-notes" name="notes" class="input-shell min-h-[92px]"></textarea>
+            </div>
+            <div class="full-span">
+              <label class="field-label" for="student-strategies">Common strategies</label>
+              <textarea id="student-strategies" name="strategies" class="input-shell min-h-[92px]" placeholder="Add one strategy per line"></textarea>
+            </div>
+          </div>
+          <div class="flex items-center justify-end gap-3 pt-2 border-t border-gray-100">
+            <button type="button" id="cancel-student" class="btn-ghost">Cancel</button>
+            <button type="submit" class="btn-solid">Save student</button>
+          </div>
+        </form>
+      </div>
     </div>
 
   </main>

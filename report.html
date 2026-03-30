@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adjust — Weekly Summary Report</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { primary: '#1D9E75' } } } }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=2" />
+  <link rel="apple-touch-icon" href="./apple-touch-icon.svg?v=2" />
+  <meta name="application-name" content="Adjust" />
+  <meta name="apple-mobile-web-app-title" content="Adjust" />
+  <meta name="theme-color" content="#4CAF50" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="report-page">
+  <div class="report-shell">
+    <div class="report-actions">
+      <button id="back-to-dashboard" class="btn-ghost">Back to dashboard</button>
+      <button id="print-report" class="btn-solid">Print report</button>
+    </div>
+
+    <div class="report-paper">
+      <section class="report-section">
+        <div class="flex items-start justify-between gap-6">
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <div class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5.5 8.75a1.75 1.75 0 0 1 1.75-1.75H10a5 5 0 0 1 4 1.95V17a5 5 0 0 0-4-1.95H7.25A1.75 1.75 0 0 0 5.5 16.8v-8.05Z" fill="currentColor" stroke="none"/>
+                  <path d="M18.5 8.75A1.75 1.75 0 0 0 16.75 7H14a5 5 0 0 0-4 1.95V17a5 5 0 0 1 4-1.95h2.75A1.75 1.75 0 0 1 18.5 16.8v-8.05Z" fill="currentColor" stroke="none"/>
+                  <path d="M12 8.6V17" stroke="white" stroke-width="1.2"/>
+                  <path d="M17.45 4.1 17.95 5.35 19.2 5.85 17.95 6.35 17.45 7.6 16.95 6.35 15.7 5.85 16.95 5.35 17.45 4.1Z" fill="currentColor" stroke="none"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-base font-bold text-gray-900">Adjust</p>
+                <p class="text-xs text-gray-400">Weekly Summary Report</p>
+              </div>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-900">Weekly Summary Report</h1>
+            <p id="report-week-label" class="text-sm text-gray-500 mt-1">Week 9 · Term 2</p>
+          </div>
+          <div class="text-sm text-gray-600 space-y-1">
+            <p><span class="font-semibold text-gray-800">Teacher:</span> <span id="report-teacher"></span></p>
+            <p><span class="font-semibold text-gray-800">Export date:</span> <span id="report-export-date"></span></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="report-section">
+        <p class="page-label mb-4">Overview</p>
+        <div id="report-overview" class="grid grid-cols-3 gap-4"></div>
+      </section>
+
+      <section class="report-section">
+        <div class="flex items-center justify-between gap-4 mb-4">
+          <div>
+            <p class="page-label mb-2">Student Summary</p>
+            <h2 class="text-lg font-semibold text-gray-900">Students and support patterns</h2>
+          </div>
+        </div>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Learning need(s)</th>
+              <th>Adjustments</th>
+              <th>Lessons impacted</th>
+              <th>Main support area</th>
+            </tr>
+          </thead>
+          <tbody id="report-student-rows"></tbody>
+        </table>
+      </section>
+
+      <section class="report-section">
+        <p class="page-label mb-4">Insights</p>
+        <div id="report-insights" class="grid grid-cols-3 gap-4"></div>
+      </section>
+
+      <section class="report-section">
+        <p class="text-sm text-gray-500">Generated from current lesson planning and support data in Adjust.</p>
+      </section>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/report.js"></script>
+</body>
+</html>
