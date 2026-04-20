@@ -1040,3 +1040,276 @@ main aside[class*="bg-white"] {
     grid-template-columns: 1fr;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   LESSON PLANNER — Enterprise redesign
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Top bar ─────────────────────────────────────────────────────────────────── */
+.planner-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  border-bottom: 1px solid #E5E7EB;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 rgba(17,24,39,0.05);
+  z-index: 20;
+}
+
+.planner-breadcrumb-link {
+  font-size: 12px;
+  color: #9CA3AF;
+  text-decoration: none;
+  font-weight: 400;
+  transition: color 0.15s;
+}
+.planner-breadcrumb-link:hover { color: #4B5563; }
+
+/* ── Top bar buttons ─────────────────────────────────────────────────────────── */
+.planner-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  background: white;
+  font-size: 12px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.planner-btn-ghost:hover {
+  background: #F9FAFB;
+  border-color: #D1D5DB;
+}
+
+.planner-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: 8px;
+  background: #1D9E75;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  box-shadow: 0 1px 3px rgba(29,158,117,0.25);
+}
+.planner-btn-primary:hover {
+  background: #178a63;
+  box-shadow: 0 4px 12px rgba(29,158,117,0.3);
+}
+
+/* ── Column widths ───────────────────────────────────────────────────────────── */
+.planner-col-left  { width: 260px; min-width: 260px; }
+.planner-col-right { width: 320px; min-width: 320px; }
+
+/* ── Column section label ────────────────────────────────────────────────────── */
+.planner-col-label {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #9CA3AF;
+  line-height: 1;
+}
+
+/* ── Roster search input ─────────────────────────────────────────────────────── */
+.planner-search-input {
+  padding: 7px 10px 7px 30px;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #374151;
+  background: #F9FAFB;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.planner-search-input::placeholder { color: #9CA3AF; }
+.planner-search-input:focus {
+  border-color: #1D9E75;
+  box-shadow: 0 0 0 3px rgba(29,158,117,0.10);
+  background: white;
+}
+
+/* ── Roster card (redesigned) ────────────────────────────────────────────────── */
+.roster-card {
+  min-height: 70px;
+  padding: 12px 14px;
+  border: 1px solid #E5E7EB;
+  border-left: 4px solid transparent;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.15s;
+  box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+}
+.roster-card:hover {
+  border-color: #D1D5DB;
+  border-left-color: transparent;
+  background: #F9FAFB;
+  box-shadow: 0 4px 10px rgba(15,23,42,0.06);
+}
+.roster-card.selected {
+  border-color: #E5E7EB;
+  border-left-color: #1D9E75;
+  background: white;
+  box-shadow: 0 2px 8px rgba(29,158,117,0.10);
+}
+.roster-card.selected:hover {
+  background: #FAFFFE;
+}
+/* Name text colour when selected */
+.roster-card.selected .roster-name { color: #065F46; }
+
+/* ── Lesson info header block (middle column) ────────────────────────────────── */
+.lesson-info-header {
+  background: #F8FAFC;
+  border-bottom: 1px solid #E5E7EB;
+  padding: 20px 24px;
+  flex-shrink: 0;
+}
+
+.lesson-subject-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #DBEAFE;
+  color: #1D4ED8;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.schedule-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: #F3F4F6;
+  color: #4B5563;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* ── Context section headings ────────────────────────────────────────────────── */
+.ctx-section-heading {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #6B7280;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #F3F4F6;
+  margin-bottom: 10px;
+}
+
+/* ── Adjusting-for student pill ──────────────────────────────────────────────── */
+.adjusting-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px 6px 8px;
+  border: 1px solid #E5E7EB;
+  border-radius: 999px;
+  background: white;
+  font-size: 12px;
+  font-weight: 500;
+  color: #374151;
+  border-left-width: 3px;
+}
+
+/* ── Save footer (middle column bottom) ──────────────────────────────────────── */
+.planner-save-footer {
+  border-top: 1px solid #E5E7EB;
+  padding: 16px 24px;
+  background: white;
+}
+
+/* ── Adjustment filter pills ─────────────────────────────────────────────────── */
+.adj-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #E5E7EB;
+  background: white;
+  font-size: 11px;
+  font-weight: 500;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.adj-filter-btn:hover:not(.active) {
+  background: #F3F4F6;
+  border-color: #D1D5DB;
+}
+.adj-filter-btn.active {
+  background: #1D9E75;
+  color: white;
+  border-color: #1D9E75;
+  box-shadow: 0 1px 4px rgba(29,158,117,0.3);
+}
+
+/* ── Adjustment card (redesigned) ────────────────────────────────────────────── */
+.adj-card {
+  padding: 14px;
+  border: 1px solid #E5E7EB;
+  border-left: 3px solid transparent;
+  border-radius: 10px;
+  background: white;
+  transition: border-color 0.2s, background 0.2s, opacity 0.2s;
+  box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+}
+.adj-card:hover {
+  border-color: #D1D5DB;
+  box-shadow: 0 4px 10px rgba(15,23,42,0.06);
+}
+.adj-card.checked {
+  opacity: 0.58;
+  border-left-color: #1D9E75;
+  background: #F7FDFB;
+}
+
+/* ── Adjustment category badge ───────────────────────────────────────────────── */
+.adj-cat-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ── Checkbox (18px) ─────────────────────────────────────────────────────────── */
+.checkbox-box {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  border: 1.5px solid #D1D5DB;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  background: white;
+}
+.checkbox-box:hover { border-color: #1D9E75; }
+.checkbox-box.checked {
+  background: #1D9E75;
+  border-color: #1D9E75;
+}

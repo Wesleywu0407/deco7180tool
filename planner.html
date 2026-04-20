@@ -14,58 +14,117 @@
   <link rel="apple-touch-icon" href="./apple-touch-icon.svg?v=2" />
   <meta name="application-name" content="Adjust" />
   <meta name="apple-mobile-web-app-title" content="Adjust" />
-  <meta name="theme-color" content="#4CAF50" />
+  <meta name="theme-color" content="#1D9E75" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body class="flex h-screen overflow-hidden bg-gray-50">
+<body class="flex h-screen overflow-hidden" style="background:#F9FAFB; font-family:'Inter',system-ui,sans-serif">
 
   <div id="sidebar"></div>
 
   <main class="ml-[200px] flex-1 flex flex-col overflow-hidden">
 
-    <!-- Top bar -->
-    <header class="flex items-center justify-between px-8 py-5 border-b border-gray-200 bg-white flex-shrink-0 z-20">
-      <h1 class="text-lg font-bold text-gray-900">Lesson Planner</h1>
-      <div class="flex items-center gap-3">
-        <button class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Export</button>
-        <button class="px-5 py-2 bg-[#1D9E75] text-white text-sm font-semibold rounded-full hover:bg-[#178a63] transition-colors">Share</button>
-        <button class="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
-          <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+    <!-- ── Top bar ───────────────────────────────────────────────────────────── -->
+    <header class="planner-topbar flex-shrink-0">
+      <div>
+        <nav class="flex items-center gap-1.5 mb-1" aria-label="Breadcrumb">
+          <a href="index.html" class="planner-breadcrumb-link">Lesson plans</a>
+          <svg class="w-3 h-3 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+          <span id="breadcrumb-lesson" class="text-xs text-gray-500 font-medium truncate max-w-[300px]">Lesson planner</span>
+        </nav>
+        <h1 class="text-[15px] font-semibold text-gray-900">Lesson Planner</h1>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button class="planner-btn-ghost">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+          </svg>
+          Export
         </button>
-        <button class="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
-          <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <button class="planner-btn-primary">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+          </svg>
+          Share
         </button>
       </div>
     </header>
 
-    <!-- 3-column layout -->
+    <!-- ── 3-column body ──────────────────────────────────────────────────────── -->
     <div class="flex flex-1 overflow-hidden">
 
-      <!-- LEFT: Class Roster -->
-      <aside class="w-[260px] flex-shrink-0 border-r border-gray-200 bg-white overflow-y-auto px-4 py-5">
-        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Class roster</p>
-        <div id="roster" class="space-y-2"></div>
-      </aside>
+      <!-- ── LEFT: Class Roster (260px) ──────────────────────────────────────── -->
+      <aside class="planner-col-left flex flex-col border-r border-gray-200 bg-white flex-shrink-0">
 
-      <!-- MIDDLE: Lesson Context -->
-      <section class="flex-1 overflow-y-auto px-6 py-5">
-        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Lesson context</p>
-        <div id="lesson-context"></div>
-      </section>
+        <!-- Roster header (fixed) -->
+        <div class="px-4 pt-4 pb-3 border-b border-gray-100 flex-shrink-0">
+          <p class="planner-col-label">Class Roster</p>
+          <p id="roster-count" class="text-[11px] text-gray-400 mt-0.5">5 students · 0 selected</p>
 
-      <!-- RIGHT: Suggested Adjustments -->
-      <aside class="w-[280px] flex-shrink-0 border-l border-gray-200 bg-white overflow-y-auto px-4 py-5 flex flex-col">
-        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Suggested adjustments</p>
-        <div id="adjustments-list" class="flex-1 space-y-3"></div>
-        <div id="progress-section" class="mt-4 pt-4 border-t border-gray-100 hidden">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Progress</span>
-            <span id="progress-label" class="text-xs text-gray-600 font-medium"></span>
-          </div>
-          <div class="progress-track">
-            <div id="progress-fill" class="progress-fill" style="width:0%"></div>
+          <!-- Search -->
+          <div class="relative mt-3">
+            <svg class="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none"
+              fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/>
+            </svg>
+            <input
+              id="roster-search"
+              type="text"
+              placeholder="Search students…"
+              oninput="filterRoster(this.value)"
+              class="planner-search-input w-full"
+            />
           </div>
         </div>
+
+        <!-- Roster list (scrollable) -->
+        <div id="roster" class="flex-1 overflow-y-auto p-3 space-y-2"></div>
+
+      </aside>
+
+      <!-- ── MIDDLE: Lesson Context (flex) ───────────────────────────────────── -->
+      <section class="planner-col-middle flex flex-col flex-1 overflow-hidden border-r border-gray-200">
+
+        <!-- Column label (fixed) -->
+        <div class="px-6 pt-4 pb-3 border-b border-gray-100 flex-shrink-0">
+          <p class="planner-col-label">Lesson Context</p>
+        </div>
+
+        <!-- Scrollable content -->
+        <div id="lesson-context" class="flex-1 overflow-y-auto"></div>
+
+        <!-- Fixed save footer (view mode only; hidden in edit mode) -->
+        <div id="lesson-footer" class="flex-shrink-0"></div>
+
+      </section>
+
+      <!-- ── RIGHT: Suggested Adjustments (320px) ────────────────────────────── -->
+      <aside class="planner-col-right flex flex-col bg-white flex-shrink-0">
+
+        <!-- Sticky column header with progress + filter pills -->
+        <div class="px-4 pt-4 pb-3 border-b border-gray-100 flex-shrink-0">
+          <!-- Title + counter -->
+          <div class="flex items-center justify-between mb-2">
+            <p class="planner-col-label">Suggested Adjustments</p>
+            <span id="adj-progress-label" class="text-[11px] font-semibold text-gray-500 tabular-nums">0 / 0 done</span>
+          </div>
+
+          <!-- Progress bar (4px) -->
+          <div class="h-1 bg-gray-100 rounded-full overflow-hidden">
+            <div id="adj-progress-bar"
+              class="h-full bg-[#1D9E75] rounded-full"
+              style="width:0%;transition:width 0.3s ease"></div>
+          </div>
+
+          <!-- Filter pills -->
+          <div id="adj-filters" class="flex flex-wrap gap-1.5 mt-3"></div>
+        </div>
+
+        <!-- Adjustment cards (scrollable) -->
+        <div id="adjustments-list" class="flex-1 overflow-y-auto p-3 space-y-2.5"></div>
+
       </aside>
 
     </div>
