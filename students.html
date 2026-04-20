@@ -106,7 +106,21 @@
   </main>
 
   <script src="js/data.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/feedback.js"></script>
   <script src="js/sidebar.js"></script>
   <script src="js/students.js"></script>
+  <script>
+    // Track profile_opened when user clicks any student profile card
+    document.addEventListener('click', function(e) {
+      const card = e.target.closest('[data-student-id]')
+      if (card) {
+        trackEvent('profile_opened', {
+          studentId:   card.dataset.studentId,
+          studentName: card.dataset.studentName || card.dataset.studentId,
+        })
+      }
+    })
+  </script>
 </body>
 </html>

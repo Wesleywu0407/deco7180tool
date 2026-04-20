@@ -20,6 +20,11 @@ let plannerSuccessMessage = ''
 let activeFilter = 'all'   // 'all' | 'materials' | 'participation' | 'assessment' | 'technology'
 let rosterSearch = ''
 
+// ── Research / comparison metrics ─────────────────────────────────────────────
+const _pageStartTime      = Date.now()
+const _initialSelectedIds = [...selectedIds]
+let   _selectionChanged   = false
+
 // ── Form state (new / edit modes) ─────────────────────────────────────────────
 const lessonFormState = {
   subject:    lesson.subject,
@@ -444,34 +449,92 @@ function saveLessonPlan(event) {
     return
   }
 
+  // ── Save lesson data ───────────────────────────────────────────────────────
+  let savedId
   if (isEditLesson && lesson.id) {
     window.AdjustStore.updateLesson(lesson.id, {
       subject: lessonFormState.subject, year: lessonFormState.year,
-      title: lessonFormState.title,   date: lessonFormState.date,
+      title: lessonFormState.title,    date: lessonFormState.date,
       session: lessonFormState.session, duration: lessonFormState.duration,
-      goals: lessonFormState.goals,   assessment: lessonFormState.assessment,
+      goals: lessonFormState.goals,    assessment: lessonFormState.assessment,
       studentIds: selectedIds,
     })
-    location.href = 'index.html?updated=1'
-    return
+    savedId = lesson.id
+  } else {
+    const saved = window.AdjustStore.saveLesson({
+      subject: lessonFormState.subject, year: lessonFormState.year,
+      title: lessonFormState.title,    date: lessonFormState.date,
+      session: lessonFormState.session, duration: lessonFormState.duration,
+      goals: lessonFormState.goals,    assessment: lessonFormState.assessment,
+      studentIds: selectedIds,
+    })
+    savedId = saved.id
   }
 
-  const saved = window.AdjustStore.saveLesson({
-    subject: lessonFormState.subject, year: lessonFormState.year,
-    title: lessonFormState.title,   date: lessonFormState.date,
-    session: lessonFormState.session, duration: lessonFormState.duration,
-    goals: lessonFormState.goals,   assessment: lessonFormState.assessment,
-    studentIds: selectedIds,
-  })
-  location.href = `index.html?created=${saved.id}`
+  // ── Track lesson_saved ─────────────────────────────────────────────────────
+  if (window.trackEvent) {
+    trackEvent('lesson_saved', { lessonId: savedId })
+  }
+
+  // ── Track lesson_completion_metrics ───────────────────────────────────────
+  if (window.trackEvent) {
+    trackEvent('lesson_completion_metrics', {
+      timeSpentSeconds:  Math.round((Date.now() - _pageStartTime) / 1000),
+      adjustmentsChecked: adjustments.filter(a => a.checked).length,
+      studentsSelected:   selectedIds.length,
+      selectionChanged:   _selectionChanged,
+      lessonId:           savedId,
+    })
+  }
+
+  const redirectUrl = isEditLesson
+    ? 'index.html?updated=1'
+    : `index.html?created=${savedId}`
+
+  // ── Micro-feedback toast ───────────────────────────────────────────────────
+  if (window.AdjustFeedback) {
+    AdjustFeedback.showMicroFeedback({
+      question: 'Did this suggestion support inclusive planning?',
+      options:  ['Yes, helped me think about students', 'Somewhat', 'Not really'],
+      context:  'lesson_save',
+    })
+  }
+
+  // ── Reflection modal — redirects on dismiss ────────────────────────────────
+  if (window.AdjustFeedback) {
+    AdjustFeedback.showReflectionModal(savedId, {
+      onDone: () => { location.href = redirectUrl },
+    })
+  } else {
+    location.href = redirectUrl
+  }
 }
 
 function toggleStudent(id) {
-  if (selectedIds.includes(id)) {
+  const wasSelected = selectedIds.includes(id)
+  if (wasSelected) {
     selectedIds = selectedIds.filter(s => s !== id)
   } else {
     selectedIds.push(id)
   }
+
+  // ── Track interaction ──────────────────────────────────────────────────────
+  if (window.trackEvent) {
+    const student = window.AdjustStore?.getStudent?.(id)
+    trackEvent(wasSelected ? 'student_deselected' : 'student_selected', {
+      studentId:   id,
+      studentName: student?.name || id,
+      lessonId:    lesson?.id || 'new',
+    })
+  }
+
+  // Mark if selection ever diverges from the initial state
+  if (!_selectionChanged) {
+    const cur  = [...selectedIds].sort().join(',')
+    const init = [..._initialSelectedIds].sort().join(',')
+    if (cur !== init) _selectionChanged = true
+  }
+
   syncAdjustments()
   renderRoster()
   renderContext()
@@ -480,7 +543,28 @@ function toggleStudent(id) {
 
 function toggleAdjustment(id) {
   const adj = adjustments.find(a => a.id === id)
-  if (adj) adj.checked = !adj.checked
+  if (!adj) return
+  adj.checked = !adj.checked
+
+  // ── Track interaction ──────────────────────────────────────────────────────
+  if (window.trackEvent) {
+    trackEvent(adj.checked ? 'adjustment_checked' : 'adjustment_unchecked', {
+      adjustmentId: id,
+      category:     adj.category,
+      studentName:  adj.studentName,
+      lessonId:     lesson?.id || 'new',
+    })
+  }
+
+  // ── Micro-feedback toast after checking ────────────────────────────────────
+  if (adj.checked && window.AdjustFeedback) {
+    AdjustFeedback.showMicroFeedback({
+      question: 'Was this adjustment useful?',
+      options:  ['Yes, very useful', 'Somewhat', 'Not really'],
+      context:  `adjustment:${id}`,
+    })
+  }
+
   renderAdjustments()
 }
 
