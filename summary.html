@@ -14,260 +14,246 @@
   <link rel="apple-touch-icon" href="./apple-touch-icon.svg?v=2" />
   <meta name="application-name" content="Adjust" />
   <meta name="apple-mobile-web-app-title" content="Adjust" />
-  <meta name="theme-color" content="#4CAF50" />
+  <meta name="theme-color" content="#1D9E75" />
   <link rel="stylesheet" href="css/style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 </head>
-<body class="flex h-screen overflow-hidden bg-gray-50">
+<body class="flex h-screen overflow-hidden bg-gray-50" style="font-family:'Inter',system-ui,sans-serif">
 
   <div id="sidebar"></div>
 
+  <!-- ── Main scrollable area ───────────────────────────────────────────────── -->
   <main class="ml-[200px] flex-1 overflow-y-auto">
 
     <!-- Top bar -->
     <header class="flex items-center justify-between px-8 py-5 border-b border-gray-200 bg-white sticky top-0 z-20">
       <div>
         <h1 class="text-lg font-bold text-gray-900">Weekly teaching insights</h1>
-        <p class="text-sm text-gray-500 mt-0.5">AI-assisted analysis of classroom support patterns, lesson complexity, and next-step planning.</p>
-      </div>
-      <div class="flex items-center gap-3">
-        <div class="relative">
-          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35"/></svg>
-          <input type="text" placeholder="Search insights..." class="pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1D9E75] w-44" />
-        </div>
-        <button class="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
-          <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-        </button>
-        <button class="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
-          <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-        </button>
+        <p class="text-sm text-gray-500 mt-0.5">Week 9 · Term 2 · AI-assisted summary of support patterns and lesson complexity.</p>
       </div>
     </header>
 
-    <!-- Content -->
-    <div id="summary-content" class="px-8 py-6 space-y-6">
+    <!-- ── Content: 5 vertical sections ──────────────────────────────────────── -->
+    <div class="px-8 py-6 space-y-4 pb-20" id="summary-content">
 
-      <div id="weekly-insight-banner" class="ai-summary-bar p-4">
-        <div class="flex items-start justify-between gap-4 mb-3">
-          <div class="flex items-start gap-4">
-            <div class="ai-summary-icon">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-              </svg>
-            </div>
-            <div>
-              <p class="page-label mb-2">AI Summary</p>
-              <h2 class="text-base font-semibold text-gray-900">Live teaching recommendation</h2>
-            </div>
-          </div>
-          <div class="text-[11px] text-[#5f7d72] uppercase tracking-[0.18em]">Adaptive</div>
-        </div>
-        <div id="weekly-insight-panel" class="ai-insight-panel">
-          <div class="ai-insight-section">
-            <p class="ai-insight-label">Pattern</p>
-            <p id="weekly-insight-text" class="text-sm text-gray-700 leading-relaxed"></p>
-          </div>
-          <div class="ai-insight-section">
-            <p class="ai-insight-label">Reason</p>
-            <p id="weekly-insight-reason" class="text-sm text-gray-700 leading-relaxed"></p>
-          </div>
-          <div class="ai-insight-section">
-            <p class="ai-insight-label">Action</p>
-            <p id="weekly-insight-action" class="text-sm text-gray-700 leading-relaxed"></p>
-          </div>
-        </div>
+      <!-- Section A: Stats — 3 equal cards -->
+      <div id="section-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px"></div>
+
+      <!-- Section B: AI Summary -->
+      <div id="section-ai"
+        style="background:#F0FDF4;border:1px solid #BBF7D0;border-left:4px solid #1D9E75;border-radius:12px;padding:20px">
       </div>
 
-      <div class="summary-shell">
-        <aside class="summary-sidebar">
-          <div class="surface-card summary-filter-panel p-5">
-            <div class="flex items-center justify-between gap-3 mb-4">
-              <div>
-                <p class="page-label mb-2">Filter</p>
-                <h2 class="text-base font-semibold text-gray-900">Refine weekly analysis</h2>
-              </div>
-            </div>
-            <div class="space-y-5">
-              <div>
-                <p class="summary-filter-title">Adjustment Type</p>
-                <div id="summary-filter-adjustments" class="space-y-2"></div>
-              </div>
-              <div>
-                <p class="summary-filter-title">Students</p>
-                <div id="summary-filter-students" class="space-y-2"></div>
-              </div>
-              <div>
-                <p class="summary-filter-title">Lessons</p>
-                <div id="summary-filter-lessons" class="space-y-2"></div>
-              </div>
-            </div>
-          </div>
-        </aside>
-
-        <div class="summary-main space-y-6">
-          <div id="summary-hero" class="surface-card p-6" style="background:linear-gradient(180deg, rgba(29,158,117,0.09), rgba(255,255,255,0.96));"></div>
-
-          <div class="grid grid-cols-3 gap-5" id="stat-cards"></div>
-
-          <div class="grid grid-cols-1 gap-5">
-            <div class="surface-card p-5">
-              <div class="flex items-center justify-between gap-3 mb-4">
-                <div>
-                  <p class="page-label mb-2">Support Pressure</p>
-                  <h2 class="text-base font-semibold text-gray-900">Students impacted</h2>
-                </div>
-              </div>
-              <div id="top-support-students" class="space-y-3"></div>
-            </div>
-          </div>
-
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Adjustments per student</p>
-              <button id="export-report-btn" onclick="trackEvent('report_exported',{pageId:'summary'})" class="text-xs font-semibold text-[#1D9E75] hover:underline">EXPORT REPORT ↗</button>
-            </div>
-            <div class="space-y-2.5" id="student-rows"></div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-5">
-
-            <div class="bg-white border border-gray-200 rounded-xl p-5">
-              <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Top adjustment types</p>
-              <p id="chart-insight" class="text-sm text-gray-600 leading-relaxed mb-4"></p>
-              <canvas id="adj-chart" height="200"></canvas>
-            </div>
-
-            <div class="rounded-xl p-6 flex flex-col justify-between" style="background:#1D9E75">
-              <div>
-                <div class="w-10 h-10 rounded-full flex items-center justify-center mb-4" style="background:rgba(255,255,255,0.2)">
-                  <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-                </div>
-                <p class="text-[10px] font-bold uppercase tracking-widest mb-2" style="color:rgba(255,255,255,0.6)">Focus areas for Week 10</p>
-                <h3 class="text-lg font-bold text-white leading-snug mb-3">Prioritise visual scaffolds for the upcoming Geometry block.</h3>
-                <p class="text-sm" style="color:rgba(255,255,255,0.8)">Impacts 3 students (Maya, Jack, Sofia)</p>
-              </div>
-              <div class="mt-6">
-                <button id="geometry-unit-btn" class="summary-cta inline-flex items-center gap-2 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors" style="background:rgba(255,255,255,0.2)">
-                  View geometry unit →
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="surface-card p-5">
-            <div class="flex items-center justify-between gap-3 mb-4">
-              <div>
-                <p class="page-label mb-2">Lesson Load</p>
-                <h2 class="text-base font-semibold text-gray-900">Most demanding lessons</h2>
-              </div>
-            </div>
-            <div id="top-support-lessons" class="space-y-3"></div>
-          </div>
-
-          <div class="surface-card p-5">
-            <div class="flex items-center justify-between gap-3 mb-4">
-              <div>
-                <p class="page-label mb-2">Repeated Support</p>
-                <h2 class="text-base font-semibold text-gray-900">Students impacted across multiple lessons</h2>
-              </div>
-            </div>
-            <div id="repeated-support-students" class="space-y-3"></div>
-          </div>
-
-          <div class="grid grid-cols-3 gap-5">
-            <div class="surface-card p-5">
-              <p class="page-label mb-3">Adjustment Types</p>
-              <h3 class="text-base font-semibold text-gray-900 mb-2">Adjustment breakdown</h3>
-              <p class="text-sm text-gray-500 mb-4">Select a category to highlight related students and lessons.</p>
-              <div id="adjustment-type-breakdown" class="space-y-3"></div>
-            </div>
-
-            <div class="p-5 rounded-2xl border border-[#cfe6dc]" style="background:linear-gradient(180deg, rgba(29,158,117,0.10), rgba(240,250,245,0.96));">
-              <p class="page-label mb-3">Teaching Insights</p>
-              <h3 class="text-base font-semibold text-gray-900 mb-4">Patterns and next actions</h3>
-              <div class="space-y-5">
-                <div>
-                  <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#5e7d73] mb-3">Patterns</p>
-                  <div id="repeated-support-patterns" class="space-y-3"></div>
-                </div>
-                <div class="border-t border-[#dbece5] pt-4">
-                  <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#5e7d73] mb-3">Actions</p>
-                  <div id="next-week-actions" class="space-y-3"></div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <!-- Section C: Adjustments per student -->
+      <div style="background:white;border:1px solid #E5E7EB;border-radius:12px;padding:20px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <h2 style="font-size:16px;font-weight:600;color:#111827;margin:0">Adjustments per student</h2>
+          <a href="report.html?week=9"
+             onclick="trackEvent('report_exported',{pageId:'summary'})"
+             style="font-size:13px;font-weight:600;color:#1D9E75;text-decoration:none">
+            Export report →
+          </a>
         </div>
+        <div id="section-students" style="display:flex;flex-direction:column;gap:10px"></div>
       </div>
+
+      <!-- Section D: Most demanding lessons -->
+      <div style="background:white;border:1px solid #E5E7EB;border-radius:12px;padding:20px">
+        <h2 style="font-size:16px;font-weight:600;color:#111827;margin:0 0 16px">Most demanding lessons</h2>
+        <div id="section-lessons" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+
+      <!-- Section E: Support patterns -->
+      <div style="background:white;border:1px solid #E5E7EB;border-radius:12px;padding:20px">
+        <h2 style="font-size:16px;font-weight:600;color:#111827;margin:0 0 16px">Support patterns this week</h2>
+        <div id="section-patterns" style="display:flex;flex-direction:column;gap:14px"></div>
+      </div>
+
     </div>
-
-    <div id="focus-overlay" class="focus-overlay hidden"></div>
-    <aside id="focus-panel" class="focus-panel hidden">
-      <div class="flex items-start justify-between gap-4 mb-5">
-        <div>
-          <p class="page-label mb-2">Focus Mode</p>
-          <h2 id="focus-title" class="text-lg font-semibold text-gray-900"></h2>
-          <p id="focus-subtitle" class="text-sm text-gray-500 mt-1"></p>
-        </div>
-        <button id="close-focus-panel" class="btn-ghost px-3">Close</button>
-      </div>
-      <div class="space-y-5">
-        <div>
-          <p class="ai-insight-label mb-2">Lessons impacted</p>
-          <div id="focus-lessons" class="space-y-2"></div>
-        </div>
-        <div>
-          <p class="ai-insight-label mb-2">Adjustment patterns</p>
-          <div id="focus-pattern" class="space-y-2"></div>
-        </div>
-        <div>
-          <p class="ai-insight-label mb-2">Recommended action</p>
-          <p id="focus-action" class="text-sm text-gray-700 leading-relaxed"></p>
-        </div>
-      </div>
-    </aside>
   </main>
 
-  <!-- ── Researcher notes section ────────────────────────────────────────── -->
-  <div class="px-8 pb-10" id="researcher-notes-section">
-    <div class="surface-card p-6">
-      <div class="mb-5">
-        <p class="page-label mb-2">Researcher Notes</p>
-        <h2 class="text-base font-semibold text-gray-900">Week 9 reflections</h2>
-        <p class="text-sm text-gray-500 mt-1">These notes are saved locally and included in the research data export.</p>
+  <!-- ── Floating Researcher Notes button (fixed top-right) ─────────────────── -->
+  <button id="notes-btn" onclick="openNotesDrawer()"
+    style="
+      position:fixed; top:80px; right:20px; z-index:100;
+      display:flex; align-items:center; gap:8px;
+      padding:10px 16px;
+      background:white;
+      border-top:1px solid #E5E7EB;
+      border-right:1px solid #E5E7EB;
+      border-bottom:1px solid #E5E7EB;
+      border-left:3px solid #1D9E75;
+      border-radius:12px;
+      font-size:13px; font-weight:500; color:#374151;
+      cursor:pointer; font-family:inherit;
+      box-shadow:0 2px 8px rgba(15,23,42,0.08);
+      transition:box-shadow 0.15s, transform 0.15s;
+    "
+    onmouseenter="this.style.boxShadow='0 4px 14px rgba(15,23,42,0.12)';this.style.transform='translateY(-1px)'"
+    onmouseleave="this.style.boxShadow='0 2px 8px rgba(15,23,42,0.08)';this.style.transform=''">
+    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5
+           m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+    </svg>
+    Researcher Notes
+  </button>
+
+  <!-- ── Overlay (behind drawer, closes on click) ───────────────────────────── -->
+  <div id="notes-overlay"
+    onclick="closeNotesDrawer()"
+    style="
+      position:fixed; inset:0; z-index:500;
+      background:rgba(0,0,0,0.2);
+      opacity:0; pointer-events:none;
+      transition:opacity 0.25s ease;
+    ">
+  </div>
+
+  <!-- ── Researcher Notes Drawer (slides in from right) ────────────────────── -->
+  <div id="notes-drawer"
+    style="
+      position:fixed; top:0; right:0; z-index:1000;
+      width:320px; height:100vh;
+      background:white;
+      border-left:1px solid #E5E7EB;
+      box-shadow:-4px 0 12px rgba(0,0,0,0.08);
+      transform:translateX(320px);
+      transition:transform 0.25s ease;
+      display:flex; flex-direction:column;
+      padding:20px;
+      overflow-y:auto;
+      font-family:inherit;
+      box-sizing:border-box;
+    ">
+
+    <!-- Drawer header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <h3 style="font-size:16px;font-weight:600;color:#111827;margin:0">Researcher Notes</h3>
+      <button onclick="closeNotesDrawer()"
+        style="background:none;border:none;cursor:pointer;color:#9CA3AF;
+               font-size:22px;line-height:1;padding:2px 6px;font-family:inherit">
+        &times;
+      </button>
+    </div>
+    <p style="font-size:13px;color:#6B7280;margin:0 0 4px">Week 9 reflections</p>
+    <p style="font-size:11px;color:#1D9E75;margin:0 0 16px;font-weight:500">
+      Saved locally · included in research export
+    </p>
+    <hr style="border:none;border-top:1px solid #E5E7EB;margin-bottom:16px" />
+
+    <!-- Insight question -->
+    <label for="insight-note"
+      style="display:block;font-size:12px;font-weight:500;color:#374151;margin-bottom:6px">
+      What insights stood out to you this week?
+    </label>
+    <textarea id="insight-note" rows="4"
+      placeholder="e.g. I noticed Maya needed more visual supports than I expected..."
+      style="
+        width:100%; border:1px solid #D1D5DB; border-radius:8px;
+        padding:10px 12px; font-size:13px; color:#374151; line-height:1.5;
+        resize:vertical; font-family:inherit; outline:none;
+        box-sizing:border-box; margin-bottom:12px;
+        transition:border-color 0.15s;
+      "
+      onfocus="this.style.borderColor='rgba(29,158,117,0.5)'"
+      onblur="this.style.borderColor='#D1D5DB'">
+    </textarea>
+
+    <!-- Missing / unclear question -->
+    <label for="missing-note"
+      style="display:block;font-size:12px;font-weight:500;color:#374151;margin-bottom:6px">
+      What was missing or unclear in this summary?
+    </label>
+    <textarea id="missing-note" rows="3"
+      placeholder="e.g. I wanted to see which adjustments I actually completed..."
+      style="
+        width:100%; border:1px solid #D1D5DB; border-radius:8px;
+        padding:10px 12px; font-size:13px; color:#374151; line-height:1.5;
+        resize:vertical; font-family:inherit; outline:none;
+        box-sizing:border-box; margin-bottom:16px;
+        transition:border-color 0.15s;
+      "
+      onfocus="this.style.borderColor='rgba(29,158,117,0.5)'"
+      onblur="this.style.borderColor='#D1D5DB'">
+    </textarea>
+
+    <!-- Save button -->
+    <button onclick="saveResearcherNotes()"
+      style="
+        width:100%; padding:10px 16px;
+        background:#1D9E75; color:white;
+        border:none; border-radius:8px;
+        font-size:14px; font-weight:600;
+        cursor:pointer; font-family:inherit;
+        transition:background 0.15s;
+      "
+      onmouseenter="this.style.background='#178a63'"
+      onmouseleave="this.style.background='#1D9E75'">
+      Save notes
+    </button>
+    <span id="notes-saved-msg"
+      style="display:none;font-size:12px;color:#1D9E75;text-align:center;margin-top:10px;font-weight:500">
+      ✓ Notes saved
+    </span>
+  </div>
+
+  <!-- ── Focus mode overlay + panel (kept for JS compatibility) ────────────── -->
+  <div id="focus-overlay" class="focus-overlay hidden"></div>
+  <aside id="focus-panel" class="focus-panel hidden">
+    <div class="flex items-start justify-between gap-4 mb-5">
+      <div>
+        <p class="page-label mb-2">Focus Mode</p>
+        <h2 id="focus-title" class="text-lg font-semibold text-gray-900"></h2>
+        <p id="focus-subtitle" class="text-sm text-gray-500 mt-1"></p>
       </div>
-      <div class="space-y-4">
-        <div>
-          <label class="field-label" for="insight-note">What insights stood out to you this week?</label>
-          <textarea id="insight-note" rows="4" class="input-shell"
-            placeholder="e.g. I noticed Maya needed more visual supports than I expected..."></textarea>
-        </div>
-        <div>
-          <label class="field-label" for="missing-note">What was missing or unclear in this summary?</label>
-          <textarea id="missing-note" rows="3" class="input-shell"
-            placeholder="e.g. I wanted to see which adjustments I actually completed..."></textarea>
-        </div>
-        <div class="flex items-center justify-between">
-          <span id="notes-saved-msg" class="text-xs text-[#1D9E75] font-medium hidden">✓ Notes saved</span>
-          <button onclick="saveResearcherNotes()" class="btn-solid ml-auto">Save notes</button>
-        </div>
+      <button id="close-focus-panel" class="btn-ghost px-3">Close</button>
+    </div>
+    <div class="space-y-5">
+      <div>
+        <p class="ai-insight-label mb-2">Lessons impacted</p>
+        <div id="focus-lessons" class="space-y-2"></div>
+      </div>
+      <div>
+        <p class="ai-insight-label mb-2">Adjustment patterns</p>
+        <div id="focus-pattern" class="space-y-2"></div>
+      </div>
+      <div>
+        <p class="ai-insight-label mb-2">Recommended action</p>
+        <p id="focus-action" class="text-sm text-gray-700 leading-relaxed"></p>
       </div>
     </div>
-  </div>
+  </aside>
 
   <script src="js/data.js"></script>
   <script src="js/analytics.js"></script>
   <script src="js/feedback.js"></script>
   <script src="js/sidebar.js"></script>
   <script src="js/summary.js"></script>
+
   <script>
+    // ── Notes drawer ──────────────────────────────────────────────────────────
+    function openNotesDrawer() {
+      document.getElementById('notes-drawer').style.transform = 'translateX(0)'
+      const overlay = document.getElementById('notes-overlay')
+      overlay.style.opacity = '1'
+      overlay.style.pointerEvents = 'auto'
+      trackEvent('notes_drawer_opened', { page: 'summary' })
+    }
+
+    function closeNotesDrawer() {
+      document.getElementById('notes-drawer').style.transform = 'translateX(320px)'
+      const overlay = document.getElementById('notes-overlay')
+      overlay.style.opacity = '0'
+      overlay.style.pointerEvents = 'none'
+    }
+
     function saveResearcherNotes() {
       const insightNote = document.getElementById('insight-note').value.trim()
       const missingNote = document.getElementById('missing-note').value.trim()
       trackEvent('summary_comment', { insightNote, missingNote })
       const msg = document.getElementById('notes-saved-msg')
-      msg.classList.remove('hidden')
-      setTimeout(() => msg.classList.add('hidden'), 3000)
+      msg.style.display = 'block'
+      setTimeout(() => { msg.style.display = 'none' }, 3000)
     }
   </script>
 </body>
