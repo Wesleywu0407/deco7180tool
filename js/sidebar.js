@@ -44,17 +44,17 @@ function renderSidebar(activePage) {
 
   function navLink(item) {
     const isActive = item.id === activePage
-    const base = 'flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium cursor-pointer transition-all no-underline'
+    const base = 'sidebar-nav-link flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-sm font-medium cursor-pointer transition-all no-underline'
     const state = isActive
-      ? 'bg-[#e6f7f2] text-[#1D9E75] font-semibold shadow-[inset_0_0_0_1px_rgba(29,158,117,0.14)]'
-      : 'text-gray-600 hover:bg-[#f7faf8] hover:text-gray-900'
+      ? 'bg-[#ECFDF5] text-[#059669] font-semibold'
+      : 'text-[#6B7280] hover:bg-[#F9FAFB] hover:text-[#111827]'
     return `<a href="${item.href}" class="${base} ${state}">${item.icon}<span>${item.label}</span></a>`
   }
 
   const html = `
-    <aside style="width:200px;min-width:200px" class="fixed top-0 left-0 h-screen bg-white border-r border-gray-200 flex flex-col z-30">
+    <aside style="width:220px;min-width:220px" class="fixed top-0 left-0 h-screen bg-white border-r border-[#F3F4F6] flex flex-col z-30">
       <!-- Brand -->
-      <div class="px-5 pt-6 pb-5 border-b border-gray-100">
+      <div class="px-4 pt-5 pb-5 border-b border-[#F3F4F6]">
         <div class="flex items-center gap-3">
           <div class="brand-mark" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -65,38 +65,62 @@ function renderSidebar(activePage) {
             </svg>
           </div>
           <div>
-            <p class="text-base font-bold text-gray-900 leading-tight">Adjust</p>
-            <p class="text-[11px] text-gray-400 mt-0.5 leading-tight">SEN lesson planning tool</p>
+            <p class="text-[18px] font-bold text-[#111827] leading-tight">Adjust</p>
+            <p class="text-[11px] text-[#9CA3AF] mt-0.5 leading-tight">SEN lesson planning tool</p>
           </div>
         </div>
       </div>
 
       <!-- Main nav -->
-      <nav class="flex-1 px-3 py-4 space-y-0.5">
+      <nav class="flex-1 px-2 py-4 space-y-0.5">
         ${mainNav.map(navLink).join('')}
       </nav>
 
       <!-- New Plan -->
-      <div class="px-3 pb-3">
-        <button onclick="location.href='planner.html?new=1'" class="w-full flex items-center justify-center gap-2 px-4 py-2 bg-[#1D9E75] text-white text-xs font-semibold rounded-lg hover:bg-[#178a63] transition-colors">
+      <div class="px-4 pb-3">
+        <button onclick="location.href='planner.html?new=1'" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-[#059669] text-white text-sm font-medium rounded-[10px] hover:bg-[#047857] transition-colors shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
           + New Plan
         </button>
       </div>
 
       <!-- Footer nav: Settings + Support -->
-      <div class="px-3 py-3 border-t border-gray-100 space-y-0.5">
+      <div class="px-2 py-3 border-t border-[#F3F4F6] space-y-0.5">
         ${footerNav.map(navLink).join('')}
       </div>
 
+      <!-- Share feedback -->
+      <div class="px-4 pb-2">
+        <a href="support.html" class="sidebar-feedback-link" data-feedback-link>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M8 12h.01M12 12h.01M16 12h.01
+                 M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20
+                 l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+          </svg>
+          <span>Share feedback</span>
+        </a>
+      </div>
+
       <!-- Teacher -->
-      <div class="px-4 py-4 border-t border-gray-100 flex items-center gap-3">
-        <div class="w-8 h-8 rounded-full bg-[#1D9E75] flex items-center justify-center text-xs font-bold text-white flex-shrink-0">${teacherInitials}</div>
+      <div class="px-4 py-4 border-t border-[#F3F4F6] flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full bg-[#059669] flex items-center justify-center text-xs font-bold text-white flex-shrink-0">${teacherInitials}</div>
         <div class="min-w-0">
-          <p class="text-xs font-semibold text-gray-800 truncate">${teacher.fullName} · ${teacher.yearLevel}</p>
-          <p class="text-[11px] text-gray-400 truncate">${teacher.classGroup} · ${teacher.role}</p>
+          <p class="text-xs font-semibold text-[#111827] truncate">${teacher.fullName} · ${teacher.yearLevel}</p>
+          <p class="text-[11px] text-[#9CA3AF] truncate">${teacher.classGroup} · ${teacher.role}</p>
         </div>
       </div>
     </aside>
   `
-  document.getElementById('sidebar').innerHTML = html
+  const sidebarRoot = document.getElementById('sidebar')
+  sidebarRoot.innerHTML = html
+
+  const feedbackLink = sidebarRoot.querySelector('[data-feedback-link]')
+  if (feedbackLink) {
+    feedbackLink.addEventListener('click', (event) => {
+      if (window.AdjustFeedback?.showRatingModal) {
+        event.preventDefault()
+        window.AdjustFeedback.showRatingModal()
+      }
+    })
+  }
 }

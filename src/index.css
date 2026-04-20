@@ -8,12 +8,10 @@
   }
 
   body {
-    font-family: 'Inter', system-ui, sans-serif;
-    background:
-      radial-gradient(circle at top, rgba(29, 158, 117, 0.08), transparent 28%),
-      #f7f5ef;
+    font-family: system-ui, -apple-system, sans-serif;
+    background: #F3F4F6;
     color: #111827;
-    min-width: 1024px;
+    min-width: 1120px;
   }
 
   button,
@@ -44,27 +42,45 @@
 @layer components {
   /* ── Sidebar ── */
   .sidebar {
-    @apply fixed top-0 left-0 h-screen w-[200px] bg-white border-r border-gray-200 flex flex-col z-30;
-    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.04);
+    @apply fixed top-0 left-0 h-screen w-[220px] bg-white flex flex-col z-30;
+    border-right: 1px solid #F3F4F6;
+    box-shadow: none;
   }
 
   .sidebar-nav-item {
-    @apply flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-gray-600 cursor-pointer transition-all hover:bg-[#f7faf8] hover:text-gray-900;
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-sm font-medium text-[#6B7280] cursor-pointer transition-all hover:bg-[#F9FAFB] hover:text-[#111827];
   }
 
   .sidebar-nav-item.active {
-    @apply bg-[#e6f7f2] text-[#1D9E75] font-semibold;
-    box-shadow: inset 0 0 0 1px rgba(29, 158, 117, 0.14);
+    @apply bg-[#ECFDF5] text-[#059669] font-semibold;
+    box-shadow: none;
+  }
+
+  .sidebar-feedback-link {
+    @apply flex items-center gap-2 rounded-[10px] px-3 py-2 no-underline;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #6b7280;
+  }
+
+  .sidebar-feedback-link svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .sidebar-feedback-link:hover {
+    color: #059669;
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 
   .brand-mark {
     @apply inline-flex items-center justify-center rounded-2xl;
     width: 2.25rem;
     height: 2.25rem;
-    background: linear-gradient(135deg, #2bb587 0%, #1d9e75 100%);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.28),
-      0 12px 24px rgba(29, 158, 117, 0.2);
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    box-shadow: 0 8px 18px rgba(5, 150, 105, 0.22);
   }
 
   /* ── Top bar ── */
@@ -77,8 +93,8 @@
 
   /* ── Buttons ── */
   .btn-primary {
-    @apply inline-flex items-center gap-2 px-4 py-2 bg-[#1D9E75] text-white text-sm font-semibold rounded-lg hover:bg-[#178a63] transition-colors cursor-pointer;
-    box-shadow: 0 10px 18px rgba(29, 158, 117, 0.18);
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-[#059669] text-white text-sm font-medium rounded-[10px] hover:bg-[#047857] transition-colors cursor-pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   }
 
   .btn-outline {
@@ -110,7 +126,7 @@
   .avatar-amber  { @apply bg-amber-500; }
   .avatar-pink   { @apply bg-pink-500; }
   .avatar-green  { @apply bg-green-500; }
-  .avatar-teal   { @apply bg-[#1D9E75]; }
+  .avatar-teal   { @apply bg-[#059669]; }
 
   /* ── Cards ── */
   .card {
@@ -124,7 +140,7 @@
   }
 
   .progress-fill {
-    @apply h-full bg-[#1D9E75] rounded-full transition-all duration-300;
+    @apply h-full bg-[#059669] rounded-full transition-all duration-300;
   }
 
   /* ── Section label ── */

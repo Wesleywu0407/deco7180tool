@@ -25,7 +25,7 @@ const DEFAULT_STUDENTS = [
   },
   {
     id: 'jack', initials: 'JW', name: 'Jack W.', color: 'pink',
-    avatarBg: '#EC4899',
+    avatarBg: '#DB2777',
     needs: [{ label: 'Physical', bg: '#FCE7F3', text: '#9D174D' }, { label: 'Dyslexia', bg: '#DBEAFE', text: '#1D4ED8' }],
     year: 'Year 5', cls: 'Class 5B',
     notes: 'Jack has limited upper-limb mobility making handwriting difficult, alongside dyslexia. Tech-assisted approaches work best.',
@@ -33,7 +33,7 @@ const DEFAULT_STUDENTS = [
   },
   {
     id: 'sofia', initials: 'SM', name: 'Sofia M.', color: 'green',
-    avatarBg: '#10B981',
+    avatarBg: '#059669',
     needs: [{ label: 'Hearing', bg: '#D1FAE5', text: '#065F46' }],
     year: 'Year 5', cls: 'Class 5B',
     notes: 'Sofia wears bilateral hearing aids. She relies heavily on lip-reading and written support. Ensure she is always seated at the front.',
@@ -121,8 +121,8 @@ const AVATAR_PALETTE = [
   { color: 'blue', avatarBg: '#3B82F6' },
   { color: 'purple', avatarBg: '#7C3AED' },
   { color: 'amber', avatarBg: '#D97706' },
-  { color: 'pink', avatarBg: '#EC4899' },
-  { color: 'green', avatarBg: '#10B981' },
+  { color: 'pink', avatarBg: '#DB2777' },
+  { color: 'green', avatarBg: '#059669' },
   { color: 'teal', avatarBg: '#14B8A6' },
 ]
 

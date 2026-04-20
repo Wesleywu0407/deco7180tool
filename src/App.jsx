@@ -8,11 +8,11 @@ import WeeklySummary from './pages/WeeklySummary.jsx'
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="flex h-screen overflow-hidden bg-gray-50">
+      <div className="flex h-screen overflow-hidden bg-[#F3F4F6]">
         <Sidebar />
 
         {/* Main content scrollable area */}
-        <main className="ml-[200px] flex-1 overflow-y-auto">
+        <main className="ml-[220px] flex-1 min-h-0 overflow-y-auto overscroll-contain">
           <Routes>
             <Route path="/" element={<Navigate to="/lessons" replace />} />
             <Route path="/lessons" element={<LessonPlans />} />

@@ -51,7 +51,7 @@ function getSummaryMetrics() {
       items,
       lessons: lessonsForStudent.length,
       breakdown,
-      barColor: student.avatarBg || '#1D9E75',
+      barColor: student.avatarBg || '#059669',
     }
   }).filter((s) => s.items > 0)
 
@@ -87,9 +87,9 @@ function renderStats(metrics) {
   ]
 
   document.getElementById('section-stats').innerHTML = cards.map((c) => `
-    <div style="background:white;border:1px solid #E5E7EB;border-radius:12px;padding:20px">
-      <div style="font-size:32px;font-weight:700;color:#1D9E75;line-height:1;margin-bottom:8px">${c.num}</div>
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#9CA3AF">${c.label}</div>
+    <div style="background:white;border-radius:16px;padding:20px 24px;box-shadow:0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04)">
+      <div style="font-size:32px;font-weight:700;color:#059669;line-height:1;margin-bottom:8px">${c.num}</div>
+      <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:#6B7280">${c.label}</div>
     </div>
   `).join('')
 }
@@ -112,25 +112,25 @@ function renderAISummary(metrics) {
 
   document.getElementById('section-ai').innerHTML = `
     <div style="margin-bottom:6px">
-      <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.16em;color:#6B7280">
+      <span style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:#6B7280">
         AI Summary
       </span>
     </div>
-    <h2 style="font-size:18px;font-weight:600;color:#111827;margin:0 0 16px">
+    <h2 style="font-size:16px;font-weight:600;color:#111827;margin:0 0 16px">
       Live teaching recommendation
     </h2>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
       ${subCards.map((c) => `
         <div style="
-          background:rgba(255,255,255,0.75);
-          border:1px solid #BBF7D0;
+          background:white;
           border-radius:10px;
           padding:14px;
+          box-shadow:0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
         ">
-          <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:#6B7280;margin:0 0 8px">
+          <p style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:#6B7280;margin:0 0 8px">
             ${c.label}
           </p>
-          <p style="font-size:13px;color:#374151;line-height:1.6;margin:0">
+          <p style="font-size:14px;color:#374151;line-height:1.6;margin:0">
             ${c.text}
           </p>
         </div>
@@ -150,9 +150,9 @@ function renderStudentRows(metrics) {
     const needTags = student.needs.map((n) => `
       <span style="
         display:inline-flex; align-items:center;
-        padding:1px 8px; border-radius:4px;
-        font-size:10px; font-weight:700;
-        text-transform:uppercase; letter-spacing:0.05em;
+        padding:3px 10px; border-radius:999px;
+        font-size:11px; font-weight:500;
+        text-transform:uppercase; letter-spacing:0.06em;
         background:${n.bg}; color:${n.text};
       ">${n.label}</span>
     `).join('')
@@ -160,13 +160,14 @@ function renderStudentRows(metrics) {
     return `
       <div style="
         display:flex; align-items:center; gap:16px;
-        background:white; border:1px solid #E5E7EB;
-        border-radius:10px; padding:14px;
+        background:white;
+        border-radius:16px; padding:16px 18px;
+        box-shadow:0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
       ">
         <!-- Avatar + Name + Need tags -->
         <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;width:220px">
           <div style="
-            width:36px; height:36px; border-radius:9999px;
+            width:40px; height:40px; border-radius:9999px;
             background:${student.avatarBg};
             display:flex; align-items:center; justify-content:center;
             flex-shrink:0; font-size:12px; font-weight:700; color:white;
@@ -215,8 +216,9 @@ function renderDemandingLessons(metrics) {
   document.getElementById('section-lessons').innerHTML = sorted.map((entry, i) => `
     <div style="
       display:flex; align-items:center; justify-content:space-between;
-      background:white; border:1px solid #E5E7EB;
-      border-radius:10px; padding:14px;
+      background:white;
+      border-radius:16px; padding:14px 16px;
+      box-shadow:0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
     ">
       <!-- Rank + title + subtitle -->
       <div style="display:flex;align-items:center;gap:12px;min-width:0;flex:1">
@@ -230,14 +232,14 @@ function renderDemandingLessons(metrics) {
           <div style="font-size:14px;font-weight:600;color:#111827;margin-bottom:2px">
             ${entry.lesson.title}
           </div>
-          <div style="font-size:12px;color:#9CA3AF">
+          <div style="font-size:13px;color:#6B7280">
             ${entry.lesson.subject} · ${entry.lesson.schedule}
           </div>
         </div>
       </div>
       <!-- Adjustment count -->
       <div style="flex-shrink:0;text-align:right;margin-left:16px">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#9CA3AF;margin-bottom:2px">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:#6B7280;margin-bottom:2px">
           Adjustments
         </div>
         <div style="font-size:18px;font-weight:700;color:#111827">${entry.count}</div>
@@ -248,7 +250,7 @@ function renderDemandingLessons(metrics) {
 
 // ── Section E: Support patterns ───────────────────────────────────────────────
 const PATTERN_CONFIG = [
-  { key: 'Visual',        label: 'Visual scaffolds',      color: '#1D9E75', badgeBg: '#D1FAE5', badgeText: '#065F46' },
+  { key: 'Visual',        label: 'Visual scaffolds',      color: '#059669', badgeBg: '#D1FAE5', badgeText: '#065F46' },
   { key: 'Participation', label: 'Participation',          color: '#F59E0B', badgeBg: '#FEF3C7', badgeText: '#92400E' },
   { key: 'Assessment',    label: 'Assessment',             color: '#7C3AED', badgeBg: '#EDE9FE', badgeText: '#5B21B6' },
   { key: 'Technology',    label: 'Technology',             color: '#3B82F6', badgeBg: '#DBEAFE', badgeText: '#1D4ED8' },
@@ -262,7 +264,7 @@ function renderSupportPatterns(metrics) {
     const pct = Math.round((val / maxVal) * 100)
 
     return `
-      <div style="display:flex;align-items:center;gap:12px">
+      <div style="display:flex;align-items:center;gap:14px;background:white;border-radius:16px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04)">
         <!-- Coloured dot -->
         <div style="
           width:10px; height:10px; border-radius:9999px;
@@ -270,21 +272,21 @@ function renderSupportPatterns(metrics) {
         "></div>
 
         <!-- Type name -->
-        <span style="font-size:13px;color:#374151;width:156px;flex-shrink:0">
+        <span style="font-size:14px;color:#374151;width:180px;flex-shrink:0">
           ${p.label}
         </span>
 
         <!-- Count badge -->
         <div style="
           display:inline-flex; align-items:center; justify-content:center;
-          padding:2px 8px; border-radius:4px; flex-shrink:0;
+          padding:3px 10px; border-radius:999px; flex-shrink:0;
           background:${p.badgeBg}; min-width:28px;
         ">
-          <span style="font-size:11px;font-weight:700;color:${p.badgeText}">${val}</span>
+          <span style="font-size:11px;font-weight:500;color:${p.badgeText}">${val}</span>
         </div>
 
         <!-- Proportion bar -->
-        <div style="flex:1;height:8px;background:#F3F4F6;border-radius:9999px;overflow:hidden">
+        <div style="flex:1;height:10px;background:#E5E7EB;border-radius:9999px;overflow:hidden">
           <div style="
             height:100%; width:${pct}%;
             background:${p.color}; border-radius:9999px;

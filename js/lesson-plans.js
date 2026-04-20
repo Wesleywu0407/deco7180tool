@@ -5,6 +5,14 @@ const newLessonButton = document.getElementById('new-lesson-btn')
 const createdBanner = document.getElementById('lesson-created-banner')
 let openMenuId = null
 
+function subjectChipStyle(subject) {
+  const value = String(subject || '').toUpperCase()
+  if (value.includes('MATH')) return { bg: '#DBEAFE', text: '#1D4ED8' }
+  if (value.includes('ENGLISH')) return { bg: '#EDE9FE', text: '#5B21B6' }
+  if (value.includes('SCIENCE')) return { bg: '#D1FAE5', text: '#065F46' }
+  return { bg: '#ECFDF5', text: '#047857' }
+}
+
 function avatarStack(studentIds) {
   return studentIds.map((id) => {
     const student = window.AdjustStore.getStudent(id)
@@ -26,9 +34,10 @@ function renderLessonCards() {
 
   const cards = lessons.map((lesson) => {
     const adjustmentCount = window.AdjustStore.lessonAdjustmentCount(lesson, students)
+    const chip = subjectChipStyle(lesson.subject)
 
     return `
-      <div class="lesson-card bg-white border border-gray-200 rounded-xl p-5 relative"
+      <div class="lesson-card relative"
            data-lesson-id="${lesson.id}">
         <div class="lesson-card-menu">
           <button class="lesson-card-menu-btn" type="button" data-menu-trigger="${lesson.id}" aria-label="Open lesson actions" aria-expanded="${openMenuId === lesson.id ? 'true' : 'false'}">
@@ -43,22 +52,22 @@ function renderLessonCards() {
             <button type="button" data-menu-action="delete" data-lesson-id="${lesson.id}">Delete</button>
           </div>
         </div>
-        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">
-          ${lesson.subject} · ${lesson.year}
-        </p>
-        <h3 class="lesson-title text-sm font-semibold text-gray-900 leading-snug mb-3 transition-colors">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="tag" style="background:${chip.bg};color:${chip.text}">${lesson.subject}</span>
+          <span style="font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280">${lesson.year}</span>
+        </div>
+        <h3 class="lesson-title" style="font-size:15px;font-weight:600;color:#111827;line-height:1.45;margin:0 0 14px">
           ${lesson.title}
         </h3>
-        <div class="flex items-center gap-1.5 text-xs text-gray-500 mb-4">
+        <div class="flex items-center gap-2 mb-5" style="font-size:13px;color:#6B7280">
           <svg class="w-3.5 h-3.5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/>
           </svg>
           <span>${lesson.schedule}</span>
         </div>
-        <hr class="border-gray-100 mb-4"/>
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between pt-4" style="border-top:1px solid #F3F4F6">
           <div class="flex" style="padding-left:6px">${avatarStack(lesson.studentIds)}</div>
-          <span class="text-xs text-gray-500 font-medium">${adjustmentCount} adjustments</span>
+          <span style="font-size:13px;color:#6B7280;font-weight:500">${adjustmentCount} adjustments</span>
         </div>
       </div>
     `

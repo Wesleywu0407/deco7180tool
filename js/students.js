@@ -79,18 +79,18 @@ function renderProfiles() {
 
     const strategies = student.strategies.map((strategy) =>
       `<li class="flex items-start gap-2 text-sm text-gray-600">
-        <span style="width:8px;height:8px;border-radius:9999px;background:#1D9E75;flex-shrink:0;margin-top:6px;display:inline-block"></span>
+        <span style="width:6px;height:6px;border-radius:9999px;background:#059669;flex-shrink:0;margin-top:8px;display:inline-block"></span>
         <span>${escapeHtml(strategy)}</span>
       </li>`
     ).join('')
 
     return `
-      <div class="surface-card surface-card-hover p-5">
+      <div class="surface-card surface-card-hover p-5 student-profile-card">
         <div class="flex items-center gap-3 mb-4">
-          <div class="avatar" style="width:48px;height:48px;font-size:14px;background:${student.avatarBg}">${student.initials}</div>
+          <div class="avatar" style="width:44px;height:44px;font-size:13px;background:${student.avatarBg}">${student.initials}</div>
           <div>
             <p class="text-base font-semibold text-gray-900">${escapeHtml(student.name)}</p>
-            <p class="text-xs text-gray-400 mt-0.5">${escapeHtml(student.year)} · ${escapeHtml(student.cls)}</p>
+            <p style="font-size:13px;color:#6B7280;margin-top:4px">${escapeHtml(student.year)} · ${escapeHtml(student.cls)}</p>
           </div>
         </div>
 
@@ -101,7 +101,7 @@ function renderProfiles() {
 
         <div class="mb-4">
           <p class="page-label mb-2">Teacher notes</p>
-          <p class="text-sm text-gray-600 leading-relaxed">${escapeHtml(student.notes)}</p>
+          <p style="font-size:14px;line-height:1.6;color:#374151">${escapeHtml(student.notes)}</p>
         </div>
 
         <div>

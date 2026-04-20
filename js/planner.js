@@ -85,7 +85,7 @@ function renderRoster() {
             <div class="flex items-center gap-3">
               <!-- Avatar (36px) -->
               <div class="avatar flex-shrink-0"
-                   style="width:36px;height:36px;min-width:36px;font-size:11px;
+                   style="width:32px;height:32px;min-width:32px;font-size:11px;
                           font-weight:700;background:${student.avatarBg}">
                 ${student.initials}
               </div>
@@ -114,10 +114,10 @@ function renderContext() {
       const s = window.AdjustStore.getStudent(id)
       if (!s) return ''
       return `
-        <div class="adjusting-pill" style="border-left-color:${s.avatarBg}">
+        <div class="adjusting-pill">
           <div class="avatar" style="width:18px;height:18px;min-width:18px;font-size:8px;
                font-weight:700;background:${s.avatarBg}">${s.initials}</div>
-          <span style="font-size:12px;font-weight:500;color:#374151">${s.name}</span>
+          <span style="font-size:12px;font-weight:500;color:#059669">${s.name}</span>
         </div>
       `
     }).join('')
@@ -235,7 +235,7 @@ function renderContext() {
     : subjectLabel.includes('ENGLISH')
     ? 'background:#EDE9FE;color:#5B21B6'
     : subjectLabel.includes('SCIENCE')
-    ? 'background:#FEF3C7;color:#92400E'
+    ? 'background:#D1FAE5;color:#065F46'
     : 'background:#D1FAE5;color:#065F46'
 
   // Date / time badges
@@ -247,13 +247,12 @@ function renderContext() {
   const adjustingPills = selectedIds.map(id => {
     const s = window.AdjustStore.getStudent(id)
     if (!s) return ''
-    const accentColor = s.needs?.[0]?.text || '#1D9E75'
     return `
-      <div class="adjusting-pill" style="border-left-color:${accentColor}">
+      <div class="adjusting-pill">
         <div class="avatar"
              style="width:20px;height:20px;min-width:20px;font-size:8px;
                     font-weight:700;background:${s.avatarBg}">${s.initials}</div>
-        <span style="font-size:12px;font-weight:500;color:#374151">${s.name}</span>
+        <span style="font-size:12px;font-weight:500;color:#059669">${s.name}</span>
       </div>
     `
   }).join('')
@@ -328,16 +327,16 @@ function renderContext() {
     footer.className = 'planner-save-footer'
     footer.innerHTML = `
       <button onclick="alert('Lesson plan saved!')"
-        style="width:100%;display:flex;align-items:center;justify-content:center;
-               gap:8px;padding:12px;background:#1D9E75;color:white;font-size:13px;
-               font-weight:600;border:none;border-radius:10px;cursor:pointer;
-               transition:background 0.15s;letter-spacing:0.02em"
-        onmouseover="this.style.background='#178a63'"
-        onmouseout="this.style.background='#1D9E75'">
+        style="width:100%;height:48px;display:flex;align-items:center;justify-content:center;
+               gap:8px;padding:12px 20px;background:#059669;color:white;font-size:14px;
+               font-weight:500;border:none;border-radius:10px;cursor:pointer;
+               transition:background 0.15s ease"
+        onmouseover="this.style.background='#047857'"
+        onmouseout="this.style.background='#059669'">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
         </svg>
-        SAVE LESSON PLAN
+        Save lesson plan
       </button>
     `
   }

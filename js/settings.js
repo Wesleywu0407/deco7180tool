@@ -40,7 +40,7 @@ function renderReadOnlyProfile() {
 
   profileContent.innerHTML = `
     <div class="flex items-start gap-4">
-      <div class="w-14 h-14 rounded-[1.2rem] bg-[#1D9E75] flex items-center justify-center text-base font-bold text-white flex-shrink-0 shadow-[0_16px_24px_rgba(29,158,117,0.18)]">${initials}</div>
+      <div class="w-14 h-14 rounded-[1.2rem] bg-[#059669] flex items-center justify-center text-base font-bold text-white flex-shrink-0 shadow-[0_8px_20px_rgba(5,150,105,0.2)]">${initials}</div>
       <div class="flex-1 min-w-0">
         <div class="flex flex-wrap items-center gap-2">
           <p class="text-base font-semibold text-gray-900">${safeProfile.fullName}</p>

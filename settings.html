@@ -6,7 +6,7 @@
   <title>Adjust — Settings</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = { theme: { extend: { colors: { primary: '#1D9E75' } } } }
+    tailwind.config = { theme: { extend: { colors: { primary: '#059669' } } } }
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -14,20 +14,20 @@
   <link rel="apple-touch-icon" href="./apple-touch-icon.svg?v=2" />
   <meta name="application-name" content="Adjust" />
   <meta name="apple-mobile-web-app-title" content="Adjust" />
-  <meta name="theme-color" content="#4CAF50" />
+  <meta name="theme-color" content="#059669" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body class="flex h-screen overflow-hidden bg-gray-50">
+<body class="flex h-screen overflow-hidden">
 
   <div id="sidebar"></div>
 
-  <main class="ml-[200px] flex-1 overflow-y-auto">
+  <main class="ml-[220px] flex-1 overflow-y-auto">
 
     <!-- Top bar -->
-    <header class="flex items-center justify-between px-8 py-5 border-b border-gray-200 bg-white sticky top-0 z-20">
+    <header class="app-topbar sticky top-0 z-20">
       <div>
-        <h1 class="text-lg font-bold text-gray-900">Settings</h1>
-        <p class="text-sm text-gray-500 mt-0.5">Manage your preferences</p>
+        <h1>Settings</h1>
+        <p>Manage your preferences</p>
       </div>
     </header>
 
@@ -69,7 +69,7 @@
               <p class="text-xs text-gray-400 mt-0.5">Get notified when new adjustments are suggested for your students</p>
             </div>
             <button id="toggle-alerts" onclick="toggleSwitch(this)" data-on="true"
-              class="relative w-11 h-6 rounded-full transition-colors duration-200 bg-[#1D9E75] flex-shrink-0">
+              class="relative w-11 h-6 rounded-full transition-colors duration-200 bg-[#059669] flex-shrink-0">
               <span class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 translate-x-5"></span>
             </button>
           </div>
@@ -83,7 +83,7 @@
               <p class="text-xs text-gray-400 mt-0.5">Receive a reminder at the start of each week to review your summary</p>
             </div>
             <button id="toggle-summary" onclick="toggleSwitch(this)" data-on="true"
-              class="relative w-11 h-6 rounded-full transition-colors duration-200 bg-[#1D9E75] flex-shrink-0">
+              class="relative w-11 h-6 rounded-full transition-colors duration-200 bg-[#059669] flex-shrink-0">
               <span class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 translate-x-5"></span>
             </button>
           </div>
@@ -101,7 +101,7 @@
               <p class="text-sm font-semibold text-gray-800">Current week</p>
               <p class="text-xs text-gray-400 mt-0.5">Set the active teaching week</p>
             </div>
-            <select class="text-sm border border-gray-200 rounded-lg px-3 py-2 text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#1D9E75] cursor-pointer">
+            <select class="settings-select">
               <option>Week 7 · Term 2</option>
               <option>Week 8 · Term 2</option>
               <option selected>Week 9 · Term 2</option>
@@ -116,7 +116,7 @@
               <p class="text-sm font-semibold text-gray-800">Class group</p>
               <p class="text-xs text-gray-400 mt-0.5">Select the active class to display</p>
             </div>
-            <select class="text-sm border border-gray-200 rounded-lg px-3 py-2 text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#1D9E75] cursor-pointer">
+            <select class="settings-select">
               <option selected>Year 5 · Class 5B</option>
               <option>Year 5 · Class 5A</option>
               <option>Year 6 · Class 6B</option>
@@ -155,7 +155,7 @@
     function toggleSwitch(btn) {
       const isOn = btn.dataset.on === 'true'
       btn.dataset.on = isOn ? 'false' : 'true'
-      btn.style.background = isOn ? '#d1d5db' : '#1D9E75'
+      btn.style.background = isOn ? '#D1D5DB' : '#059669'
       btn.querySelector('span').style.transform = isOn ? 'translateX(0)' : 'translateX(20px)'
     }
   </script>

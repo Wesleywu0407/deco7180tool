@@ -6,7 +6,7 @@
   <title>Adjust — Lesson Planner</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = { theme: { extend: { colors: { primary: '#1D9E75' } } } }
+    tailwind.config = { theme: { extend: { colors: { primary: '#059669' } } } }
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -14,14 +14,14 @@
   <link rel="apple-touch-icon" href="./apple-touch-icon.svg?v=2" />
   <meta name="application-name" content="Adjust" />
   <meta name="apple-mobile-web-app-title" content="Adjust" />
-  <meta name="theme-color" content="#1D9E75" />
+  <meta name="theme-color" content="#059669" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body class="flex h-screen overflow-hidden" style="background:#F9FAFB; font-family:'Inter',system-ui,sans-serif">
+<body class="flex h-screen overflow-hidden">
 
   <div id="sidebar"></div>
 
-  <main class="ml-[200px] flex-1 flex flex-col overflow-hidden">
+  <main class="ml-[220px] flex-1 flex flex-col overflow-hidden">
 
     <!-- ── Top bar ───────────────────────────────────────────────────────────── -->
     <header class="planner-topbar flex-shrink-0">
@@ -33,7 +33,7 @@
           </svg>
           <span id="breadcrumb-lesson" class="text-xs text-gray-500 font-medium truncate max-w-[300px]">Lesson planner</span>
         </nav>
-        <h1 class="text-[15px] font-semibold text-gray-900">Lesson Planner</h1>
+        <h1 class="text-[22px] font-bold text-[#111827]">Lesson Planner</h1>
       </div>
 
       <div class="flex items-center gap-2">
@@ -53,10 +53,10 @@
     </header>
 
     <!-- ── 3-column body ──────────────────────────────────────────────────────── -->
-    <div class="flex flex-1 overflow-hidden">
+    <div class="planner-layout flex flex-1 overflow-hidden">
 
       <!-- ── LEFT: Class Roster (260px) ──────────────────────────────────────── -->
-      <aside class="planner-col-left flex flex-col border-r border-gray-200 bg-white flex-shrink-0">
+      <aside class="planner-col-left planner-panel flex flex-col flex-shrink-0">
 
         <!-- Roster header (fixed) -->
         <div class="px-4 pt-4 pb-3 border-b border-gray-100 flex-shrink-0">
@@ -85,7 +85,7 @@
       </aside>
 
       <!-- ── MIDDLE: Lesson Context (flex) ───────────────────────────────────── -->
-      <section class="planner-col-middle flex flex-col flex-1 overflow-hidden border-r border-gray-200">
+      <section class="planner-col-middle planner-panel flex flex-col flex-1 overflow-hidden">
 
         <!-- Column label (fixed) -->
         <div class="px-6 pt-4 pb-3 border-b border-gray-100 flex-shrink-0">
@@ -101,7 +101,7 @@
       </section>
 
       <!-- ── RIGHT: Suggested Adjustments (320px) ────────────────────────────── -->
-      <aside class="planner-col-right flex flex-col bg-white flex-shrink-0">
+      <aside class="planner-col-right planner-panel flex flex-col flex-shrink-0">
 
         <!-- Sticky column header with progress + filter pills -->
         <div class="px-4 pt-4 pb-3 border-b border-gray-100 flex-shrink-0">
@@ -114,7 +114,7 @@
           <!-- Progress bar (4px) -->
           <div class="h-1 bg-gray-100 rounded-full overflow-hidden">
             <div id="adj-progress-bar"
-              class="h-full bg-[#1D9E75] rounded-full"
+              class="h-full bg-[#059669] rounded-full"
               style="width:0%;transition:width 0.3s ease"></div>
           </div>
 

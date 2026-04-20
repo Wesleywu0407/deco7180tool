@@ -3,7 +3,7 @@
 //  • Micro-feedback toast  (bottom-right, 280px, auto-dismiss 12 s)
 //  • Post-task rating modal (5-star, 4 dimensions)
 //  • Reflection modal       (shown after saving a lesson plan)
-//  • Floating "Share feedback" button (bottom-left, injected on every page)
+//  • Sidebar "Share feedback" link (rendered globally in the left nav)
 // ═══════════════════════════════════════════════════════════════════════════
 
 ;(function () {
@@ -345,47 +345,6 @@
   }
 
   // ─────────────────────────────────────────────────────────────────────────
-  //  4. FLOATING "Share feedback" BUTTON
-  // ─────────────────────────────────────────────────────────────────────────
-  function _injectFeedbackButton() {
-    if (document.getElementById('adj-feedback-btn')) return
-    const btn = document.createElement('button')
-    btn.id = 'adj-feedback-btn'
-    Object.assign(btn.style, {
-      position: 'fixed', bottom: '24px', left: '216px', zIndex: '9990',
-      display: 'flex', alignItems: 'center', gap: '8px',
-      padding: '10px 16px', border: 'none', borderRadius: '999px',
-      background: '#1D9E75', color: 'white',
-      fontSize: '13px', fontWeight: '600', fontFamily: 'inherit',
-      cursor: 'pointer',
-      boxShadow: '0 4px 16px rgba(29,158,117,.35)',
-      transition: 'all .2s',
-    })
-    btn.innerHTML = `
-      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"
-           viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round"
-          d="M8 12h.01M12 12h.01M16 12h.01
-             M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20
-             l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-      </svg>
-      Share feedback
-    `
-    btn.addEventListener('click', showRatingModal)
-    btn.addEventListener('mouseenter', () => {
-      btn.style.background = '#178a63'
-      btn.style.transform  = 'translateY(-1px)'
-      btn.style.boxShadow  = '0 6px 20px rgba(29,158,117,.45)'
-    })
-    btn.addEventListener('mouseleave', () => {
-      btn.style.background = '#1D9E75'
-      btn.style.transform  = ''
-      btn.style.boxShadow  = '0 4px 16px rgba(29,158,117,.35)'
-    })
-    document.body.appendChild(btn)
-  }
-
-  // ─────────────────────────────────────────────────────────────────────────
   //  Utility
   // ─────────────────────────────────────────────────────────────────────────
   function _makeOverlay(id) {
@@ -401,13 +360,6 @@
       animation: 'adjFadeIn .2s ease',
     })
     return el
-  }
-
-  // ── DOM ready: inject floating button ──────────────────────────────────────
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', _injectFeedbackButton)
-  } else {
-    _injectFeedbackButton()
   }
 
   // ── Public API ─────────────────────────────────────────────────────────────

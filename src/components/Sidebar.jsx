@@ -33,10 +33,17 @@ const NAV_ITEMS = [
 
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function Sidebar() {
+  const openFeedback = (event) => {
+    if (window.AdjustFeedback?.showRatingModal) {
+      event.preventDefault()
+      window.AdjustFeedback.showRatingModal()
+    }
+  }
+
   return (
     <aside className="sidebar">
       {/* ── App brand ─────────────────────────────────────── */}
-      <div className="px-5 pt-6 pb-5 border-b border-gray-100">
+      <div className="px-4 pt-5 pb-5 border-b border-[#F3F4F6]">
         <div className="flex items-center gap-3">
           <div className="brand-mark" aria-hidden="true">
             <svg className="h-[1.15rem] w-[1.15rem] text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
@@ -47,14 +54,14 @@ export default function Sidebar() {
             </svg>
           </div>
           <div>
-            <p className="text-base font-bold text-gray-900 leading-tight">Adjust</p>
-            <p className="text-[11px] text-gray-400 mt-0.5 leading-tight">SEN lesson planning tool</p>
+            <p className="text-[18px] font-bold text-[#111827] leading-tight">Adjust</p>
+            <p className="text-[11px] text-[#9CA3AF] mt-0.5 leading-tight">SEN lesson planning tool</p>
           </div>
         </div>
       </div>
 
       {/* ── Navigation ────────────────────────────────────── */}
-      <nav className="flex-1 px-3 py-4 space-y-0.5">
+      <nav className="flex-1 px-2 py-4 space-y-0.5">
         {NAV_ITEMS.map((item) => (
           <NavLink
             key={item.path}
@@ -70,24 +77,33 @@ export default function Sidebar() {
       </nav>
 
       {/* ── New Plan button ───────────────────────────────── */}
-      <div className="px-3 pb-3">
-        <button onClick={() => { window.location.href = '/planner.html?new=1' }} className="w-full btn-primary justify-center py-2 text-xs rounded-lg">
+      <div className="px-4 pb-3">
+        <button onClick={() => { window.location.href = '/planner.html?new=1' }} className="w-full btn-primary justify-center py-2.5 text-sm rounded-[10px]">
           + New Plan
         </button>
       </div>
 
       {/* ── Footer links ─────────────────────────────────── */}
-      <div className="px-5 py-3 border-t border-gray-100 flex gap-4">
-        <a href="/settings.html" className="text-xs text-gray-400 hover:text-gray-600 transition-colors">Settings</a>
-        <a href="/support.html" className="text-xs text-gray-400 hover:text-gray-600 transition-colors">Support</a>
+      <div className="px-4 py-3 border-t border-[#F3F4F6] flex gap-4">
+        <a href="/settings.html" className="text-xs text-[#9CA3AF] hover:text-[#111827] transition-colors">Settings</a>
+        <a href="/support.html" className="text-xs text-[#9CA3AF] hover:text-[#111827] transition-colors">Support</a>
+      </div>
+
+      <div className="px-4 pb-2">
+        <a href="/support.html" onClick={openFeedback} className="sidebar-feedback-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          </svg>
+          <span>Share feedback</span>
+        </a>
       </div>
 
       {/* ── Teacher info ─────────────────────────────────── */}
-      <div className="px-4 py-4 border-t border-gray-100 flex items-center gap-3">
+      <div className="px-4 py-4 border-t border-[#F3F4F6] flex items-center gap-3">
         <div className="avatar avatar-teal text-xs flex-shrink-0">MC</div>
         <div className="min-w-0">
-          <p className="text-xs font-semibold text-gray-800 truncate">Mrs. Chen · Year 5</p>
-          <p className="text-[11px] text-gray-400 truncate">Week 9 · Term 2</p>
+          <p className="text-xs font-semibold text-[#111827] truncate">Mrs. Chen · Year 5</p>
+          <p className="text-[11px] text-[#9CA3AF] truncate">Week 9 · Term 2</p>
         </div>
       </div>
     </aside>
