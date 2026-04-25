@@ -61,16 +61,20 @@
 
       <!-- Recommendation banner -->
       <div id="rec-banner" class="recommendation-banner">
-        <div class="recommendation-icon">
-          <svg class="w-4 h-4 text-[#059669]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <div class="recommendation-icon" aria-hidden="true">
+          <span class="recommendation-spark">✦</span>
         </div>
         <div class="flex-1">
-          <p class="recommendation-title">Recommended Adjustments</p>
-          <p class="recommendation-copy">Based on Liam's recent sensory assessment, consider providing a noise-cancelling headset option for Thursday's Science ecosystem video.</p>
+          <span class="recommendation-badge">AI Recommendation</span>
+          <p class="recommendation-title">Suggested for Thursday's Science lesson</p>
+          <p class="recommendation-copy">Based on Liam's recent sensory assessment, consider providing a noise-cancelling headset option for the ecosystem video activity.</p>
         </div>
-        <div class="flex items-center gap-3 flex-shrink-0">
-          <button onclick="trackEvent('recommendation_applied',{lessonId:'math-fractions'})" class="btn-solid text-sm">Apply to lesson</button>
-          <button onclick="trackEvent('recommendation_dismissed',{});document.getElementById('rec-banner').remove()" class="btn-text-action">Dismiss</button>
+        <div class="recommendation-actions">
+          <div class="recommendation-actions-row">
+            <button onclick="handleRecommendationApply()" class="recommendation-apply-btn">Apply to lesson</button>
+            <button onclick="handleRecommendationDismiss()" class="recommendation-dismiss-btn">Dismiss</button>
+          </div>
+          <span class="recommendation-powered">Powered by AI</span>
         </div>
       </div>
     </div>
@@ -82,5 +86,350 @@
   <script src="js/feedback.js"></script>
   <script src="js/sidebar.js"></script>
   <script src="js/lesson-plans.js"></script>
+  <script>
+    ;(() => {
+      const style = document.createElement('style')
+      style.textContent = `
+        @keyframes aiChatEnter {
+          from { opacity: 0; transform: scale(0.88) translateY(10px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes aiChatDot {
+          0%, 80%, 100% { opacity: .28; transform: translateY(0); }
+          40% { opacity: 1; transform: translateY(-2px); }
+        }
+      `
+      document.head.appendChild(style)
+
+      const initialAssistantMessage = "Hi Mrs. Chen! 👋 I've noted Thursday's Science lesson needs prep. Liam needs a noise-cancelling headset and Maya needs a colour-coded step diagram. Want me to suggest more resources for either student?"
+      const chatState = {
+        bubbleVisible: false,
+        panelOpen: false,
+        initialized: false,
+        trigger: null,
+        loading: false,
+        history: [],
+      }
+
+      function ensureChatUI() {
+        if (document.getElementById('ai-chatbot-root')) return
+
+        const root = document.createElement('div')
+        root.id = 'ai-chatbot-root'
+        root.innerHTML = `
+          <div id="ai-chat-panel"
+            style="
+              position:fixed;
+              bottom:88px;
+              right:24px;
+              width:320px;
+              height:420px;
+              background:white;
+              border-radius:16px;
+              box-shadow:0 8px 32px rgba(0,0,0,0.12);
+              border:1px solid #E5E7EB;
+              z-index:9999;
+              overflow:hidden;
+              display:flex;
+              flex-direction:column;
+              opacity:0;
+              transform:scale(0.92) translateY(10px);
+              pointer-events:none;
+              transition:opacity 0.2s ease, transform 0.2s ease;
+            ">
+            <div style="height:48px;background:linear-gradient(135deg, #059669, #0d9488);display:flex;align-items:center;justify-content:space-between;padding:0 14px;flex-shrink:0">
+              <div style="display:flex;align-items:center;gap:8px;color:white">
+                <span style="font-size:16px;line-height:1">✦</span>
+                <span style="font-size:13px;font-weight:600">Science lesson assistant</span>
+              </div>
+              <button id="ai-chat-close"
+                type="button"
+                style="background:none;border:none;color:white;font-size:20px;line-height:1;cursor:pointer;padding:0">
+                &times;
+              </button>
+            </div>
+            <div id="ai-chat-messages"
+              style="
+                flex:1;
+                overflow-y:auto;
+                padding:16px;
+                display:flex;
+                flex-direction:column;
+                gap:10px;
+                background:white;
+              "></div>
+            <div style="height:48px;border-top:1px solid #E5E7EB;display:flex;align-items:center;padding:0 8px;gap:8px;flex-shrink:0">
+              <input id="ai-chat-input"
+                type="text"
+                placeholder="Ask about this lesson..."
+                style="
+                  flex:1;
+                  border:none;
+                  outline:none;
+                  font-size:13px;
+                  padding:0 12px;
+                  color:#111827;
+                  background:transparent;
+                ">
+              <button id="ai-chat-send"
+                type="button"
+                style="
+                  width:32px;
+                  height:32px;
+                  border-radius:999px;
+                  border:none;
+                  background:#059669;
+                  color:white;
+                  display:inline-flex;
+                  align-items:center;
+                  justify-content:center;
+                  cursor:pointer;
+                  font-size:16px;
+                  line-height:1;
+                ">
+                →
+              </button>
+            </div>
+          </div>
+
+          <button id="ai-chat-bubble"
+            type="button"
+            title="Chat with AI about Thursday's Science lesson"
+            style="
+              position:fixed;
+              bottom:24px;
+              right:24px;
+              z-index:9999;
+              width:52px;
+              height:52px;
+              border:none;
+              border-radius:999px;
+              background:linear-gradient(135deg, #059669, #0d9488);
+              color:white;
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              cursor:pointer;
+              box-shadow:0 8px 20px rgba(5, 150, 105, 0.24);
+              opacity:0;
+              transform:scale(0.86);
+              pointer-events:none;
+              transition:opacity 0.2s ease, transform 0.2s ease;
+            ">
+            <span style="font-size:20px;line-height:1">✦</span>
+            <span style="position:absolute;top:8px;right:8px;width:10px;height:10px;border-radius:999px;background:#10B981;border:2px solid white"></span>
+          </button>
+        `
+
+        document.body.appendChild(root)
+
+        document.getElementById('ai-chat-bubble').addEventListener('click', toggleChatPanel)
+        document.getElementById('ai-chat-close').addEventListener('click', closeChatPanel)
+        document.getElementById('ai-chat-send').addEventListener('click', sendChatMessage)
+        document.getElementById('ai-chat-input').addEventListener('keydown', (event) => {
+          if (event.key === 'Enter') {
+            event.preventDefault()
+            sendChatMessage()
+          }
+        })
+      }
+
+      function getApiKey() {
+        return window.ANTHROPIC_API_KEY
+          || window.anthropicApiKey
+          || localStorage.getItem('ANTHROPIC_API_KEY')
+          || localStorage.getItem('anthropic_api_key')
+          || ''
+      }
+
+      function renderChatMessages() {
+        const messagesEl = document.getElementById('ai-chat-messages')
+        if (!messagesEl) return
+
+        messagesEl.innerHTML = chatState.history.map((message) => {
+          const isAssistant = message.role === 'assistant'
+          return `
+            <div style="display:flex;justify-content:${isAssistant ? 'flex-start' : 'flex-end'}">
+              <div style="
+                max-width:85%;
+                padding:10px 14px;
+                font-size:13px;
+                line-height:1.5;
+                white-space:pre-wrap;
+                ${isAssistant
+                  ? 'background:#F3F4F6;color:#111827;border-radius:12px 12px 12px 4px;'
+                  : 'background:#059669;color:white;border-radius:12px 12px 4px 12px;'}
+              ">${escapeHtml(message.content)}</div>
+            </div>
+          `
+        }).join('')
+
+        if (chatState.loading) {
+          messagesEl.insertAdjacentHTML('beforeend', `
+            <div id="ai-chat-typing" style="display:flex;justify-content:flex-start">
+              <div style="max-width:85%;padding:10px 14px;background:#F3F4F6;border-radius:12px 12px 12px 4px;display:flex;align-items:center;gap:5px">
+                <span style="width:6px;height:6px;border-radius:999px;background:#9CA3AF;display:inline-block;animation:aiChatDot 1.2s infinite ease-in-out"></span>
+                <span style="width:6px;height:6px;border-radius:999px;background:#9CA3AF;display:inline-block;animation:aiChatDot 1.2s infinite ease-in-out 0.15s"></span>
+                <span style="width:6px;height:6px;border-radius:999px;background:#9CA3AF;display:inline-block;animation:aiChatDot 1.2s infinite ease-in-out 0.3s"></span>
+              </div>
+            </div>
+          `)
+        }
+
+        messagesEl.scrollTop = messagesEl.scrollHeight
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          .replaceAll("'", '&#39;')
+      }
+
+      function showChatBubble(trigger) {
+        ensureChatUI()
+        const bubble = document.getElementById('ai-chat-bubble')
+        if (!bubble) return
+
+        chatState.trigger = trigger
+        if (!chatState.bubbleVisible) {
+          chatState.bubbleVisible = true
+          bubble.style.pointerEvents = 'auto'
+          bubble.style.opacity = '1'
+          bubble.style.transform = 'scale(1)'
+          bubble.style.animation = 'aiChatEnter 0.22s ease'
+        }
+
+        if (window.trackEvent) {
+          trackEvent('chatbot_opened', { trigger })
+        }
+      }
+
+      function openChatPanel() {
+        ensureChatUI()
+        const panel = document.getElementById('ai-chat-panel')
+        if (!panel) return
+
+        if (!chatState.initialized) {
+          chatState.history = [{ role: 'assistant', content: initialAssistantMessage }]
+          chatState.initialized = true
+        }
+
+        chatState.panelOpen = true
+        panel.style.opacity = '1'
+        panel.style.transform = 'scale(1) translateY(0)'
+        panel.style.pointerEvents = 'auto'
+        renderChatMessages()
+        document.getElementById('ai-chat-input')?.focus()
+      }
+
+      function closeChatPanel() {
+        const panel = document.getElementById('ai-chat-panel')
+        if (!panel) return
+        chatState.panelOpen = false
+        panel.style.opacity = '0'
+        panel.style.transform = 'scale(0.92) translateY(10px)'
+        panel.style.pointerEvents = 'none'
+      }
+
+      function toggleChatPanel() {
+        if (chatState.panelOpen) {
+          closeChatPanel()
+        } else {
+          openChatPanel()
+        }
+      }
+
+      async function sendChatMessage() {
+        if (chatState.loading) return
+
+        const input = document.getElementById('ai-chat-input')
+        const text = input?.value?.trim()
+        if (!text) return
+
+        chatState.history.push({ role: 'user', content: text })
+        if (input) input.value = ''
+
+        if (window.trackEvent) {
+          trackEvent('chatbot_message_sent', { lesson: 'science_thursday' })
+        }
+
+        chatState.loading = true
+        renderChatMessages()
+
+        const apiKey = getApiKey()
+        if (!apiKey) {
+          chatState.loading = false
+          chatState.history.push({
+            role: 'assistant',
+            content: 'I can help with this lesson, but I need an Anthropic API key available in window.ANTHROPIC_API_KEY or localStorage first.',
+          })
+          renderChatMessages()
+          return
+        }
+
+        try {
+          const response = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-key': apiKey,
+              'anthropic-version': '2023-06-01',
+            },
+            body: JSON.stringify({
+              model: 'claude-sonnet-4-20250514',
+              max_tokens: 1000,
+              system: "You are a helpful SEN lesson planning assistant for Mrs. Chen, a Year 5 teacher. She is preparing for Thursday's Science lesson 'Food chains and ecosystems' (50 min). Students needing support: Liam T. (ASD - needs noise-cancelling headset for video activities), Maya R. (Dyslexia - needs colour-coded step diagrams). Give short, practical, specific advice. Max 2-3 sentences per response.",
+              messages: chatState.history.map((message) => ({
+                role: message.role,
+                content: message.content,
+              })),
+            }),
+          })
+
+          if (!response.ok) {
+            throw new Error(`Anthropic request failed (${response.status})`)
+          }
+
+          const data = await response.json()
+          const reply = (data.content || [])
+            .filter((item) => item.type === 'text')
+            .map((item) => item.text)
+            .join('\n')
+            .trim()
+
+          chatState.history.push({
+            role: 'assistant',
+            content: reply || 'I reviewed that lesson context and can help refine supports for Liam or Maya next.',
+          })
+        } catch (error) {
+          chatState.history.push({
+            role: 'assistant',
+            content: 'I hit a connection issue reaching Anthropic just now. Please try again in a moment.',
+          })
+        } finally {
+          chatState.loading = false
+          renderChatMessages()
+        }
+      }
+
+      window.handleRecommendationApply = function handleRecommendationApply() {
+        if (window.trackEvent) {
+          trackEvent('recommendation_applied', { lessonId: 'math-fractions' })
+        }
+        showChatBubble('apply')
+      }
+
+      window.handleRecommendationDismiss = function handleRecommendationDismiss() {
+        if (window.trackEvent) {
+          trackEvent('recommendation_dismissed', {})
+        }
+        document.getElementById('rec-banner')?.remove()
+        showChatBubble('dismiss')
+      }
+    })()
+  </script>
 </body>
 </html>

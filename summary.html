@@ -35,13 +35,26 @@
     <!-- ── Content: 5 vertical sections ──────────────────────────────────────── -->
     <div class="px-8 py-6 space-y-4 pb-20" id="summary-content">
 
+      <div id="ai-hero-banner" class="recommendation-banner" style="margin-bottom:0">
+        <div class="recommendation-icon" aria-hidden="true">
+          <span class="recommendation-spark">✦</span>
+        </div>
+        <div class="flex-1">
+          <span class="recommendation-badge">AI Recommendation</span>
+          <p class="recommendation-title">Don't forget! Thursday's Science lesson needs prep for 2 students</p>
+          <p class="recommendation-copy">Liam needs a noise-cancelling headset for the ecosystem video · Maya needs a colour-coded step diagram</p>
+        </div>
+        <div class="recommendation-actions">
+          <div class="recommendation-actions-row">
+            <button onclick="trackEvent('ai_hero_applied',{lesson:'science_thursday'});window.location.href='planner.html'" class="recommendation-apply-btn">Apply to lesson</button>
+            <button onclick="trackEvent('ai_hero_dismissed',{lesson:'science_thursday'});const b=document.getElementById('ai-hero-banner');b.style.transition='max-height 0.3s ease, opacity 0.3s ease';b.style.overflow='hidden';b.style.maxHeight='0';b.style.opacity='0';setTimeout(()=>b.remove(),300)" class="recommendation-dismiss-btn">Dismiss</button>
+          </div>
+          <span class="recommendation-powered">Powered by AI</span>
+        </div>
+      </div>
+
       <!-- Section A: Stats — 3 equal cards -->
       <div id="section-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px"></div>
-
-      <!-- Section B: AI Summary -->
-      <div id="section-ai"
-        style="background:#F0FDF4;border:1px solid #BBF7D0;border-left:4px solid #059669;border-radius:12px;padding:20px">
-      </div>
 
       <!-- Section C: Adjustments per student -->
       <div class="summary-panel">
