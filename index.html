@@ -34,6 +34,8 @@
     <!-- Top bar -->
     <header class="app-topbar sticky top-0 z-20">
       <div>
+        <p style="font-size:13px;color:#6B7280;margin:0 0 2px;font-weight:400"
+          id="greeting-text"></p>
         <h1>This week's lesson plans</h1>
         <p id="lesson-summary">4 lessons · 5 SEN students</p>
       </div>
@@ -43,6 +45,80 @@
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
           Export adjustments
         </button>
+        <div id="notif-container" style="position:relative">
+          <button id="notif-btn"
+            onclick="toggleNotifications()"
+            style="position:relative;width:36px;height:36px;border-radius:50%;
+            background:white;border:1px solid #E5E7EB;cursor:pointer;
+            display:flex;align-items:center;justify-content:center">
+            <svg width="16" height="16" fill="none" stroke="#374151" stroke-width="2"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12
+                0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+            </svg>
+            <span id="notif-dot" style="position:absolute;top:6px;right:6px;width:8px;height:8px;
+            background:#EF4444;border-radius:50%;border:1.5px solid white"></span>
+          </button>
+
+          <div id="notif-dropdown"
+            style="display:none;position:absolute;top:44px;right:0;width:300px;
+            background:white;border:1px solid #E5E7EB;border-radius:14px;
+            box-shadow:0 8px 24px rgba(0,0,0,0.1);z-index:999;overflow:hidden">
+
+            <div style="padding:14px 16px;border-bottom:1px solid #F3F4F6;
+            display:flex;align-items:center;justify-content:space-between">
+              <span style="font-size:14px;font-weight:600;color:#111827">Notifications</span>
+              <span onclick="markAllNotificationsRead()" style="font-size:11px;color:#059669;cursor:pointer;font-weight:500">
+                Mark all read
+              </span>
+            </div>
+
+            <div style="padding:8px 0">
+
+              <div id="notif-unread" style="padding:12px 16px;display:flex;gap:12px;align-items:flex-start;
+              background:#F0FDF4;border-left:3px solid #059669">
+                <div id="notif-unread-dot" style="width:8px;height:8px;background:#059669;border-radius:50%;
+                margin-top:5px;flex-shrink:0"></div>
+                <div>
+                  <p style="font-size:13px;font-weight:500;color:#111827;margin:0 0 2px">
+                    Thursday's Science lesson needs prep
+                  </p>
+                  <p style="font-size:12px;color:#6B7280;margin:0">
+                    Liam + Maya need adjustments · 2 days away
+                  </p>
+                </div>
+              </div>
+
+              <div style="padding:12px 16px;display:flex;gap:12px;align-items:flex-start">
+                <div style="width:8px;height:8px;background:#D1D5DB;border-radius:50%;
+                margin-top:5px;flex-shrink:0"></div>
+                <div>
+                  <p style="font-size:13px;font-weight:500;color:#111827;margin:0 0 2px">
+                    Weekly summary is ready
+                  </p>
+                  <p style="font-size:12px;color:#6B7280;margin:0">
+                    Week 9 · 42 adjustments across 4 lessons
+                  </p>
+                </div>
+              </div>
+
+              <div style="padding:12px 16px;display:flex;gap:12px;align-items:flex-start">
+                <div style="width:8px;height:8px;background:#D1D5DB;border-radius:50%;
+                margin-top:5px;flex-shrink:0"></div>
+                <div>
+                  <p style="font-size:13px;font-weight:500;color:#111827;margin:0 0 2px">
+                    Maya R. assessment updated
+                  </p>
+                  <p style="font-size:12px;color:#6B7280;margin:0">
+                    New visual support strategies added
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
         <button id="new-lesson-btn" class="btn-solid">
           + New lesson
         </button>
@@ -87,6 +163,34 @@
   <script src="js/sidebar.js"></script>
   <script src="js/lesson-plans.js"></script>
   <script>
+    const hour = new Date().getHours()
+    const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
+    document.getElementById('greeting-text').textContent = greeting + ', Mrs. Chen 👋'
+  </script>
+  <script>
+  function toggleNotifications() {
+    const d = document.getElementById('notif-dropdown')
+    d.style.display = d.style.display === 'block' ? 'none' : 'block'
+  }
+  function markAllNotificationsRead() {
+    const dot = document.getElementById('notif-dot')
+    const unread = document.getElementById('notif-unread')
+    const unreadDot = document.getElementById('notif-unread-dot')
+    if (dot) dot.style.display = 'none'
+    if (unread) {
+      unread.style.background = 'white'
+      unread.style.borderLeft = '3px solid transparent'
+    }
+    if (unreadDot) unreadDot.style.background = '#D1D5DB'
+  }
+  document.addEventListener('click', function(e) {
+    const container = document.getElementById('notif-container')
+    if (container && !container.contains(e.target)) {
+      document.getElementById('notif-dropdown').style.display = 'none'
+    }
+  })
+  </script>
+  <script>
     ;(() => {
       const style = document.createElement('style')
       style.textContent = `
@@ -98,10 +202,22 @@
           0%, 80%, 100% { opacity: .28; transform: translateY(0); }
           40% { opacity: 1; transform: translateY(-2px); }
         }
+        @keyframes ally-scale-in {
+          from { transform: scale(0); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes ally-bubble-in {
+          from { opacity:0; transform:translateY(8px) scale(0.95); }
+          to { opacity:1; transform:translateY(0) scale(1); }
+        }
+        @keyframes ally-bubble-out {
+          from { opacity:1; transform:translateY(0) scale(1); }
+          to { opacity:0; transform:translateY(8px) scale(0.95); }
+        }
       `
       document.head.appendChild(style)
 
-      const initialAssistantMessage = "Hi Mrs. Chen! 👋 I've noted Thursday's Science lesson needs prep. Liam needs a noise-cancelling headset and Maya needs a colour-coded step diagram. Want me to suggest more resources for either student?"
+      const initialAssistantMessage = "Hi Mrs. Chen! 👋 I'm Ally, your SEN planning assistant.\nThursday's Science lesson needs prep —\nLiam needs a noise-cancelling headset and Maya needs a colour-coded step diagram. Want me to suggest more?"
       const chatState = {
         bubbleVisible: false,
         panelOpen: false,
@@ -110,6 +226,8 @@
         loading: false,
         history: [],
       }
+      let allySpeechShowTimer = null
+      let allySpeechHideTimer = null
 
       function ensureChatUI() {
         if (document.getElementById('ai-chatbot-root')) return
@@ -139,8 +257,21 @@
             ">
             <div style="height:48px;background:linear-gradient(135deg, #059669, #0d9488);display:flex;align-items:center;justify-content:space-between;padding:0 14px;flex-shrink:0">
               <div style="display:flex;align-items:center;gap:8px;color:white">
-                <span style="font-size:16px;line-height:1">✦</span>
-                <span style="font-size:13px;font-weight:600">Science lesson assistant</span>
+                <div style="width:32px;height:32px;border-radius:999px;background:linear-gradient(135deg, #059669, #0d9488);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  <svg width="22" height="22" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:block">
+                    <ellipse cx="60" cy="36" rx="34" ry="9" fill="rgba(255,255,255,0.3)"/>
+                    <polygon points="60,2 86,36 34,36" fill="rgba(255,255,255,0.3)"/>
+                    <text x="52" y="22" font-size="10" fill="#FCD34D">✦</text>
+                    <circle cx="48" cy="72" r="11" fill="white"/>
+                    <circle cx="72" cy="72" r="11" fill="white"/>
+                    <circle cx="50" cy="73" r="6" fill="#065F46"/>
+                    <circle cx="74" cy="73" r="6" fill="#065F46"/>
+                    <circle cx="52" cy="71" r="2.5" fill="white"/>
+                    <circle cx="76" cy="71" r="2.5" fill="white"/>
+                    <path d="M 48 88 Q 60 98 72 88" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <span style="font-size:13px;font-weight:600">Ally · Science lesson assistant</span>
               </div>
               <button id="ai-chat-close"
                 type="button"
@@ -192,6 +323,17 @@
             </div>
           </div>
 
+          <div id="ally-speech"
+            style="display:none;position:fixed;bottom:88px;right:24px;z-index:9999;
+            background:white;border:1px solid #E5E7EB;border-radius:14px 14px 4px 14px;
+            padding:12px 16px;font-size:13px;color:#111827;font-weight:500;
+            box-shadow:0 4px 20px rgba(0,0,0,0.12);max-width:210px;line-height:1.5">
+            Hi Mrs. Chen! 👋 Need help planning?
+            <div style="position:absolute;bottom:-8px;right:16px;width:0;height:0;
+            border-left:8px solid transparent;border-right:0px solid transparent;
+            border-top:8px solid white;"></div>
+          </div>
+
           <button id="ai-chat-bubble"
             type="button"
             title="Chat with AI about Thursday's Science lesson"
@@ -206,7 +348,7 @@
               border-radius:999px;
               background:linear-gradient(135deg, #059669, #0d9488);
               color:white;
-              display:flex;
+              display:none;
               align-items:center;
               justify-content:center;
               cursor:pointer;
@@ -216,14 +358,26 @@
               pointer-events:none;
               transition:opacity 0.2s ease, transform 0.2s ease;
             ">
-            <span style="font-size:20px;line-height:1">✦</span>
+            <span class="recommendation-spark">✦</span>
             <span style="position:absolute;top:8px;right:8px;width:10px;height:10px;border-radius:999px;background:#10B981;border:2px solid white"></span>
           </button>
         `
 
         document.body.appendChild(root)
 
-        document.getElementById('ai-chat-bubble').addEventListener('click', toggleChatPanel)
+        document.getElementById('ai-chat-bubble').addEventListener('click', () => {
+          const speech = document.getElementById('ally-speech')
+          if (allySpeechShowTimer) {
+            clearTimeout(allySpeechShowTimer)
+            allySpeechShowTimer = null
+          }
+          if (allySpeechHideTimer) {
+            clearTimeout(allySpeechHideTimer)
+            allySpeechHideTimer = null
+          }
+          speech.style.display = 'none'
+          toggleChatPanel()
+        })
         document.getElementById('ai-chat-close').addEventListener('click', closeChatPanel)
         document.getElementById('ai-chat-send').addEventListener('click', sendChatMessage)
         document.getElementById('ai-chat-input').addEventListener('keydown', (event) => {
@@ -291,16 +445,30 @@
       function showChatBubble(trigger) {
         ensureChatUI()
         const bubble = document.getElementById('ai-chat-bubble')
+        const speech = document.getElementById('ally-speech')
         if (!bubble) return
 
         chatState.trigger = trigger
-        if (!chatState.bubbleVisible) {
-          chatState.bubbleVisible = true
-          bubble.style.pointerEvents = 'auto'
-          bubble.style.opacity = '1'
-          bubble.style.transform = 'scale(1)'
-          bubble.style.animation = 'aiChatEnter 0.22s ease'
+        chatState.bubbleVisible = true
+        bubble.style.display = 'flex'
+        bubble.style.pointerEvents = 'auto'
+        bubble.style.opacity = '1'
+        bubble.style.transform = 'scale(1)'
+        bubble.style.animation = 'ally-scale-in 0.4s ease forwards, ally-float 3s ease-in-out 0.4s infinite'
+        if (speech) {
+          speech.style.display = 'none'
         }
+        if (allySpeechShowTimer) clearTimeout(allySpeechShowTimer)
+        if (allySpeechHideTimer) clearTimeout(allySpeechHideTimer)
+        allySpeechShowTimer = setTimeout(() => {
+          if (!speech || chatState.panelOpen) return
+          speech.style.display = 'block'
+          speech.style.animation = 'ally-bubble-in 0.3s ease forwards'
+          allySpeechHideTimer = setTimeout(() => {
+            speech.style.animation = 'ally-bubble-out 0.3s ease forwards'
+            setTimeout(() => { speech.style.display = 'none' }, 300)
+          }, 4000)
+        }, 2000)
 
         if (window.trackEvent) {
           trackEvent('chatbot_opened', { trigger })
@@ -415,21 +583,52 @@
         }
       }
 
+      function removeRecommendationBannerAndShowChat(trigger) {
+        const banner = document.getElementById('rec-banner')
+        if (!banner) {
+          showChatBubble(trigger)
+          return
+        }
+
+        banner.style.transition = 'opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease, margin 0.3s ease'
+        banner.style.overflow = 'hidden'
+        banner.style.opacity = '0'
+        banner.style.transform = 'translateY(-8px)'
+        banner.style.maxHeight = '0'
+        banner.style.marginTop = '0'
+        banner.style.marginBottom = '0'
+        banner.style.paddingTop = '0'
+        banner.style.paddingBottom = '0'
+
+        setTimeout(() => {
+          banner.remove()
+          showChatBubble(trigger)
+        }, 300)
+      }
+
       window.handleRecommendationApply = function handleRecommendationApply() {
         if (window.trackEvent) {
           trackEvent('recommendation_applied', { lessonId: 'math-fractions' })
         }
-        showChatBubble('apply')
+        removeRecommendationBannerAndShowChat('apply')
       }
 
       window.handleRecommendationDismiss = function handleRecommendationDismiss() {
         if (window.trackEvent) {
           trackEvent('recommendation_dismissed', {})
         }
-        document.getElementById('rec-banner')?.remove()
-        showChatBubble('dismiss')
+        removeRecommendationBannerAndShowChat('dismiss')
       }
+
+      ensureChatUI()
     })()
   </script>
+  <style>
+  @keyframes ally-float {
+    0%   { transform: translateY(0px);  box-shadow: 0 0 15px 4px rgba(5,150,105,0.3); }
+    50%  { transform: translateY(-10px); box-shadow: 0 0 35px 12px rgba(5,150,105,0.5); }
+    100% { transform: translateY(0px);  box-shadow: 0 0 15px 4px rgba(5,150,105,0.3); }
+  }
+  </style>
 </body>
 </html>

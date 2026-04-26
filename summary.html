@@ -27,8 +27,82 @@
     <!-- Top bar -->
     <header class="app-topbar sticky top-0 z-20">
       <div>
-        <h1>Weekly teaching insights</h1>
-        <p>Week 9 · Term 2 · AI-assisted summary of support patterns and lesson complexity.</p>
+        <h1>Weekly planning support</h1>
+        <p>Week 9 · Term 2 · AI-assisted adjustments to reduce lesson preparation time.</p>
+      </div>
+      <div id="notif-container" style="position:relative">
+        <button id="notif-btn"
+          onclick="toggleNotifications()"
+          style="position:relative;width:36px;height:36px;border-radius:50%;
+          background:white;border:1px solid #E5E7EB;cursor:pointer;
+          display:flex;align-items:center;justify-content:center">
+          <svg width="16" height="16" fill="none" stroke="#374151" stroke-width="2"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12
+              0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+          </svg>
+          <span id="notif-dot" style="position:absolute;top:6px;right:6px;width:8px;height:8px;
+          background:#EF4444;border-radius:50%;border:1.5px solid white"></span>
+        </button>
+
+        <div id="notif-dropdown"
+          style="display:none;position:absolute;top:44px;right:0;width:300px;
+          background:white;border:1px solid #E5E7EB;border-radius:14px;
+          box-shadow:0 8px 24px rgba(0,0,0,0.1);z-index:999;overflow:hidden">
+
+          <div style="padding:14px 16px;border-bottom:1px solid #F3F4F6;
+          display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:14px;font-weight:600;color:#111827">Notifications</span>
+            <span onclick="markAllNotificationsRead()" style="font-size:11px;color:#059669;cursor:pointer;font-weight:500">
+              Mark all read
+            </span>
+          </div>
+
+          <div style="padding:8px 0">
+
+            <div id="notif-unread" style="padding:12px 16px;display:flex;gap:12px;align-items:flex-start;
+            background:#F0FDF4;border-left:3px solid #059669">
+              <div id="notif-unread-dot" style="width:8px;height:8px;background:#059669;border-radius:50%;
+              margin-top:5px;flex-shrink:0"></div>
+              <div>
+                <p style="font-size:13px;font-weight:500;color:#111827;margin:0 0 2px">
+                  Thursday's Science lesson needs prep
+                </p>
+                <p style="font-size:12px;color:#6B7280;margin:0">
+                  Liam + Maya need adjustments · 2 days away
+                </p>
+              </div>
+            </div>
+
+            <div style="padding:12px 16px;display:flex;gap:12px;align-items:flex-start">
+              <div style="width:8px;height:8px;background:#D1D5DB;border-radius:50%;
+              margin-top:5px;flex-shrink:0"></div>
+              <div>
+                <p style="font-size:13px;font-weight:500;color:#111827;margin:0 0 2px">
+                  Weekly summary is ready
+                </p>
+                <p style="font-size:12px;color:#6B7280;margin:0">
+                  Week 9 · 42 adjustments across 4 lessons
+                </p>
+              </div>
+            </div>
+
+            <div style="padding:12px 16px;display:flex;gap:12px;align-items:flex-start">
+              <div style="width:8px;height:8px;background:#D1D5DB;border-radius:50%;
+              margin-top:5px;flex-shrink:0"></div>
+              <div>
+                <p style="font-size:13px;font-weight:500;color:#111827;margin:0 0 2px">
+                  Maya R. assessment updated
+                </p>
+                <p style="font-size:12px;color:#6B7280;margin:0">
+                  New visual support strategies added
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
     </header>
 
@@ -79,6 +153,40 @@
       <div class="summary-panel">
         <h2 style="font-size:16px;font-weight:600;color:#111827;margin:0 0 16px">Support patterns this week</h2>
         <div id="section-patterns" style="display:flex;flex-direction:column;gap:14px"></div>
+      </div>
+
+      <div style="background:white;border-radius:16px;border:1px solid #E5E7EB;
+padding:24px 28px;display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <h2 style="font-size:16px;font-weight:600;color:#111827;margin:0 0 4px">
+            Ready for next week?
+          </h2>
+          <p style="font-size:13px;color:#6B7280;margin:0">
+            Pick up where you left off
+          </p>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button
+            onclick="trackEvent('next_week_prepare',{});window.location.href='planner.html'"
+            style="padding:10px 18px;background:#059669;color:white;border:none;
+            border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">
+            Prepare next lesson
+          </button>
+          <button
+            onclick="trackEvent('next_week_profiles',{});window.location.href='students.html'"
+            style="padding:10px 18px;background:white;color:#374151;
+            border:1px solid #D1D5DB;border-radius:10px;font-size:13px;
+            font-weight:500;cursor:pointer;font-family:inherit">
+            Review student profiles
+          </button>
+          <button
+            onclick="trackEvent('next_week_export',{});window.location.href='report.html?week=9'"
+            style="padding:10px 18px;background:white;color:#374151;
+            border:1px solid #D1D5DB;border-radius:10px;font-size:13px;
+            font-weight:500;cursor:pointer;font-family:inherit">
+            Export this week's report
+          </button>
+        </div>
       </div>
 
     </div>
@@ -244,6 +352,28 @@
   <script src="js/summary.js"></script>
 
   <script>
+    function toggleNotifications() {
+      const d = document.getElementById('notif-dropdown')
+      d.style.display = d.style.display === 'block' ? 'none' : 'block'
+    }
+    function markAllNotificationsRead() {
+      const dot = document.getElementById('notif-dot')
+      const unread = document.getElementById('notif-unread')
+      const unreadDot = document.getElementById('notif-unread-dot')
+      if (dot) dot.style.display = 'none'
+      if (unread) {
+        unread.style.background = 'white'
+        unread.style.borderLeft = '3px solid transparent'
+      }
+      if (unreadDot) unreadDot.style.background = '#D1D5DB'
+    }
+    document.addEventListener('click', function(e) {
+      const container = document.getElementById('notif-container')
+      if (container && !container.contains(e.target)) {
+        document.getElementById('notif-dropdown').style.display = 'none'
+      }
+    })
+
     // ── Notes drawer ──────────────────────────────────────────────────────────
     function openNotesDrawer() {
       document.getElementById('notes-drawer').style.transform = 'translateX(0)'

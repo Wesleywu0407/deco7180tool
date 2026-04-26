@@ -287,6 +287,24 @@ function saveStudent(studentInput) {
   return student
 }
 
+function updateStudent(studentId, studentInput) {
+  const students = getStudents()
+  const existingStudent = students.find((student) => student.id === studentId)
+  if (!existingStudent) return null
+
+  const updatedStudent = normalizeStudent({
+    ...existingStudent,
+    ...studentInput,
+    id: studentId,
+    color: existingStudent.color,
+    avatarBg: existingStudent.avatarBg,
+  })
+
+  const nextStudents = students.map((student) => student.id === studentId ? updatedStudent : student)
+  safeWrite(STORAGE_KEYS.students, nextStudents)
+  return updatedStudent
+}
+
 function saveLesson(lessonInput) {
   const lessons = getLessons()
   const lesson = normalizeLesson(lessonInput)
@@ -498,6 +516,7 @@ window.AdjustStore = {
   getStudent,
   getLesson,
   saveStudent,
+  updateStudent,
   saveLesson,
   updateLesson,
   deleteLesson,

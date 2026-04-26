@@ -55,7 +55,7 @@ function renderSidebar(activePage) {
     <aside style="width:220px;min-width:220px" class="fixed top-0 left-0 h-screen bg-white border-r border-[#F3F4F6] flex flex-col z-30">
       <!-- Brand -->
       <div class="px-4 pt-5 pb-5 border-b border-[#F3F4F6]">
-        <div class="flex items-center gap-3">
+        <a href="index.html" title="Go to home" style="text-decoration:none;display:flex;align-items:center;gap:10px;padding:4px;border-radius:10px;transition:background 0.15s" onmouseenter="this.style.background='rgba(0,0,0,0.04)'" onmouseleave="this.style.background='transparent'">
           <div class="brand-mark" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5.5 8.75a1.75 1.75 0 0 1 1.75-1.75H10a5 5 0 0 1 4 1.95V17a5 5 0 0 0-4-1.95H7.25A1.75 1.75 0 0 0 5.5 16.8v-8.05Z" fill="currentColor" stroke="none"/>
@@ -68,7 +68,7 @@ function renderSidebar(activePage) {
             <p class="text-[18px] font-bold text-[#111827] leading-tight">Adjust</p>
             <p class="text-[11px] text-[#9CA3AF] mt-0.5 leading-tight">SEN lesson planning tool</p>
           </div>
-        </div>
+        </a>
       </div>
 
       <!-- Main nav -->

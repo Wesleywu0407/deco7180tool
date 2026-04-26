@@ -12,6 +12,7 @@ let lesson = isNewLesson
       session:'Period 1', duration:'60 min', goals:'', assessment:'', studentIds:[] }
   : (window.AdjustStore.getLesson(lessonId) || fallbackLesson)
 
+const currentLessonId = lesson?.id || 'new'
 let selectedIds  = [...(lesson.studentIds || [])]
 let adjustments  = window.AdjustStore.generateAdjustmentSuggestions(lesson, selectedIds)
 let plannerSuccessMessage = ''
@@ -326,18 +327,29 @@ function renderContext() {
   if (footer) {
     footer.className = 'planner-save-footer'
     footer.innerHTML = `
-      <button onclick="alert('Lesson plan saved!')"
-        style="width:100%;height:48px;display:flex;align-items:center;justify-content:center;
-               gap:8px;padding:12px 20px;background:#059669;color:white;font-size:14px;
-               font-weight:500;border:none;border-radius:10px;cursor:pointer;
-               transition:background 0.15s ease"
-        onmouseover="this.style.background='#047857'"
-        onmouseout="this.style.background='#059669'">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-        </svg>
-        Save lesson plan
-      </button>
+      <div style="display:flex;gap:12px">
+        <button onclick="applyAllAdjustments()"
+          style="flex:1;padding:14px;background:white;color:#059669;
+          border:2px solid #059669;border-radius:12px;font-size:15px;
+          font-weight:600;cursor:pointer;font-family:inherit;
+          transition:background 0.15s"
+          onmouseenter="this.style.background='#F0FDF4'"
+          onmouseleave="this.style.background='white'">
+          ✓ Apply all adjustments
+        </button>
+        <button onclick="alert('Lesson plan saved!')"
+          style="flex:1;height:48px;display:flex;align-items:center;justify-content:center;
+                 gap:8px;padding:12px 20px;background:#059669;color:white;font-size:14px;
+                 font-weight:500;border:none;border-radius:10px;cursor:pointer;
+                 transition:background 0.15s ease"
+          onmouseover="this.style.background='#047857'"
+          onmouseout="this.style.background='#059669'">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+          </svg>
+          Save lesson plan
+        </button>
+      </div>
     `
   }
 }
@@ -389,9 +401,20 @@ function renderAdjustments() {
   }
 
   // ── Filter + render cards ─────────────────────────────────────────────────
-  const visible = activeFilter === 'all'
-    ? adjustments
+  const categoryPriority = {
+    materials: 0,
+    participation: 1,
+    assessment: 2,
+    technology: 3,
+  }
+  const visible = (activeFilter === 'all'
+    ? [...adjustments]
     : adjustments.filter(a => a.category.toLowerCase() === activeFilter)
+  ).sort((a, b) => {
+    const aPriority = categoryPriority[a.category.toLowerCase()] ?? 99
+    const bPriority = categoryPriority[b.category.toLowerCase()] ?? 99
+    return aPriority - bPriority
+  })
 
   if (adjustments.length === 0) {
     list.innerHTML = `<p style="font-size:12px;color:#9CA3AF;font-style:italic;text-align:center;margin-top:24px">
@@ -400,33 +423,64 @@ function renderAdjustments() {
     list.innerHTML = `<p style="font-size:12px;color:#9CA3AF;font-style:italic;text-align:center;margin-top:24px">
       No ${activeFilter} adjustments for the selected students.</p>`
   } else {
-    list.innerHTML = visible.map(adj => `
-      <div class="adj-card ${adj.checked ? 'checked' : ''}" id="adj-${adj.id}">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
-          <div style="flex:1;min-width:0">
-            <!-- Category badge -->
-            <span class="adj-cat-badge"
-              style="background:${adj.catBg};color:${adj.catText}">${adj.category}</span>
-            <!-- Student name -->
-            <p style="font-size:12px;font-weight:500;color:#6B7280;margin-top:6px;margin-bottom:4px">
-              ${adj.studentName}
-            </p>
-            <!-- Description — never truncated -->
-            <p style="font-size:13px;line-height:1.65;color:#374151">${adj.description}</p>
-          </div>
-          <!-- Checkbox (top-right, 18px) -->
-          <div class="checkbox-box ${adj.checked ? 'checked' : ''}"
-               onclick="toggleAdjustment('${adj.id}')"
-               style="margin-top:2px;flex-shrink:0">
-            ${adj.checked
-              ? `<svg width="10" height="10" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24">
-                   <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                 </svg>`
-              : ''}
+    list.innerHTML = visible.map((adj, index) => {
+      const student = window.AdjustStore.getStudent(adj.studentId)
+      const categoryKey = adj.category.toUpperCase()
+      const accent = categoryKey === 'MATERIALS'
+        ? '#3B82F6'
+        : categoryKey === 'PARTICIPATION'
+        ? '#F59E0B'
+        : categoryKey === 'ASSESSMENT'
+        ? '#8B5CF6'
+        : categoryKey === 'TECHNOLOGY'
+        ? '#10B981'
+        : '#D1D5DB'
+      const tint = categoryKey === 'MATERIALS'
+        ? '#EFF6FF'
+        : categoryKey === 'PARTICIPATION'
+        ? '#FFFBEB'
+        : categoryKey === 'ASSESSMENT'
+        ? '#F5F3FF'
+        : categoryKey === 'TECHNOLOGY'
+        ? '#ECFDF5'
+        : '#FFFFFF'
+
+      return `
+        <div class="adj-card ${adj.checked ? 'checked' : ''}" id="adj-${adj.id}"
+          style="border-left:3px solid ${accent};background:${tint};opacity:${adj.checked ? '0.5' : '1'};
+          transition:opacity 0.2s ease, background 0.2s ease;border-bottom:${index < visible.length - 1 ? '1px solid #F3F4F6' : 'none'};
+          margin-bottom:${index < visible.length - 1 ? '12px' : '0'};padding-bottom:${index < visible.length - 1 ? '12px' : '0'}">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:14px">
+            <div style="flex:1;min-width:0">
+              <span class="adj-cat-badge"
+                style="background:${adj.catBg};color:${adj.catText}">${adj.category}</span>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:8px;margin-bottom:6px">
+                <div class="avatar" style="width:20px;height:20px;min-width:20px;font-size:8px;
+                  font-weight:700;background:${student?.avatarBg || '#9CA3AF'}">${student?.initials || ''}</div>
+                <p style="font-size:12px;font-weight:500;color:#6B7280;margin:0">${adj.studentName}</p>
+              </div>
+              <p style="font-size:13px;line-height:1.65;color:#374151;margin:0;
+                text-decoration:${adj.checked ? 'line-through' : 'none'};
+                transition:opacity 0.2s ease,text-decoration-color 0.2s ease">${adj.description}</p>
+            </div>
+            <label style="display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;position:relative">
+              <input type="checkbox" ${adj.checked ? 'checked' : ''}
+                onclick="toggleAdjustment('${adj.id}')"
+                style="position:absolute;opacity:0;width:1px;height:1px;margin:0" />
+              <div class="checkbox-box ${adj.checked ? 'checked' : ''}"
+                   style="width:24px;height:24px;min-width:24px;display:flex;align-items:center;justify-content:center;
+                   border-radius:8px;flex-shrink:0">
+                ${adj.checked
+                  ? `<svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24">
+                       <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                     </svg>`
+                  : ''}
+              </div>
+            </label>
           </div>
         </div>
-      </div>
-    `).join('')
+      `
+    }).join('')
   }
 
   // ── Progress (always based on ALL adjustments, not filtered view) ─────────
@@ -556,13 +610,13 @@ function toggleAdjustment(id) {
   }
 
   // ── Micro-feedback toast after checking ────────────────────────────────────
-  if (adj.checked && window.AdjustFeedback) {
-    AdjustFeedback.showMicroFeedback({
-      question: 'Was this adjustment useful?',
-      options:  ['Yes, very useful', 'Somewhat', 'Not really'],
-      context:  `adjustment:${id}`,
-    })
-  }
+  // if (adj.checked && window.AdjustFeedback) {
+  //   AdjustFeedback.showMicroFeedback({
+  //     question: 'Was this adjustment useful?',
+  //     options:  ['Yes, very useful', 'Somewhat', 'Not really'],
+  //     context:  `adjustment:${id}`,
+  //   })
+  // }
 
   renderAdjustments()
 }
@@ -577,7 +631,14 @@ function setAdjFilter(key) {
   renderAdjustments()
 }
 
+function applyAllAdjustments() {
+  document.querySelectorAll('#adjustments-list input[type=checkbox]')
+    .forEach(cb => { if (!cb.checked) cb.click() })
+  trackEvent('apply_all_clicked', { lessonId: currentLessonId })
+}
+
 // ─── Expose to HTML onclick handlers ──────────────────────────────────────────
+window.applyAllAdjustments = applyAllAdjustments
 window.toggleStudent    = toggleStudent
 window.toggleAdjustment = toggleAdjustment
 window.filterRoster     = filterRoster
