@@ -1,0 +1,439 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.root{display:flex;height:680px;font-family:var(--font-sans);font-size:14px;overflow:hidden;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);}
+.sidebar{width:200px;border-right:0.5px solid var(--color-border-tertiary);display:flex;flex-direction:column;background:var(--color-background-secondary);flex-shrink:0;}
+.sidebar-logo{padding:16px 14px 12px;border-bottom:0.5px solid var(--color-border-tertiary);}
+.logo-text{font-size:16px;font-weight:500;color:var(--color-text-primary);}
+.logo-sub{font-size:10px;color:var(--color-text-tertiary);margin-top:2px;}
+.nav-section{padding:10px 8px 4px;font-size:10px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:0.07em;text-transform:uppercase;}
+.nav-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:6px;cursor:pointer;margin:1px 6px;color:var(--color-text-secondary);font-size:13px;transition:background 0.12s;}
+.nav-item:hover{background:var(--color-background-primary);}
+.nav-item.active{background:var(--color-background-primary);color:var(--color-text-primary);font-weight:500;}
+.nav-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.dot-green{background:#1D9E75;}
+.dot-purple{background:#7F77DD;}
+.dot-amber{background:#BA7517;}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:0.5px solid var(--color-border-tertiary);flex-shrink:0;}
+.topbar-title{font-size:15px;font-weight:500;color:var(--color-text-primary);}
+.topbar-sub{font-size:12px;color:var(--color-text-tertiary);margin-top:1px;}
+.btn{font-size:12px;padding:6px 14px;border-radius:6px;cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-family:var(--font-sans);}
+.btn-primary{background:#1D9E75;color:white;border-color:#1D9E75;}
+.btn:hover{background:var(--color-background-secondary);}
+.btn-primary:hover{background:#0F6E56;}
+.content{flex:1;overflow:auto;padding:16px 18px;}
+.page{display:none;}
+.page.active{display:block;}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-bottom:16px;}
+.lesson-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:12px 14px;cursor:pointer;transition:border-color 0.15s;}
+.lesson-card:hover{border-color:#1D9E75;}
+.lc-subject{font-size:10px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.06em;}
+.lc-title{font-size:14px;font-weight:500;color:var(--color-text-primary);margin:4px 0 6px;}
+.lc-meta{font-size:11px;color:var(--color-text-secondary);}
+.lc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:0.5px solid var(--color-border-tertiary);}
+.stu-pills{display:flex;gap:4px;}
+.stu-dot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;}
+.sd-green{background:#9FE1CB;color:#085041;}
+.sd-purple{background:#CECBF6;color:#3C3489;}
+.sd-amber{background:#FAC775;color:#633806;}
+.sd-blue{background:#B5D4F4;color:#0C447C;}
+.sd-pink{background:#F4C0D1;color:#72243E;}
+.adj-count{font-size:11px;color:var(--color-text-tertiary);}
+.section-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px;}
+.planner-grid{display:grid;grid-template-columns:180px 1fr 260px;gap:10px;height:520px;}
+.panel{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:12px;display:flex;flex-direction:column;gap:8px;overflow:auto;}
+.panel-label{font-size:10px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:0.07em;text-transform:uppercase;padding-bottom:6px;border-bottom:0.5px solid var(--color-border-tertiary);flex-shrink:0;}
+.stu-card{border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:8px 9px;cursor:pointer;transition:all 0.12s;}
+.stu-card:hover{background:var(--color-background-secondary);}
+.stu-card.sel{border:1.5px solid #1D9E75;background:#E1F5EE;}
+.stu-name{font-size:12px;font-weight:500;color:var(--color-text-primary);}
+.stu-card.sel .stu-name{color:#085041;}
+.tag-row{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px;}
+.tag{font-size:9px;padding:2px 6px;border-radius:999px;font-weight:500;}
+.t-dys{background:#B5D4F4;color:#0C447C;}
+.t-asd{background:#CECBF6;color:#3C3489;}
+.t-adhd{background:#FAC775;color:#633806;}
+.t-phy{background:#F4C0D1;color:#72243E;}
+.t-hea{background:#C0DD97;color:#27500A;}
+.lesson-info{background:var(--color-background-secondary);border-radius:6px;padding:10px 11px;flex-shrink:0;}
+.li-subj{font-size:10px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.06em;}
+.li-title{font-size:14px;font-weight:500;color:var(--color-text-primary);margin:3px 0 2px;}
+.li-meta{font-size:11px;color:var(--color-text-secondary);}
+.info-label{font-size:11px;font-weight:500;color:var(--color-text-secondary);}
+.info-text{font-size:12px;color:var(--color-text-primary);line-height:1.55;margin-top:2px;}
+.sel-pills{display:flex;flex-wrap:wrap;gap:5px;}
+.sel-pill{font-size:11px;padding:3px 9px;border-radius:999px;background:#E1F5EE;color:#085041;border:0.5px solid #5DCAA5;}
+.adj-list{display:flex;flex-direction:column;gap:7px;}
+.adj-card{border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:8px 10px;transition:opacity 0.2s;}
+.adj-card.done{opacity:0.4;}
+.adj-top{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.adj-type{font-size:9px;font-weight:500;padding:2px 6px;border-radius:999px;}
+.at-mat{background:#B5D4F4;color:#0C447C;}
+.at-ass{background:#CECBF6;color:#3C3489;}
+.at-par{background:#FAC775;color:#633806;}
+.at-tec{background:#C0DD97;color:#27500A;}
+.adj-who{font-size:10px;color:var(--color-text-tertiary);}
+.adj-text{font-size:12px;color:var(--color-text-primary);line-height:1.5;}
+.check-btn{width:16px;height:16px;border-radius:3px;border:1.5px solid var(--color-border-secondary);background:transparent;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-left:auto;}
+.check-btn.checked{background:#1D9E75;border-color:#1D9E75;}
+.check-tick{width:8px;height:8px;display:none;}
+.check-btn.checked .check-tick{display:block;}
+.empty{font-size:12px;color:var(--color-text-tertiary);font-style:italic;text-align:center;padding:1.5rem 0;}
+.progress-row{display:flex;align-items:center;gap:8px;padding-top:8px;border-top:0.5px solid var(--color-border-tertiary);flex-shrink:0;}
+.prog-bar-bg{flex:1;height:5px;border-radius:999px;background:var(--color-background-secondary);}
+.prog-bar-fill{height:100%;border-radius:999px;background:#1D9E75;transition:width 0.25s;}
+.prog-label{font-size:10px;color:var(--color-text-tertiary);white-space:nowrap;}
+.stu-page-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.stu-profile{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px;}
+.sp-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding-bottom:10px;border-bottom:0.5px solid var(--color-border-tertiary);}
+.sp-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0;}
+.sp-name{font-size:14px;font-weight:500;color:var(--color-text-primary);}
+.sp-year{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
+.sp-section{font-size:10px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px;margin-top:10px;}
+.sp-needs{display:flex;flex-wrap:wrap;gap:4px;}
+.sp-note{font-size:12px;color:var(--color-text-secondary);line-height:1.55;}
+.sp-adj-item{display:flex;align-items:flex-start;gap:7px;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary);}
+.sp-adj-item:last-child{border-bottom:none;}
+.sp-adj-dot{width:6px;height:6px;border-radius:50%;background:#1D9E75;margin-top:5px;flex-shrink:0;}
+.sp-adj-text{font-size:12px;color:var(--color-text-primary);line-height:1.5;}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.stat-card{background:var(--color-background-secondary);border-radius:6px;padding:10px 12px;}
+.stat-num{font-size:22px;font-weight:500;color:var(--color-text-primary);}
+.stat-label{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
+.bar-row{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 14px;margin-bottom:8px;}
+.bar-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.bar-name{font-size:13px;font-weight:500;color:var(--color-text-primary);}
+.bar-need{font-size:10px;font-weight:400;color:var(--color-text-tertiary);}
+.bar-count{font-size:12px;color:var(--color-text-secondary);}
+.bar-bg{height:6px;background:var(--color-background-secondary);border-radius:999px;}
+.bar-fill{height:100%;border-radius:999px;}
+</style>
+
+<div class="root">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-text">Adjust</div>
+      <div class="logo-sub">SEN lesson planning tool</div>
+    </div>
+    <div class="nav-section">Menu</div>
+    <div class="nav-item active" onclick="showPage('lessons',this)">
+      <div class="nav-dot dot-green"></div>Lesson plans
+    </div>
+    <div class="nav-item" onclick="showPage('students',this)">
+      <div class="nav-dot dot-purple"></div>Student profiles
+    </div>
+    <div class="nav-item" onclick="showPage('overview',this)">
+      <div class="nav-dot dot-amber"></div>Weekly summary
+    </div>
+    <div style="margin-top:auto;padding:12px 10px;border-top:0.5px solid var(--color-border-tertiary);">
+      <div style="font-size:11px;color:var(--color-text-tertiary);">Mrs. Chen · Year 5</div>
+      <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:2px;">Week 9 · Term 2</div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="page-title">This week's lesson plans</div>
+        <div class="topbar-sub" id="page-sub">4 lessons · 5 SEN students</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn">Export adjustments</button>
+        <button class="btn btn-primary" onclick="showPage('planner',null)">+ New lesson</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- Lessons page -->
+      <div class="page active" id="page-lessons">
+        <div class="section-title">This week's lessons</div>
+        <div class="card-grid">
+          <div class="lesson-card" onclick="showPage('planner',null)">
+            <div class="lc-subject">Mathematics · Year 5</div>
+            <div class="lc-title">Adding fractions with unlike denominators</div>
+            <div class="lc-meta">Tuesday period 2 · 60 min</div>
+            <div class="lc-footer">
+              <div class="stu-pills">
+                <div class="stu-dot sd-blue">M</div>
+                <div class="stu-dot sd-purple">L</div>
+                <div class="stu-dot sd-amber">P</div>
+              </div>
+              <div class="adj-count">9 adjustments</div>
+            </div>
+          </div>
+          <div class="lesson-card">
+            <div class="lc-subject">English · Year 5</div>
+            <div class="lc-title">Narrative writing structure</div>
+            <div class="lc-meta">Wednesday period 1 · 60 min</div>
+            <div class="lc-footer">
+              <div class="stu-pills">
+                <div class="stu-dot sd-blue">M</div>
+                <div class="stu-dot sd-pink">J</div>
+              </div>
+              <div class="adj-count">6 adjustments</div>
+            </div>
+          </div>
+          <div class="lesson-card">
+            <div class="lc-subject">Science · Year 5</div>
+            <div class="lc-title">Food chains and ecosystems</div>
+            <div class="lc-meta">Thursday period 3 · 50 min</div>
+            <div class="lc-footer">
+              <div class="stu-pills">
+                <div class="stu-dot sd-purple">L</div>
+                <div class="stu-dot sd-green">S</div>
+              </div>
+              <div class="adj-count">5 adjustments</div>
+            </div>
+          </div>
+          <div class="lesson-card" style="border-style:dashed;" onclick="showPage('planner',null)">
+            <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:20px 0;">
+              <div style="font-size:22px;color:var(--color-text-tertiary);">+</div>
+              <div style="font-size:12px;color:var(--color-text-tertiary);">Add new lesson</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Planner page -->
+      <div class="page" id="page-planner">
+        <div class="planner-grid" style="height:520px;">
+          <div class="panel">
+            <div class="panel-label">Class roster</div>
+            <div style="font-size:10px;color:var(--color-text-tertiary);">Select SEN students in this lesson</div>
+            <div class="stu-card" data-id="maya" onclick="toggleStu(this)">
+              <div class="stu-name">Maya R.</div>
+              <div class="tag-row"><span class="tag t-dys">Dyslexia</span></div>
+            </div>
+            <div class="stu-card" data-id="liam" onclick="toggleStu(this)">
+              <div class="stu-name">Liam T.</div>
+              <div class="tag-row"><span class="tag t-asd">ASD</span></div>
+            </div>
+            <div class="stu-card" data-id="priya" onclick="toggleStu(this)">
+              <div class="stu-name">Priya K.</div>
+              <div class="tag-row"><span class="tag t-adhd">ADHD</span></div>
+            </div>
+            <div class="stu-card" data-id="jack" onclick="toggleStu(this)">
+              <div class="stu-name">Jack W.</div>
+              <div class="tag-row"><span class="tag t-phy">Physical</span><span class="tag t-dys">Dyslexia</span></div>
+            </div>
+            <div class="stu-card" data-id="sofia" onclick="toggleStu(this)">
+              <div class="stu-name">Sofia M.</div>
+              <div class="tag-row"><span class="tag t-hea">Hearing</span></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-label">Lesson context</div>
+            <div class="lesson-info">
+              <div class="li-subj">Mathematics · Year 5</div>
+              <div class="li-title">Adding fractions with unlike denominators</div>
+              <div class="li-meta">Tuesday period 2 · 60 min</div>
+            </div>
+            <div class="info-label">Learning goals</div>
+            <div class="info-text">Students will identify the lowest common denominator, convert fractions, and solve addition problems accurately.</div>
+            <div class="info-label" style="margin-top:6px;">Assessment</div>
+            <div class="info-text">Written worked examples and an exit slip completed before the end of the lesson.</div>
+            <div class="info-label" style="margin-top:6px;">Selected students</div>
+            <div class="sel-pills" id="sel-pills2">
+              <div style="font-size:11px;color:var(--color-text-tertiary);font-style:italic;">No students selected yet</div>
+            </div>
+            <div style="margin-top:auto;">
+              <button class="btn btn-primary" style="width:100%;font-size:12px;">Save lesson plan</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-label">Suggested adjustments</div>
+            <div class="adj-list" id="adj-list2">
+              <div class="empty">Select students from the roster to generate adjustment suggestions</div>
+            </div>
+            <div class="progress-row" id="prog-row" style="display:none;">
+              <div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-fill" style="width:0%"></div></div>
+              <div class="prog-label" id="prog-label">0 / 0 done</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Student profiles page -->
+      <div class="page" id="page-students">
+        <div class="section-title">SEN student profiles</div>
+        <div class="stu-page-grid">
+          <div class="stu-profile">
+            <div class="sp-header">
+              <div class="sp-avatar sd-blue">MR</div>
+              <div><div class="sp-name">Maya R.</div><div class="sp-year">Year 5 · Class 5B</div></div>
+            </div>
+            <div class="sp-section">Learning needs</div>
+            <div class="sp-needs"><span class="tag t-dys">Dyslexia</span></div>
+            <div class="sp-section">Teacher notes</div>
+            <div class="sp-note">Maya's decoding is weaker but her verbal reasoning and logic are strong. Prioritise visual supports over dense text.</div>
+            <div class="sp-section">Common strategies</div>
+            <div class="sp-adj-item"><div class="sp-adj-dot"></div><div class="sp-adj-text">Replace text instructions with visual diagrams</div></div>
+            <div class="sp-adj-item"><div class="sp-adj-dot"></div><div class="sp-adj-text">Provide colour-coded worked examples</div></div>
+            <div class="sp-adj-item"><div class="sp-adj-dot"></div><div class="sp-adj-text">Allow oral response instead of written assessment</div></div>
+          </div>
+          <div class="stu-profile">
+            <div class="sp-header">
+              <div class="sp-avatar sd-purple">LT</div>
+              <div><div class="sp-name">Liam T.</div><div class="sp-year">Year 5 · Class 5B</div></div>
+            </div>
+            <div class="sp-section">Learning needs</div>
+            <div class="sp-needs"><span class="tag t-asd">ASD</span></div>
+            <div class="sp-section">Teacher notes</div>
+            <div class="sp-note">Liam needs clear, consistent structure. Unexpected changes cause anxiety — always give advance notice of transitions.</div>
+            <div class="sp-section">Common strategies</div>
+            <div class="sp-adj-item"><div class="sp-adj-dot"></div><div class="sp-adj-text">Display written lesson agenda at the start</div></div>
+            <div class="sp-adj-item"><div class="sp-adj-dot"></div><div class="sp-adj-text">Give 3-minute verbal warning before transitions</div></div>
+            <div class="sp-adj-item"><div class="sp-adj-dot"></div><div class="sp-adj-text">Keep worksheet layout consistent every time</div></div>
+          </div>
+          <div class="stu-profile">
+            <div class="sp-header">
+              <div class="sp-avatar sd-amber">PK</div>
+              <div><div class="sp-name">Priya K.</div><div class="sp-year">Year 5 · Class 5B</div></div>
+            </div>
+            <div class="sp-section">Learning needs</div>
+            <div class="sp-needs"><span class="tag t-adhd">ADHD</span></div>
+            <div class="sp-section">Teacher notes</div>
+            <div class="sp-note">Priya's focus window is around 10 minutes. Structured short tasks with movement breaks significantly improve engagement.</div>
+            <div class="sp-section">Common strategies</div>
+            <div class="sp-adj-item"><div class="sp-adj-dot"></div><div class="sp-adj-text">Break lesson into 10-min timed segments</div></div>
+            <div class="sp-adj-item"><div class="sp-adj-dot"></div><div class="sp-adj-text">Display a visual countdown timer on the board</div></div>
+            <div class="sp-adj-item"><div class="sp-adj-dot"></div><div class="sp-adj-text">Present steps one at a time to avoid overload</div></div>
+          </div>
+          <div class="stu-profile">
+            <div class="sp-header">
+              <div class="sp-avatar sd-pink">JW</div>
+              <div><div class="sp-name">Jack W.</div><div class="sp-year">Year 5 · Class 5B</div></div>
+            </div>
+            <div class="sp-section">Learning needs</div>
+            <div class="sp-needs"><span class="tag t-phy">Physical</span><span class="tag t-dys">Dyslexia</span></div>
+            <div class="sp-section">Teacher notes</div>
+            <div class="sp-note">Jack has limited upper-limb mobility making handwriting difficult, alongside dyslexia. Tech-assisted approaches work best.</div>
+            <div class="sp-section">Common strategies</div>
+            <div class="sp-adj-item"><div class="sp-adj-dot"></div><div class="sp-adj-text">All tasks completed via iPad with stylus</div></div>
+            <div class="sp-adj-item"><div class="sp-adj-dot"></div><div class="sp-adj-text">Speech-to-text as an alternative to written response</div></div>
+            <div class="sp-adj-item"><div class="sp-adj-dot"></div><div class="sp-adj-text">Digital visual diagrams replacing text-heavy materials</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weekly summary page -->
+      <div class="page" id="page-overview">
+        <div class="section-title">Weekly summary</div>
+        <div class="stat-row">
+          <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Lessons this week</div></div>
+          <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">SEN students</div></div>
+          <div class="stat-card"><div class="stat-num">20</div><div class="stat-label">Total adjustments</div></div>
+        </div>
+        <div class="section-title">Adjustments per student</div>
+        <div class="bar-row">
+          <div class="bar-top"><div class="bar-name">Maya R. <span class="bar-need">Dyslexia</span></div><div class="bar-count">6 items · 2 lessons</div></div>
+          <div class="bar-bg"><div class="bar-fill" style="width:60%;background:#378ADD;"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-top"><div class="bar-name">Liam T. <span class="bar-need">ASD</span></div><div class="bar-count">6 items · 2 lessons</div></div>
+          <div class="bar-bg"><div class="bar-fill" style="width:60%;background:#7F77DD;"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-top"><div class="bar-name">Priya K. <span class="bar-need">ADHD</span></div><div class="bar-count">3 items · 1 lesson</div></div>
+          <div class="bar-bg"><div class="bar-fill" style="width:30%;background:#BA7517;"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-top"><div class="bar-name">Jack W. <span class="bar-need">Physical · Dyslexia</span></div><div class="bar-count">3 items · 1 lesson</div></div>
+          <div class="bar-bg"><div class="bar-fill" style="width:30%;background:#D4537E;"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-top"><div class="bar-name">Sofia M. <span class="bar-need">Hearing impairment</span></div><div class="bar-count">2 items · 1 lesson</div></div>
+          <div class="bar-bg"><div class="bar-fill" style="width:20%;background:#1D9E75;"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const stuData={
+  maya:{name:"Maya R.",adjs:[
+    {type:"mat",label:"Materials",text:"Replace written instructions with visual fraction bar diagrams.",done:false},
+    {type:"mat",label:"Materials",text:"Provide a pre-printed worked example with colour-coded steps.",done:false},
+    {type:"ass",label:"Assessment",text:"Allow oral explanation of method as an alternative to the written exit slip.",done:false}
+  ]},
+  liam:{name:"Liam T.",adjs:[
+    {type:"par",label:"Participation",text:"Display a written lesson agenda at the start. Give a 3-minute verbal warning before each transition.",done:false},
+    {type:"par",label:"Participation",text:"Use a consistent visual layout across all task sheets every lesson.",done:false},
+    {type:"ass",label:"Assessment",text:"Provide exit slip instructions in a fixed template so the format is predictable.",done:false}
+  ]},
+  priya:{name:"Priya K.",adjs:[
+    {type:"par",label:"Participation",text:"Break the lesson into 3 timed chunks of 10 minutes with a 2-minute movement break between.",done:false},
+    {type:"mat",label:"Materials",text:"Present worked example steps one at a time rather than as a single block.",done:false},
+    {type:"tec",label:"Technology",text:"Display a visual countdown timer on the board to support self-regulation.",done:false}
+  ]},
+  jack:{name:"Jack W.",adjs:[
+    {type:"tec",label:"Technology",text:"Ensure all materials are available digitally — Jack completes tasks on an iPad with stylus.",done:false},
+    {type:"ass",label:"Assessment",text:"Allow the exit slip to be completed using speech-to-text or given verbally to the teacher.",done:false},
+    {type:"mat",label:"Materials",text:"Provide digital visual fraction bars to reduce handwriting and text demands.",done:false}
+  ]},
+  sofia:{name:"Sofia M.",adjs:[
+    {type:"par",label:"Participation",text:"Face the class when speaking key instructions. Seat Sofia within clear sightline of your face.",done:false},
+    {type:"mat",label:"Materials",text:"Display all verbal instructions in written form on the board or task sheet simultaneously.",done:false},
+    {type:"ass",label:"Assessment",text:"Exit slip instructions must be provided in writing — never delivered verbally only.",done:false}
+  ]}
+};
+const typeClass={mat:"at-mat",ass:"at-ass",par:"at-par",tec:"at-tec"};
+let active2=new Set();
+
+function showPage(id,navEl){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById("page-"+id).classList.add("active");
+  document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));
+  const titles={lessons:"This week's lesson plans",planner:"Lesson planner",students:"SEN student profiles",overview:"Weekly summary"};
+  const subs={lessons:"4 lessons · 5 SEN students",planner:"Mathematics · Adding fractions",students:"5 SEN students in this class",overview:"Week 9 · Term 2"};
+  document.getElementById("page-title").textContent=titles[id]||id;
+  document.getElementById("page-sub").textContent=subs[id]||"";
+  if(navEl)navEl.classList.add("active");
+}
+
+function toggleStu(el){
+  const id=el.dataset.id;
+  if(active2.has(id)){active2.delete(id);el.classList.remove("sel");}
+  else{active2.add(id);el.classList.add("sel");}
+  renderAdj();renderPills();
+}
+
+function renderPills(){
+  const c=document.getElementById("sel-pills2");
+  c.innerHTML="";
+  if(active2.size===0){c.innerHTML='<div style="font-size:11px;color:var(--color-text-tertiary);font-style:italic;">No students selected yet</div>';return;}
+  active2.forEach(id=>{const sp=document.createElement("span");sp.className="sel-pill";sp.textContent=stuData[id].name;c.appendChild(sp);});
+}
+
+function renderAdj(){
+  const list=document.getElementById("adj-list2");
+  const pr=document.getElementById("prog-row");
+  list.innerHTML="";
+  if(active2.size===0){
+    list.innerHTML='<div class="empty">Select students from the roster to generate adjustment suggestions</div>';
+    pr.style.display="none";return;
+  }
+  let all=[];
+  active2.forEach(id=>{stuData[id].adjs.forEach(a=>{all.push({...a,who:stuData[id].name,sid:id,aidx:stuData[id].adjs.indexOf(a)});});});
+  all.forEach(adj=>{
+    const card=document.createElement("div");
+    card.className="adj-card"+(adj.done?" done":"");
+    card.innerHTML=`<div class="adj-top"><span class="adj-type ${typeClass[adj.type]}">${adj.label}</span><span class="adj-who">${adj.who}</span><div class="check-btn${adj.done?" checked":""}" onclick="toggleDone('${adj.sid}',${adj.aidx})"><svg class="check-tick" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="1,4 3,6 7,2" stroke="white" stroke-width="1.5"/></svg></div></div><div class="adj-text">${adj.text}</div>`;
+    list.appendChild(card);
+  });
+  const done=all.filter(a=>a.done).length;
+  pr.style.display="flex";
+  document.getElementById("prog-fill").style.width=Math.round(done/all.length*100)+"%";
+  document.getElementById("prog-label").textContent=done+" / "+all.length+" done";
+}
+
+function toggleDone(sid,aidx){
+  stuData[sid].adjs[aidx].done=!stuData[sid].adjs[aidx].done;renderAdj();
+}
+</script>

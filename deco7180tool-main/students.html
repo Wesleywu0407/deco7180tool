@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adjust — Student Profiles</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { primary: '#059669' } } } }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=2" />
+  <link rel="apple-touch-icon" href="./apple-touch-icon.svg?v=2" />
+  <meta name="application-name" content="Adjust" />
+  <meta name="apple-mobile-web-app-title" content="Adjust" />
+  <meta name="theme-color" content="#059669" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="flex h-screen overflow-hidden">
+
+  <div id="sidebar"></div>
+
+  <main class="ml-[220px] flex-1 overflow-y-auto">
+
+    <!-- Top bar -->
+    <header class="app-topbar student-profiles-topbar sticky top-0 z-20">
+      <div class="student-profiles-heading">
+        <h1>SEN student profiles</h1>
+        <p id="student-count">5 SEN students in this class</p>
+      </div>
+      <div class="student-profiles-actions">
+        <button id="add-student-btn" class="btn-solid">
+          + Add student
+        </button>
+        <div class="student-search-wrap">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35"/></svg>
+          <input id="student-search" type="text" placeholder="Search profiles..." class="app-search-input pl-9 pr-4" />
+        </div>
+        <div class="student-utility-actions">
+        <div id="notif-container" class="topbar-notification" style="position:relative">
+          <button id="notif-btn"
+            onclick="toggleNotifications()"
+            style="position:relative;width:36px;height:36px;border-radius:50%;
+            background:white;border:1px solid #E5E7EB;cursor:pointer;
+            display:flex;align-items:center;justify-content:center">
+            <svg width="16" height="16" fill="none" stroke="#374151" stroke-width="2"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12
+                0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+            </svg>
+            <span id="notif-dot" style="position:absolute;top:6px;right:6px;width:8px;height:8px;
+            background:#EF4444;border-radius:50%;border:1.5px solid white"></span>
+          </button>
+
+          <div id="notif-dropdown"
+            style="display:none;position:absolute;top:44px;right:0;width:300px;
+            background:white;border:1px solid #E5E7EB;border-radius:14px;
+            box-shadow:0 8px 24px rgba(0,0,0,0.1);z-index:999;overflow:hidden">
+
+            <div style="padding:14px 16px;border-bottom:1px solid #F3F4F6;
+            display:flex;align-items:center;justify-content:space-between">
+              <span style="font-size:14px;font-weight:600;color:#111827">Notifications</span>
+              <span onclick="markAllNotificationsRead()" style="font-size:11px;color:#059669;cursor:pointer;font-weight:500">
+                Mark all read
+              </span>
+            </div>
+
+            <div style="padding:8px 0">
+
+              <div id="notif-unread" style="padding:12px 16px;display:flex;gap:12px;align-items:flex-start;
+              background:#F0FDF4;border-left:3px solid #059669">
+                <div id="notif-unread-dot" style="width:8px;height:8px;background:#059669;border-radius:50%;
+                margin-top:5px;flex-shrink:0"></div>
+                <div>
+                  <p style="font-size:13px;font-weight:500;color:#111827;margin:0 0 2px">
+                    Thursday's Science lesson needs prep
+                  </p>
+                  <p style="font-size:12px;color:#6B7280;margin:0">
+                    Liam + Maya need adjustments · 2 days away
+                  </p>
+                </div>
+              </div>
+
+              <div style="padding:12px 16px;display:flex;gap:12px;align-items:flex-start">
+                <div style="width:8px;height:8px;background:#D1D5DB;border-radius:50%;
+                margin-top:5px;flex-shrink:0"></div>
+                <div>
+                  <p style="font-size:13px;font-weight:500;color:#111827;margin:0 0 2px">
+                    Weekly summary is ready
+                  </p>
+                  <p style="font-size:12px;color:#6B7280;margin:0">
+                    Week 9 · 42 adjustments across 4 lessons
+                  </p>
+                </div>
+              </div>
+
+              <div style="padding:12px 16px;display:flex;gap:12px;align-items:flex-start">
+                <div style="width:8px;height:8px;background:#D1D5DB;border-radius:50%;
+                margin-top:5px;flex-shrink:0"></div>
+                <div>
+                  <p style="font-size:13px;font-weight:500;color:#111827;margin:0 0 2px">
+                    Maya R. assessment updated
+                  </p>
+                  <p style="font-size:12px;color:#6B7280;margin:0">
+                    New visual support strategies added
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="px-8 py-6">
+      <div class="grid grid-cols-2 gap-5" id="profiles-grid"></div>
+    </div>
+
+    <div id="student-modal" class="fixed inset-0 bg-[rgba(17,24,39,0.35)] backdrop-blur-[2px] hidden items-center justify-center z-40 px-6">
+      <div class="surface-card w-full max-w-2xl p-6">
+        <div class="flex items-start justify-between gap-4 mb-5">
+          <div>
+            <p class="page-label mb-2">New student</p>
+            <h2 class="text-lg font-semibold text-gray-900">Add SEN student profile</h2>
+            <p class="text-sm text-gray-500 mt-1">Capture the essentials so this student appears across profiles and lesson planning.</p>
+          </div>
+          <button id="close-student-modal" class="btn-ghost px-3">Close</button>
+        </div>
+        <div id="student-form-error" class="status-banner mb-4 hidden" style="background:#fff6f6;border-color:#f3c5c5;color:#b42318"></div>
+        <form id="student-form" class="space-y-5">
+          <div class="settings-profile-grid">
+            <div class="full-span">
+              <label class="field-label" for="student-name">Full name</label>
+              <input id="student-name" name="name" class="input-shell" />
+            </div>
+            <div>
+              <label class="field-label" for="student-year">Year level</label>
+              <input id="student-year" name="year" class="input-shell" placeholder="Year 5" />
+            </div>
+            <div>
+              <label class="field-label" for="student-class">Class group</label>
+              <input id="student-class" name="cls" class="input-shell" placeholder="Class 5B" />
+            </div>
+            <div class="full-span">
+              <label class="field-label" for="student-needs">Learning needs</label>
+              <input id="student-needs" name="needs" class="input-shell" placeholder="Separate tags with commas" />
+              <p id="needs-preview" class="text-xs text-gray-400 mt-2">Add one or more tags such as Dyslexia, ASD, ADHD, Hearing.</p>
+            </div>
+            <div class="full-span">
+              <label class="field-label" for="student-notes">Teacher notes</label>
+              <textarea id="student-notes" name="notes" class="input-shell min-h-[92px]"></textarea>
+            </div>
+            <div class="full-span">
+              <label class="field-label" for="student-strategies">Common strategies</label>
+              <textarea id="student-strategies" name="strategies" class="input-shell min-h-[92px]" placeholder="Add one strategy per line"></textarea>
+            </div>
+          </div>
+          <div class="flex items-center justify-end gap-3 pt-2 border-t border-gray-100">
+            <button type="button" id="cancel-student" class="btn-ghost">Cancel</button>
+            <button type="submit" class="btn-solid">Save student</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/feedback.js"></script>
+  <script src="js/sidebar.js"></script>
+  <script src="js/students.js"></script>
+  <script>
+  function toggleNotifications() {
+    const d = document.getElementById('notif-dropdown')
+    d.style.display = d.style.display === 'block' ? 'none' : 'block'
+  }
+  function markAllNotificationsRead() {
+    const dot = document.getElementById('notif-dot')
+    const unread = document.getElementById('notif-unread')
+    const unreadDot = document.getElementById('notif-unread-dot')
+    if (dot) dot.style.display = 'none'
+    if (unread) {
+      unread.style.background = 'white'
+      unread.style.borderLeft = '3px solid transparent'
+    }
+    if (unreadDot) unreadDot.style.background = '#D1D5DB'
+  }
+  document.addEventListener('click', function(e) {
+    const container = document.getElementById('notif-container')
+    if (container && !container.contains(e.target)) {
+      document.getElementById('notif-dropdown').style.display = 'none'
+    }
+  })
+  </script>
+  <script>
+    // Track profile_opened when user clicks any student profile card
+    document.addEventListener('click', function(e) {
+      const card = e.target.closest('[data-student-id]')
+      if (card) {
+        trackEvent('profile_opened', {
+          studentId:   card.dataset.studentId,
+          studentName: card.dataset.studentName || card.dataset.studentId,
+        })
+      }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adjust — Research Data Export</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { colors: { primary: '#1D9E75' } } } }</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; background: #F9FAFB; min-height: 100vh; min-width: 1024px; }
+    .res-table th { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.07em; color:#6B7280; padding:10px 16px; text-align:left; background:#F9FAFB; border-bottom:1px solid #E5E7EB; }
+    .res-table td { font-size:12px; color:#374151; padding:10px 16px; border-bottom:1px solid #F3F4F6; vertical-align:top; }
+    .res-table tr:hover td { background:#F9FAFB; }
+    .event-pill { display:inline-flex; align-items:center; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; white-space:nowrap; }
+    .detail-pre { font-size:11px; color:#6B7280; font-family:monospace; white-space:pre-wrap; word-break:break-all; max-width:440px; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Top bar ─────────────────────────────────────────────────────────── -->
+  <header style="background:white;border-bottom:1px solid #E5E7EB;padding:16px 32px;
+                 display:flex;align-items:center;justify-content:space-between;
+                 position:sticky;top:0;z-index:20">
+    <div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px">
+        <a href="index.html"
+           style="font-size:12px;color:#9CA3AF;text-decoration:none;font-weight:400">
+          ← Back to app
+        </a>
+      </div>
+      <h1 style="font-size:18px;font-weight:700;color:#111827;margin:0">Research data export</h1>
+      <p style="font-size:13px;color:#6B7280;margin:4px 0 0">For researcher use only</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button onclick="exportJSON()"
+        style="display:flex;align-items:center;gap:6px;padding:9px 16px;border:1px solid #E5E7EB;
+               border-radius:8px;background:white;font-size:13px;font-weight:500;color:#374151;
+               cursor:pointer;font-family:inherit">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+        </svg>
+        Export as JSON
+      </button>
+      <button onclick="exportCSV()"
+        style="display:flex;align-items:center;gap:6px;padding:9px 16px;border:1px solid #E5E7EB;
+               border-radius:8px;background:white;font-size:13px;font-weight:500;color:#374151;
+               cursor:pointer;font-family:inherit">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586
+               a1 1 0 01.707.293l5.414 5.414A1 1 0 0121 9.414V19a2 2 0 01-2 2z"/>
+        </svg>
+        Export as CSV
+      </button>
+      <button onclick="clearAll()"
+        style="display:flex;align-items:center;gap:6px;padding:9px 16px;
+               border:1px solid #FCA5A5;border-radius:8px;background:white;
+               font-size:13px;font-weight:500;color:#DC2626;cursor:pointer;font-family:inherit">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7
+               m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+        </svg>
+        Clear all data
+      </button>
+    </div>
+  </header>
+
+  <div style="max-width:1200px;margin:0 auto;padding:28px 32px">
+
+    <!-- ── Summary stats ─────────────────────────────────────────────────── -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px">
+
+      <div style="background:white;border:1px solid #E5E7EB;border-radius:14px;padding:20px 24px">
+        <p style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;
+                  color:#9CA3AF;margin:0 0 6px">Total events logged</p>
+        <p id="stat-total" style="font-size:32px;font-weight:700;color:#1D9E75;margin:0">0</p>
+      </div>
+
+      <div style="background:white;border:1px solid #E5E7EB;border-radius:14px;padding:20px 24px">
+        <p style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;
+                  color:#9CA3AF;margin:0 0 6px">Sessions tracked</p>
+        <p id="stat-sessions" style="font-size:32px;font-weight:700;color:#3B82F6;margin:0">0</p>
+        <p style="font-size:11px;color:#9CA3AF;margin:4px 0 0">page_visited events</p>
+      </div>
+
+      <div style="background:white;border:1px solid #E5E7EB;border-radius:14px;padding:20px 24px">
+        <p style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;
+                  color:#9CA3AF;margin:0 0 6px">Feedback responses</p>
+        <p id="stat-feedback" style="font-size:32px;font-weight:700;color:#7C3AED;margin:0">0</p>
+        <p style="font-size:11px;color:#9CA3AF;margin:4px 0 0">micro_feedback · post_task_rating · reflection</p>
+      </div>
+
+    </div>
+
+    <!-- ── Event breakdown pills ─────────────────────────────────────────── -->
+    <div id="event-breakdown"
+      style="background:white;border:1px solid #E5E7EB;border-radius:14px;
+             padding:18px 24px;margin-bottom:24px">
+      <p style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;
+                color:#9CA3AF;margin:0 0 12px">Events by type</p>
+      <div id="breakdown-pills" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+    </div>
+
+    <!-- ── Event log table ───────────────────────────────────────────────── -->
+    <div style="background:white;border:1px solid #E5E7EB;border-radius:14px;overflow:hidden">
+      <div style="padding:16px 20px;border-bottom:1px solid #F3F4F6;
+                  display:flex;align-items:center;justify-content:space-between">
+        <p style="font-size:14px;font-weight:600;color:#111827;margin:0">Event log</p>
+        <p id="table-count" style="font-size:12px;color:#9CA3AF;margin:0"></p>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="res-table" style="width:100%;border-collapse:collapse">
+          <thead>
+            <tr>
+              <th style="width:160px">Time</th>
+              <th style="width:220px">Event</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody id="events-tbody"></tbody>
+        </table>
+        <div id="empty-state"
+          style="padding:48px 24px;text-align:center;display:none">
+          <p style="font-size:14px;color:#9CA3AF;margin:0">
+            No events logged yet. Interact with the app to generate data.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ── Colour palette per event type ────────────────────────────────────────
+    const EVENT_COLOURS = {
+      page_visited:             { bg:'#EFF6FF', text:'#1D4ED8' },
+      student_selected:         { bg:'#D1FAE5', text:'#065F46' },
+      student_deselected:       { bg:'#FEF3C7', text:'#92400E' },
+      adjustment_checked:       { bg:'#D1FAE5', text:'#065F46' },
+      adjustment_unchecked:     { bg:'#FEE2E2', text:'#991B1B' },
+      recommendation_applied:   { bg:'#EDE9FE', text:'#5B21B6' },
+      recommendation_dismissed: { bg:'#F3F4F6', text:'#374151' },
+      report_exported:          { bg:'#DBEAFE', text:'#1D4ED8' },
+      profile_opened:           { bg:'#FCE7F3', text:'#9D174D' },
+      lesson_saved:             { bg:'#D1FAE5', text:'#065F46' },
+      micro_feedback:           { bg:'#EDE9FE', text:'#5B21B6' },
+      post_task_rating:         { bg:'#EDE9FE', text:'#5B21B6' },
+      reflection:               { bg:'#EDE9FE', text:'#5B21B6' },
+      summary_comment:          { bg:'#FEF3C7', text:'#92400E' },
+      lesson_completion_metrics:{ bg:'#F0FDF4', text:'#166534' },
+    }
+    function colourFor(event) {
+      return EVENT_COLOURS[event] || { bg:'#F3F4F6', text:'#374151' }
+    }
+
+    // ── Load + render ────────────────────────────────────────────────────────
+    function load() {
+      let events = []
+      try { events = JSON.parse(localStorage.getItem('adjust_events') || '[]') }
+      catch { events = [] }
+
+      // Sort newest first
+      events.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+
+      // Stats
+      const sessions  = events.filter(e => e.event === 'page_visited').length
+      const feedbacks = events.filter(e =>
+        ['micro_feedback','post_task_rating','reflection'].includes(e.event)
+      ).length
+      document.getElementById('stat-total').textContent    = events.length
+      document.getElementById('stat-sessions').textContent = sessions
+      document.getElementById('stat-feedback').textContent  = feedbacks
+      document.getElementById('table-count').textContent   =
+        events.length === 0 ? '' : `${events.length} events`
+
+      // Breakdown by type
+      const counts = {}
+      events.forEach(e => { counts[e.event] = (counts[e.event] || 0) + 1 })
+      document.getElementById('breakdown-pills').innerHTML =
+        Object.entries(counts)
+          .sort((a, b) => b[1] - a[1])
+          .map(([name, n]) => {
+            const c = colourFor(name)
+            return `<span style="display:inline-flex;align-items:center;gap:5px;
+              padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;
+              background:${c.bg};color:${c.text}">
+              ${name} <span style="opacity:.65">${n}</span>
+            </span>`
+          }).join('')
+
+      // Table
+      const tbody = document.getElementById('events-tbody')
+      const empty = document.getElementById('empty-state')
+      if (events.length === 0) {
+        tbody.innerHTML = ''
+        empty.style.display = 'block'
+        return
+      }
+      empty.style.display = 'none'
+
+      tbody.innerHTML = events.map(e => {
+        const c      = colourFor(e.event)
+        const ts     = new Date(e.timestamp)
+        const time   = ts.toLocaleDateString('en-AU', { day:'2-digit', month:'short' })
+                     + ' ' + ts.toLocaleTimeString('en-AU', { hour:'2-digit', minute:'2-digit', second:'2-digit' })
+        // Build detail string (omit id, event, timestamp)
+        const detail = Object.entries(e)
+          .filter(([k]) => !['id','event','timestamp'].includes(k))
+          .map(([k, v]) => `${k}: ${typeof v === 'object' ? JSON.stringify(v) : v}`)
+          .join('\n')
+        return `
+          <tr>
+            <td style="white-space:nowrap;color:#6B7280;font-size:11px">${time}</td>
+            <td>
+              <span class="event-pill" style="background:${c.bg};color:${c.text}">
+                ${e.event}
+              </span>
+            </td>
+            <td><pre class="detail-pre">${detail || '—'}</pre></td>
+          </tr>
+        `
+      }).join('')
+    }
+
+    // ── Export JSON ──────────────────────────────────────────────────────────
+    function exportJSON() {
+      let events = []
+      try { events = JSON.parse(localStorage.getItem('adjust_events') || '[]') } catch {}
+      const blob = new Blob([JSON.stringify(events, null, 2)], { type: 'application/json' })
+      _download(blob, `adjust-events-${_dateStamp()}.json`)
+      if (window.trackEvent) trackEvent('report_exported', { pageId: 'research', format: 'json' })
+    }
+
+    // ── Export CSV ───────────────────────────────────────────────────────────
+    function exportCSV() {
+      let events = []
+      try { events = JSON.parse(localStorage.getItem('adjust_events') || '[]') } catch {}
+
+      // Collect all possible keys
+      const allKeys = new Set()
+      events.forEach(e => Object.keys(e).forEach(k => allKeys.add(k)))
+      const keys = [...allKeys]
+
+      const escape = v => {
+        const s = v == null ? '' : String(v).replaceAll('"', '""')
+        return `"${s}"`
+      }
+
+      const rows = [
+        keys.map(escape).join(','),
+        ...events.map(e => keys.map(k => escape(e[k] ?? '')).join(','))
+      ]
+
+      const blob = new Blob([rows.join('\r\n')], { type: 'text/csv' })
+      _download(blob, `adjust-events-${_dateStamp()}.csv`)
+      if (window.trackEvent) trackEvent('report_exported', { pageId: 'research', format: 'csv' })
+    }
+
+    // ── Clear all ────────────────────────────────────────────────────────────
+    function clearAll() {
+      if (!confirm('Delete all recorded events? This cannot be undone.')) return
+      localStorage.removeItem('adjust_events')
+      load()
+    }
+
+    // ── Helpers ──────────────────────────────────────────────────────────────
+    function _download(blob, filename) {
+      const url = URL.createObjectURL(blob)
+      const a   = Object.assign(document.createElement('a'), { href: url, download: filename })
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+    }
+    function _dateStamp() {
+      return new Date().toISOString().slice(0, 10)
+    }
+
+    // ── Init ─────────────────────────────────────────────────────────────────
+    load()
+
+    // Re-render when storage changes in other tabs
+    window.addEventListener('storage', e => { if (e.key === 'adjust_events') load() })
+  </script>
+</body>
+</html>

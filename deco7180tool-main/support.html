@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adjust — Support</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { primary: '#059669' } } } }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=2" />
+  <link rel="apple-touch-icon" href="./apple-touch-icon.svg?v=2" />
+  <meta name="application-name" content="Adjust" />
+  <meta name="apple-mobile-web-app-title" content="Adjust" />
+  <meta name="theme-color" content="#059669" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="flex h-screen overflow-hidden">
+
+  <div id="sidebar"></div>
+
+  <main class="ml-[220px] flex-1 overflow-y-auto">
+
+    <!-- Top bar -->
+    <header class="app-topbar sticky top-0 z-20">
+      <div>
+        <h1>Support</h1>
+        <p>Help and resources</p>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="px-8 py-6 max-w-3xl space-y-8">
+
+      <!-- ── 1. Getting started ──────────────────────────────────────── -->
+      <section>
+        <p class="app-section-label mb-4">Getting started</p>
+        <div class="grid grid-cols-3 gap-4">
+
+          <div class="support-guide-card">
+            <div class="support-guide-icon">
+              <svg class="w-5 h-5 text-[#059669]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+            </div>
+            <p class="text-sm font-semibold text-gray-900 mb-1">How to add a lesson</p>
+            <p class="text-sm text-gray-600 leading-relaxed">Create a new lesson plan and select your SEN students</p>
+          </div>
+
+          <div class="support-guide-card">
+            <div class="support-guide-icon">
+              <svg class="w-5 h-5 text-[#059669]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
+            <p class="text-sm font-semibold text-gray-900 mb-1">Student profiles</p>
+            <p class="text-sm text-gray-600 leading-relaxed">Add and manage individual student needs and strategies</p>
+          </div>
+
+          <div class="support-guide-card">
+            <div class="support-guide-icon">
+              <svg class="w-5 h-5 text-[#059669]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+            </div>
+            <p class="text-sm font-semibold text-gray-900 mb-1">Reading adjustments</p>
+            <p class="text-sm text-gray-600 leading-relaxed">Understand how suggested adjustments are generated</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── 2. FAQ accordion ───────────────────────────────────────── -->
+      <section>
+        <p class="app-section-label mb-4">Frequently asked questions</p>
+        <div id="faq-list"></div>
+      </section>
+
+      <!-- ── 3. Contact ─────────────────────────────────────────────── -->
+      <section>
+        <p class="app-section-label mb-4">Contact</p>
+        <div class="contact-card">
+          <div class="flex items-center gap-4">
+            <div class="support-guide-icon rounded-full">
+              <svg class="w-5 h-5 text-[#059669]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            </div>
+            <div>
+              <p class="text-sm font-semibold text-gray-900">Need more help?</p>
+              <p class="text-sm text-gray-500 mt-0.5">Email your support coordinator.</p>
+            </div>
+          </div>
+          <button class="btn-solid flex-shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+            Send message
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/feedback.js"></script>
+  <script src="js/sidebar.js"></script>
+  <script>
+    renderSidebar('support')
+
+    // ── FAQ accordion data ──────────────────────────────────────────────────────
+    const FAQS = [
+      {
+        q: 'How are adjustments suggested?',
+        a: 'Adjustments are generated based on each student\'s recorded learning needs and the lesson type.',
+      },
+      {
+        q: 'Can I edit or remove adjustments?',
+        a: 'Yes — you can check off completed adjustments or dismiss ones that don\'t apply.',
+      },
+      {
+        q: 'How do I share my lesson plan?',
+        a: 'Use the Export button on any lesson plan to download a summary.',
+      },
+    ]
+
+    // ── Render accordion ────────────────────────────────────────────────────────
+    document.getElementById('faq-list').innerHTML = `
+      <div class="faq-card">
+      ${FAQS.map((faq, i) => `
+        <button
+          onclick="toggleFaq(${i})"
+          class="faq-item ${i < FAQS.length - 1 ? 'faq-divider' : ''}"
+        >
+          <span class="text-sm font-semibold text-gray-900">${faq.q}</span>
+          <svg id="faq-icon-${i}" class="w-4 h-4 text-gray-400 flex-shrink-0 transition-transform duration-200"
+            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div id="faq-body-${i}" class="hidden faq-body ${i < FAQS.length - 1 ? 'faq-divider' : ''}">
+          <p class="text-sm text-gray-600 leading-relaxed">${faq.a}</p>
+        </div>
+      `).join('')}
+      </div>
+    `
+
+    function toggleFaq(i) {
+      const body = document.getElementById('faq-body-' + i)
+      const icon = document.getElementById('faq-icon-' + i)
+      const isOpen = !body.classList.contains('hidden')
+      body.classList.toggle('hidden', isOpen)
+      icon.style.transform = isOpen ? '' : 'rotate(180deg)'
+    }
+  </script>
+</body>
+</html>
