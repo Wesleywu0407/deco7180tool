@@ -21,7 +21,7 @@
 
   <div id="sidebar"></div>
 
-  <main class="ml-[220px] flex-1 overflow-y-auto">
+  <main class="md:ml-[220px] flex-1 overflow-y-auto">
 
     <!-- Top bar -->
     <header class="app-topbar sticky top-0 z-20">
@@ -65,8 +65,8 @@
           <!-- Toggle 1 -->
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm font-semibold text-gray-800">Recommended adjustment alerts</p>
-              <p class="text-xs text-gray-400 mt-0.5">Get notified when new adjustments are suggested for your students</p>
+              <p class="text-sm font-semibold text-gray-800">Support review reminders</p>
+              <p class="text-xs text-gray-400 mt-0.5">Get notified when new support suggestions are ready for teacher review.</p>
             </div>
             <button id="toggle-alerts" onclick="toggleSwitch(this)" data-on="true"
               class="relative w-11 h-6 rounded-full transition-colors duration-200 bg-[#059669] flex-shrink-0">
@@ -130,7 +130,7 @@
       <section class="surface-card p-6 surface-card-hover">
         <p class="page-label mb-4">Data</p>
         <div class="flex items-center gap-3">
-          <button class="btn-ghost">
+          <button class="btn-ghost" onclick="showExportPrivacyConfirm(() => trackEvent('report_exported',{pageId:'settings'}))">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
             Export all lesson plans
           </button>

@@ -22,13 +22,13 @@
   <div id="sidebar"></div>
 
   <!-- ── Main scrollable area ───────────────────────────────────────────────── -->
-  <main class="ml-[220px] flex-1 min-h-0 overflow-y-auto" style="overscroll-behavior:contain">
+  <main class="md:ml-[220px] flex-1 min-h-0 overflow-y-auto" style="overscroll-behavior:contain">
 
     <!-- Top bar -->
     <header class="app-topbar sticky top-0 z-20">
       <div>
         <h1>Weekly planning support</h1>
-        <p>Week 9 · Term 2 · AI-assisted adjustments to reduce lesson preparation time.</p>
+        <p>Week 9 · Term 2 · Support planning overview for teacher review.</p>
       </div>
       <div id="notif-container" style="position:relative">
         <button id="notif-btn"
@@ -70,7 +70,7 @@
                   Thursday's Science lesson needs prep
                 </p>
                 <p style="font-size:12px;color:#6B7280;margin:0">
-                  Liam + Maya need adjustments · 2 days away
+                  Liam + Maya may need support preparation · 2 days away
                 </p>
               </div>
             </div>
@@ -83,7 +83,7 @@
                   Weekly summary is ready
                 </p>
                 <p style="font-size:12px;color:#6B7280;margin:0">
-                  Week 9 · 42 adjustments across 4 lessons
+                  Week 9 · planned supports across 4 lessons
                 </p>
               </div>
             </div>
@@ -114,28 +114,28 @@
           <span class="recommendation-spark">✦</span>
         </div>
         <div class="flex-1">
-          <span class="recommendation-badge">AI Recommendation</span>
-          <p class="recommendation-title">Don't forget! Thursday's Science lesson needs prep for 2 students</p>
-          <p class="recommendation-copy">Liam needs a noise-cancelling headset for the ecosystem video · Maya needs a colour-coded step diagram</p>
+          <span class="recommendation-badge">Support suggestion for teacher review</span>
+          <p class="recommendation-title">Thursday's Science lesson may need preparation for 2 students.</p>
+          <p class="recommendation-copy">Please review and adapt suggestions based on your own classroom judgement.</p>
         </div>
         <div class="recommendation-actions">
           <div class="recommendation-actions-row">
-            <button onclick="trackEvent('ai_hero_applied',{lesson:'science_thursday'});window.location.href='planner.html'" class="recommendation-apply-btn">Apply to lesson</button>
+            <button onclick="trackEvent('ai_hero_applied',{lesson:'science_thursday'});window.location.href='planner.html'" class="recommendation-apply-btn">Review suggestion</button>
             <button onclick="trackEvent('ai_hero_dismissed',{lesson:'science_thursday'});const b=document.getElementById('ai-hero-banner');b.style.transition='max-height 0.3s ease, opacity 0.3s ease';b.style.overflow='hidden';b.style.maxHeight='0';b.style.opacity='0';setTimeout(()=>b.remove(),300)" class="recommendation-dismiss-btn">Dismiss</button>
           </div>
-          <span class="recommendation-powered">Powered by AI</span>
+          <span class="recommendation-powered">Generated from lesson context and student support profiles</span>
         </div>
       </div>
 
       <!-- Section A: Stats — 3 equal cards -->
       <div id="section-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px"></div>
 
-      <!-- Section C: Adjustments per student -->
+      <!-- Section C: Support coverage check -->
       <div class="summary-panel">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-          <h2 style="font-size:16px;font-weight:600;color:#111827;margin:0">Adjustments per student</h2>
+          <h2 style="font-size:16px;font-weight:600;color:#111827;margin:0">Support coverage check</h2>
           <a href="report.html?week=9"
-             onclick="trackEvent('report_exported',{pageId:'summary'})"
+             onclick="event.preventDefault();showExportPrivacyConfirm(() => { trackEvent('report_exported',{pageId:'summary'}); window.location.href='report.html?week=9' })"
              style="font-size:13px;font-weight:600;color:#059669;text-decoration:none">
             Export report →
           </a>
@@ -154,6 +154,29 @@
         <h2 style="font-size:16px;font-weight:600;color:#111827;margin:0 0 16px">Support patterns this week</h2>
         <div id="section-patterns" style="display:flex;flex-direction:column;gap:14px"></div>
       </div>
+
+      <section class="summary-panel" aria-labelledby="teacher-reflection-title">
+        <h2 id="teacher-reflection-title" style="font-size:16px;font-weight:600;color:#111827;margin:0 0 6px">
+          Teacher reflection this week
+        </h2>
+        <p style="font-size:13px;color:#6B7280;margin:0 0 16px">
+          Use these prompts to guide what should be kept, followed up, or changed before next week.
+        </p>
+        <div class="teacher-reflection-grid">
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:12px;font-weight:600;color:#374151">Which support worked well this week?</span>
+            <textarea rows="3" style="border:1px solid #E5E7EB;border-radius:10px;padding:10px 12px;font-size:13px;color:#374151;resize:vertical;font-family:inherit"></textarea>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:12px;font-weight:600;color:#374151">Which student may need follow-up?</span>
+            <textarea rows="3" style="border:1px solid #E5E7EB;border-radius:10px;padding:10px 12px;font-size:13px;color:#374151;resize:vertical;font-family:inherit"></textarea>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:12px;font-weight:600;color:#374151">What should be changed before next week?</span>
+            <textarea rows="3" style="border:1px solid #E5E7EB;border-radius:10px;padding:10px 12px;font-size:13px;color:#374151;resize:vertical;font-family:inherit"></textarea>
+          </label>
+        </div>
+      </section>
 
       <div style="background:white;border-radius:16px;border:1px solid #E5E7EB;
 padding:24px 28px;display:flex;align-items:center;justify-content:space-between;">
@@ -180,7 +203,7 @@ padding:24px 28px;display:flex;align-items:center;justify-content:space-between;
             Review student profiles
           </button>
           <button
-            onclick="trackEvent('next_week_export',{});window.location.href='report.html?week=9'"
+            onclick="showExportPrivacyConfirm(() => { trackEvent('next_week_export',{}); window.location.href='report.html?week=9' })"
             style="padding:10px 18px;background:white;color:#374151;
             border:1px solid #D1D5DB;border-radius:10px;font-size:13px;
             font-weight:500;cursor:pointer;font-family:inherit">
@@ -286,7 +309,7 @@ padding:24px 28px;display:flex;align-items:center;justify-content:space-between;
       What was missing or unclear in this summary?
     </label>
     <textarea id="missing-note" rows="3"
-      placeholder="e.g. I wanted to see which adjustments I actually completed..."
+      placeholder="e.g. I wanted to see which supports I had already reviewed..."
       style="
         width:100%; border:1px solid #D1D5DB; border-radius:10px;
         padding:10px 12px; font-size:13px; color:#374151; line-height:1.5;

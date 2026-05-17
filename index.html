@@ -29,7 +29,7 @@
   <div id="sidebar"></div>
 
   <!-- Main -->
-  <main class="ml-[220px] flex-1 overflow-y-auto">
+  <main class="md:ml-[220px] flex-1 overflow-y-auto">
 
     <!-- Top bar -->
     <header class="app-topbar sticky top-0 z-20">
@@ -37,13 +37,13 @@
         <p style="font-size:13px;color:#6B7280;margin:0 0 2px;font-weight:400"
           id="greeting-text"></p>
         <h1>This week's lesson plans</h1>
-        <p id="lesson-summary">4 lessons · 5 SEN students</p>
+        <p id="lesson-summary">4 lessons · 5 students with support profiles</p>
       </div>
-      <div class="flex items-center gap-3">
-        <button onclick="trackEvent('report_exported',{pageId:'lessons'})"
-          class="btn-ghost">
+      <div class="flex items-center gap-3 topbar-actions">
+        <button onclick="showExportPrivacyConfirm(() => trackEvent('report_exported',{pageId:'lessons'}))"
+          class="btn-ghost topbar-export-btn">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-          Export adjustments
+          Export supports
         </button>
         <div id="notif-container" style="position:relative">
           <button id="notif-btn"
@@ -85,7 +85,7 @@
                     Thursday's Science lesson needs prep
                   </p>
                   <p style="font-size:12px;color:#6B7280;margin:0">
-                    Liam + Maya need adjustments · 2 days away
+                    Liam + Maya may need support preparation · 2 days away
                   </p>
                 </div>
               </div>
@@ -98,7 +98,7 @@
                     Weekly summary is ready
                   </p>
                   <p style="font-size:12px;color:#6B7280;margin:0">
-                    Week 9 · 42 adjustments across 4 lessons
+                    Week 9 · planned supports across 4 lessons
                   </p>
                 </div>
               </div>
@@ -130,6 +130,9 @@
       <div id="lesson-created-banner" class="status-banner hidden">
         Lesson plan saved and added to this week's list.
       </div>
+      <p style="font-size:15px;color:#374151;margin:0;line-height:1.6">
+        Plan lessons faster while keeping SEN support personal and teacher-led.
+      </p>
       <p class="app-section-label">This week's lessons</p>
 
       <!-- Card grid -->
@@ -141,16 +144,16 @@
           <span class="recommendation-spark">✦</span>
         </div>
         <div class="flex-1">
-          <span class="recommendation-badge">AI Recommendation</span>
-          <p class="recommendation-title">Suggested for Thursday's Science lesson</p>
-          <p class="recommendation-copy">Based on Liam's recent sensory assessment, consider providing a noise-cancelling headset option for the ecosystem video activity.</p>
+          <span class="recommendation-badge">Support suggestion for teacher review</span>
+          <p class="recommendation-title">Thursday's Science lesson may need preparation for 2 students.</p>
+          <p class="recommendation-copy">Please review and adapt suggestions based on your own classroom judgement.</p>
         </div>
         <div class="recommendation-actions">
           <div class="recommendation-actions-row">
-            <button onclick="handleRecommendationApply()" class="recommendation-apply-btn">Apply to lesson</button>
+            <button onclick="handleRecommendationApply()" class="recommendation-apply-btn">Review suggestion</button>
             <button onclick="handleRecommendationDismiss()" class="recommendation-dismiss-btn">Dismiss</button>
           </div>
-          <span class="recommendation-powered">Powered by AI</span>
+          <span class="recommendation-powered">Generated from lesson context and student support profiles</span>
         </div>
       </div>
     </div>
@@ -217,7 +220,7 @@
       `
       document.head.appendChild(style)
 
-      const initialAssistantMessage = "Hi Mrs. Chen! 👋 I'm Ally, your SEN planning assistant.\nThursday's Science lesson needs prep —\nLiam needs a noise-cancelling headset and Maya needs a colour-coded step diagram. Want me to suggest more?"
+      const initialAssistantMessage = "Hi Mrs. Chen! 👋 I'm Ally, your support planning assistant.\nThursday's Science lesson may need preparation —\nLiam may need a noise-cancelling headset and Maya may benefit from a colour-coded step diagram. Want me to draft starting points for review?"
       const chatState = {
         bubbleVisible: false,
         panelOpen: false,
@@ -271,7 +274,7 @@
                     <path d="M 48 88 Q 60 98 72 88" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
                   </svg>
                 </div>
-                <span style="font-size:13px;font-weight:600">Ally · Science lesson assistant</span>
+                <span style="font-size:13px;font-weight:600">Ally · Science lesson support</span>
               </div>
               <button id="ai-chat-close"
                 type="button"
@@ -336,7 +339,7 @@
 
           <button id="ai-chat-bubble"
             type="button"
-            title="Chat with AI about Thursday's Science lesson"
+            title="Chat about Thursday's Science lesson"
             style="
               position:fixed;
               bottom:24px;
@@ -549,7 +552,7 @@
             body: JSON.stringify({
               model: 'claude-sonnet-4-20250514',
               max_tokens: 1000,
-              system: "You are a helpful SEN lesson planning assistant for Mrs. Chen, a Year 5 teacher. She is preparing for Thursday's Science lesson 'Food chains and ecosystems' (50 min). Students needing support: Liam T. (ASD - needs noise-cancelling headset for video activities), Maya R. (Dyslexia - needs colour-coded step diagrams). Give short, practical, specific advice. Max 2-3 sentences per response.",
+              system: "You are a helpful support planning assistant for Mrs. Chen, a Year 5 teacher. She is preparing for Thursday's Science lesson 'Food chains and ecosystems' (50 min). Students needing support: Liam T. (routine support - may need a noise-cancelling headset for video activities), Maya R. (reading support - may benefit from colour-coded step diagrams). Give short, practical, specific advice for teacher review. Max 2-3 sentences per response.",
               messages: chatState.history.map((message) => ({
                 role: message.role,
                 content: message.content,

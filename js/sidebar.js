@@ -52,6 +52,12 @@ function renderSidebar(activePage) {
   }
 
   const html = `
+    <input id="mobile-nav-toggle" class="mobile-nav-toggle" type="checkbox" aria-hidden="true" />
+    <label for="mobile-nav-toggle" class="mobile-menu-button" aria-label="Open navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
     <aside style="width:220px;min-width:220px" class="fixed top-0 left-0 h-screen bg-white border-r border-[#F3F4F6] flex flex-col z-30">
       <!-- Brand -->
       <div class="px-4 pt-5 pb-5 border-b border-[#F3F4F6]">
@@ -66,7 +72,7 @@ function renderSidebar(activePage) {
           </div>
           <div>
             <p class="text-[18px] font-bold text-[#111827] leading-tight">Adjust</p>
-            <p class="text-[11px] text-[#9CA3AF] mt-0.5 leading-tight">SEN lesson planning tool</p>
+            <p class="text-[11px] text-[#9CA3AF] mt-0.5 leading-tight">Teacher-led support planning</p>
           </div>
         </a>
       </div>
@@ -78,7 +84,7 @@ function renderSidebar(activePage) {
 
       <!-- New Plan -->
       <div class="px-4 pb-3">
-        <button onclick="location.href='planner.html?new=1'" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-[#059669] text-white text-sm font-medium rounded-[10px] hover:bg-[#047857] transition-colors shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
+        <button onclick="document.getElementById('mobile-nav-toggle').checked=false;location.href='planner.html?new=1'" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-[#059669] text-white text-sm font-medium rounded-[10px] hover:bg-[#047857] transition-colors shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
           + New Plan
         </button>
       </div>
@@ -110,6 +116,7 @@ function renderSidebar(activePage) {
         </div>
       </div>
     </aside>
+    <label for="mobile-nav-toggle" class="mobile-sidebar-overlay" aria-hidden="true"></label>
   `
   const sidebarRoot = document.getElementById('sidebar')
   sidebarRoot.innerHTML = html

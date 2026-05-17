@@ -122,7 +122,7 @@ function renderStats(metrics) {
     },
     {
       num: 6,
-      label: 'SEN students',
+      label: 'Students with support profiles',
       accent: '#7C3AED',
       iconBg: '#EDE9FE',
       iconStroke: '#7C3AED',
@@ -142,7 +142,7 @@ function renderStats(metrics) {
     },
     {
       num: 42,
-      label: 'Total adjustments',
+      label: 'Planned supports',
       accent: '#D97706',
       iconBg: '#FEF3C7',
       iconStroke: '#D97706',
@@ -224,7 +224,7 @@ function renderAISummary(metrics) {
   `
 }
 
-// ── Section C: Adjustments per student ───────────────────────────────────────
+// ── Section C: Support coverage check ───────────────────────────────────────
 function renderStudentRows(metrics) {
   const sorted = [...metrics.stats].sort((a, b) => b.items - a.items)
 
@@ -239,7 +239,7 @@ function renderStudentRows(metrics) {
         font-size:11px; font-weight:500;
         text-transform:uppercase; letter-spacing:0.06em;
         background:${n.bg}; color:${n.text};
-      ">${n.label}</span>
+      ">${window.AdjustStore.displaySupportFocusLabel(n.label)}</span>
     `).join('')
 
     const lessonNames = metrics.lessonSummaries
@@ -247,6 +247,11 @@ function renderStudentRows(metrics) {
       .map((entry) => entry.lesson.title)
       .join(' · ')
     const isExpanded = expandedStudentIds.has(stat.studentId)
+    const reviewStatus = stat.pct >= 90
+      ? 'Reviewed'
+      : stat.pct >= 70
+      ? 'Follow-up suggested'
+      : 'Review needed'
 
     return `
       <div style="cursor:pointer" onclick="toggleStudentSummaryDetail('${stat.studentId}')">
@@ -273,11 +278,11 @@ function renderStudentRows(metrics) {
           <!-- Item · lesson count — never truncate -->
           <div style="flex-shrink:0;width:150px">
             <span style="font-size:13px;color:#6B7280;white-space:nowrap">
-              ${stat.items} items · ${stat.lessons} ${stat.lessons === 1 ? 'lesson' : 'lessons'}
+              ${stat.items} supports · ${stat.lessons} ${stat.lessons === 1 ? 'lesson' : 'lessons'}
             </span>
           </div>
 
-          <!-- Bar (200px) + percentage label -->
+          <!-- Bar (200px) + review status label -->
           <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0">
             <div style="
               width:200px; flex-shrink:0;
@@ -290,8 +295,8 @@ function renderStudentRows(metrics) {
                 border-radius:9999px;
               "></div>
             </div>
-            <span style="font-size:12px;color:#6B7280;font-weight:500;white-space:nowrap">
-              ${stat.pct}%
+            <span style="font-size:12px;color:#6B7280;font-weight:600;white-space:nowrap">
+              ${reviewStatus}
             </span>
           </div>
         </div>
@@ -343,7 +348,7 @@ function renderDemandingLessons(metrics) {
       <!-- Adjustment count -->
       <div style="flex-shrink:0;text-align:right;margin-left:16px">
         <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:#6B7280;margin-bottom:2px">
-          Adjustments
+          Supports
         </div>
         <div style="font-size:18px;font-weight:700;color:#111827">${entry.count}</div>
       </div>

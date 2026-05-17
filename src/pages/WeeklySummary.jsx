@@ -136,7 +136,7 @@ export default function WeeklySummary() {
         <div className="grid grid-cols-3 gap-5">
           <StatCard number="4"  label="Lessons this week" />
           <StatCard number="5"  label="SEN students" />
-          <StatCard number="20" label="Total adjustments" />
+          <StatCard number="20" label="Planned supports" />
         </div>
 
         {/* ── Adjustments per student ────────────────────────────────── */}

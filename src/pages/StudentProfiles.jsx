@@ -34,9 +34,9 @@ function ProfileCard({ student }) {
         </div>
       </div>
 
-      {/* Learning needs */}
+      {/* Support focus */}
       <div className="mb-4">
-        <p className="section-label mb-2">Learning needs</p>
+        <p className="section-label mb-2">Support focus</p>
         <div className="flex flex-wrap gap-1.5">
           {student.needs.map((n) => (
             <span key={n.label} className={`tag ${n.colorClass}`}>{n.label}</span>
@@ -72,7 +72,7 @@ export default function StudentProfiles() {
   return (
     <div>
       <TopBar
-        title="SEN student profiles"
+        title="Student support profiles"
         subtitle="5 SEN students in this class"
       >
         {/* Search */}
@@ -95,7 +95,7 @@ export default function StudentProfiles() {
       <div className="px-8 py-6">
         {/* Page heading */}
         <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">SEN student profiles</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Student support profiles</h2>
           <p className="text-sm text-gray-500 mt-1">Manage individual support plans and classroom strategies.</p>
         </div>
 

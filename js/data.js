@@ -2,40 +2,45 @@ const DEFAULT_STUDENTS = [
   {
     id: 'maya', initials: 'MR', name: 'Maya R.', color: 'blue',
     avatarBg: '#3B82F6',
-    needs: [{ label: 'Dyslexia', bg: '#DBEAFE', text: '#1D4ED8' }],
+    needs: [{ label: 'Reading Support', bg: '#DBEAFE', text: '#1D4ED8' }],
     year: 'Year 5', cls: 'Class 5B',
+    strengths: ['Strong verbal reasoning and logic', 'Responds well to visual worked examples'],
     notes: "Maya's decoding is weaker but her verbal reasoning and logic are strong. Prioritise visual supports over dense text.",
     strategies: ['Replace text instructions with visual diagrams', 'Provide colour-coded worked examples', 'Allow oral response instead of written assessment'],
   },
   {
     id: 'liam', initials: 'LT', name: 'Liam T.', color: 'purple',
     avatarBg: '#7C3AED',
-    needs: [{ label: 'ASD', bg: '#EDE9FE', text: '#5B21B6' }],
+    needs: [{ label: 'Routine Support', bg: '#EDE9FE', text: '#5B21B6' }],
     year: 'Year 5', cls: 'Class 5B',
+    strengths: ['Responds well to predictable routines', 'Works well with clear structure'],
     notes: 'Liam needs clear, consistent structure. Unexpected changes cause anxiety - always give advance notice of transitions.',
     strategies: ['Display written lesson agenda at the start', 'Give 3-minute verbal warning before transitions', 'Keep worksheet layout consistent every time'],
   },
   {
     id: 'priya', initials: 'PK', name: 'Priya K.', color: 'amber',
     avatarBg: '#D97706',
-    needs: [{ label: 'ADHD', bg: '#FEF3C7', text: '#92400E' }],
+    needs: [{ label: 'Attention Support', bg: '#FEF3C7', text: '#92400E' }],
     year: 'Year 5', cls: 'Class 5B',
+    strengths: ['Engages well in short interactive tasks', 'Responds well to movement breaks'],
     notes: "Priya's focus window is around 10 minutes. Structured short tasks with movement breaks significantly improve engagement.",
     strategies: ['Break lesson into 10-min timed segments', 'Display a visual countdown timer on the board', 'Present steps one at a time to avoid overload'],
   },
   {
     id: 'jack', initials: 'JW', name: 'Jack W.', color: 'pink',
     avatarBg: '#DB2777',
-    needs: [{ label: 'Physical', bg: '#FCE7F3', text: '#9D174D' }, { label: 'Dyslexia', bg: '#DBEAFE', text: '#1D4ED8' }],
+    needs: [{ label: 'Access Support', bg: '#FCE7F3', text: '#9D174D' }, { label: 'Reading Support', bg: '#DBEAFE', text: '#1D4ED8' }],
     year: 'Year 5', cls: 'Class 5B',
+    strengths: ['Confident with technology-supported tasks', 'Works well when alternative response options are available'],
     notes: 'Jack has limited upper-limb mobility making handwriting difficult, alongside dyslexia. Tech-assisted approaches work best.',
     strategies: ['All tasks completed via iPad with stylus', 'Speech-to-text as alternative to written response', 'Digital visual diagrams replacing text-heavy materials'],
   },
   {
     id: 'sofia', initials: 'SM', name: 'Sofia M.', color: 'green',
     avatarBg: '#059669',
-    needs: [{ label: 'Hearing', bg: '#D1FAE5', text: '#065F46' }],
+    needs: [{ label: 'Hearing Support', bg: '#D1FAE5', text: '#065F46' }],
     year: 'Year 5', cls: 'Class 5B',
+    strengths: ['Strong classroom participation when instructions are accessible', 'Benefits from written and visual support'],
     notes: 'Sofia wears bilateral hearing aids. She relies heavily on lip-reading and written support. Ensure she is always seated at the front.',
     strategies: ['Seat Sofia at the front of the classroom', 'Use written instructions alongside verbal explanations', 'Ensure captions are enabled on all video content'],
   },
@@ -108,13 +113,26 @@ const STORAGE_KEYS = {
 
 const NEED_STYLES = {
   dyslexia: { bg: '#DBEAFE', text: '#1D4ED8' },
+  'reading support': { bg: '#DBEAFE', text: '#1D4ED8' },
   asd: { bg: '#EDE9FE', text: '#5B21B6' },
+  'routine support': { bg: '#EDE9FE', text: '#5B21B6' },
   adhd: { bg: '#FEF3C7', text: '#92400E' },
+  'attention support': { bg: '#FEF3C7', text: '#92400E' },
   physical: { bg: '#FCE7F3', text: '#9D174D' },
+  'access support': { bg: '#FCE7F3', text: '#9D174D' },
   hearing: { bg: '#D1FAE5', text: '#065F46' },
+  'hearing support': { bg: '#D1FAE5', text: '#065F46' },
   anxiety: { bg: '#E0F2FE', text: '#0369A1' },
   language: { bg: '#FCE7F3', text: '#BE185D' },
   default: { bg: '#E5E7EB', text: '#4B5563' },
+}
+
+const SUPPORT_FOCUS_LABELS = {
+  dyslexia: 'Reading Support',
+  asd: 'Routine Support',
+  adhd: 'Attention Support',
+  physical: 'Access Support',
+  hearing: 'Hearing Support',
 }
 
 const AVATAR_PALETTE = [
@@ -180,8 +198,14 @@ function colorForName(name) {
 }
 
 function styleNeed(label) {
-  const style = NEED_STYLES[label.trim().toLowerCase()] || NEED_STYLES.default
-  return { label: titleCase(label.trim()), bg: style.bg, text: style.text }
+  const key = label.trim().toLowerCase()
+  const style = NEED_STYLES[key] || NEED_STYLES.default
+  return { label: SUPPORT_FOCUS_LABELS[key] || titleCase(label.trim()), bg: style.bg, text: style.text }
+}
+
+function displaySupportFocusLabel(label) {
+  const key = String(label || '').trim().toLowerCase()
+  return SUPPORT_FOCUS_LABELS[key] || titleCase(label)
 }
 
 function normalizeStudent(student) {
@@ -196,6 +220,7 @@ function normalizeStudent(student) {
     needs: student.needs.map((need) => typeof need === 'string' ? styleNeed(need) : styleNeed(need.label)),
     year: titleCase(student.year.trim()),
     cls: titleCase(student.cls.trim()),
+    strengths: Array.isArray(student.strengths) ? student.strengths.map((strength) => strength.trim()).filter(Boolean) : [],
     notes: student.notes.trim(),
     strategies: student.strategies.map((strategy) => strategy.trim()).filter(Boolean),
   }
@@ -349,11 +374,11 @@ function lessonAdjustmentCount(lesson, students = getStudents()) {
 
 function needCategory(label) {
   const value = label.toLowerCase()
-  if (value.includes('dyslexia')) return 'Materials'
-  if (value.includes('asd')) return 'Participation'
-  if (value.includes('adhd')) return 'Participation'
+  if (value.includes('dyslexia') || value.includes('reading')) return 'Materials'
+  if (value.includes('asd') || value.includes('routine')) return 'Participation'
+  if (value.includes('adhd') || value.includes('attention')) return 'Participation'
   if (value.includes('hearing')) return 'Materials'
-  if (value.includes('physical')) return 'Technology'
+  if (value.includes('physical') || value.includes('access')) return 'Technology'
   return 'Support'
 }
 
@@ -379,13 +404,15 @@ function generateAdjustmentSuggestions(lesson, selectedIds) {
     student.needs.forEach((need, index) => {
       const category = needCategory(need.label)
       const key = `${studentId}-${need.label}-${index}`
+      const focusLabel = displaySupportFocusLabel(need.label)
       if (seen.has(key)) return
       seen.add(key)
       suggestions.push({
         id: key,
         studentId,
         studentName: student.name,
-        description: `${need.label} support: align ${lesson.subject.toLowerCase()} tasks with ${student.name.split(' ')[0]}'s classroom profile.`,
+        description: `${focusLabel}: align ${lesson.subject.toLowerCase()} tasks with ${student.name.split(' ')[0]}'s classroom profile.`,
+        why: `${student.name.split(' ')[0]}'s profile notes this support focus for the lesson task.`,
         category,
         checked: false,
         ...categoryStyle(category),
@@ -402,6 +429,7 @@ function generateAdjustmentSuggestions(lesson, selectedIds) {
         studentId,
         studentName: student.name,
         description: strategy,
+        why: student.notes || `${student.name.split(' ')[0]}'s support profile includes this as a helpful classroom strategy.`,
         category,
         checked: false,
         ...categoryStyle(category),
@@ -481,7 +509,7 @@ function getWeeklyReportData() {
     return {
       id: stat.studentId,
       name: student?.name || stat.studentId,
-      needs: student?.needs.map((need) => need.label).join(', ') || '',
+      needs: student?.needs.map((need) => displaySupportFocusLabel(need.label)).join(', ') || '',
       adjustments: stat.items,
       lessonsImpacted: stat.lessons,
       mainSupportArea,
@@ -527,4 +555,5 @@ window.AdjustStore = {
   getWeeklyReportData,
   makeInitials,
   styleNeed,
+  displaySupportFocusLabel,
 }

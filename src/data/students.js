@@ -8,7 +8,7 @@ export const students = [
     name: 'Maya R.',
     color: 'blue',
     avatarClass: 'avatar-blue',
-    needs: [{ label: 'Dyslexia', colorClass: 'tag-blue' }],
+    needs: [{ label: 'Reading Support', colorClass: 'tag-blue' }],
     year: 'Year 5',
     className: 'Class 5B',
     notes:
@@ -25,7 +25,7 @@ export const students = [
     name: 'Liam T.',
     color: 'purple',
     avatarClass: 'avatar-purple',
-    needs: [{ label: 'ASD', colorClass: 'tag-purple' }],
+    needs: [{ label: 'Routine Support', colorClass: 'tag-purple' }],
     year: 'Year 5',
     className: 'Class 5B',
     notes:
@@ -42,7 +42,7 @@ export const students = [
     name: 'Priya K.',
     color: 'amber',
     avatarClass: 'avatar-amber',
-    needs: [{ label: 'ADHD', colorClass: 'tag-amber' }],
+    needs: [{ label: 'Attention Support', colorClass: 'tag-amber' }],
     year: 'Year 5',
     className: 'Class 5B',
     notes:
@@ -60,8 +60,8 @@ export const students = [
     color: 'pink',
     avatarClass: 'avatar-pink',
     needs: [
-      { label: 'Physical', colorClass: 'tag-pink' },
-      { label: 'Dyslexia', colorClass: 'tag-blue' },
+      { label: 'Access Support', colorClass: 'tag-pink' },
+      { label: 'Reading Support', colorClass: 'tag-blue' },
     ],
     year: 'Year 5',
     className: 'Class 5B',
@@ -79,7 +79,7 @@ export const students = [
     name: 'Sofia M.',
     color: 'green',
     avatarClass: 'avatar-green',
-    needs: [{ label: 'Hearing', colorClass: 'tag-green' }],
+    needs: [{ label: 'Hearing Support', colorClass: 'tag-green' }],
     year: 'Year 5',
     className: 'Class 5B',
     notes:

@@ -21,7 +21,7 @@
 
   <div id="sidebar"></div>
 
-  <main class="ml-[220px] flex-1 overflow-y-auto">
+  <main class="md:ml-[220px] flex-1 overflow-y-auto">
 
     <!-- Top bar -->
     <header class="app-topbar sticky top-0 z-20">
@@ -44,7 +44,7 @@
               <svg class="w-5 h-5 text-[#059669]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
             </div>
             <p class="text-sm font-semibold text-gray-900 mb-1">How to add a lesson</p>
-            <p class="text-sm text-gray-600 leading-relaxed">Create a new lesson plan and select your SEN students</p>
+            <p class="text-sm text-gray-600 leading-relaxed">Create a new lesson plan and select students with support profiles</p>
           </div>
 
           <div class="support-guide-card">
@@ -59,8 +59,16 @@
             <div class="support-guide-icon">
               <svg class="w-5 h-5 text-[#059669]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
             </div>
-            <p class="text-sm font-semibold text-gray-900 mb-1">Reading adjustments</p>
-            <p class="text-sm text-gray-600 leading-relaxed">Understand how suggested adjustments are generated</p>
+            <p class="text-sm font-semibold text-gray-900 mb-1">Reading support suggestions</p>
+            <p class="text-sm text-gray-600 leading-relaxed">Understand how support suggestions are generated for teacher review</p>
+          </div>
+
+          <div class="support-guide-card">
+            <div class="support-guide-icon">
+              <svg class="w-5 h-5 text-[#059669]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M12 3.75l7.5 3.75v5.25c0 4.5-3.2 7.3-7.5 8.25-4.3-.95-7.5-3.75-7.5-8.25V7.5L12 3.75Z"/></svg>
+            </div>
+            <p class="text-sm font-semibold text-gray-900 mb-1">Using suggestions responsibly</p>
+            <p class="text-sm text-gray-600 leading-relaxed">Adjust does not replace teacher judgement. Review, adapt, or ignore suggestions depending on the student and lesson context.</p>
           </div>
 
         </div>
@@ -105,12 +113,12 @@
     // ── FAQ accordion data ──────────────────────────────────────────────────────
     const FAQS = [
       {
-        q: 'How are adjustments suggested?',
-        a: 'Adjustments are generated based on each student\'s recorded learning needs and the lesson type.',
+        q: 'How are support suggestions generated?',
+        a: 'Suggestions are generated from each student support profile and the lesson context, then shown for teacher review.',
       },
       {
-        q: 'Can I edit or remove adjustments?',
-        a: 'Yes — you can check off completed adjustments or dismiss ones that don\'t apply.',
+        q: 'Can I edit or ignore suggestions?',
+        a: 'Yes — you can review, adapt, or ignore suggestions that do not fit the student, lesson, or classroom context.',
       },
       {
         q: 'How do I share my lesson plan?',

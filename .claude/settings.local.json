@@ -11,7 +11,12 @@
       "Bash(git push:*)",
       "Bash(npm run:*)",
       "mcp__Claude_Preview__preview_start",
-      "Bash(pkill -f \"serve \\\\.\")"
+      "Bash(pkill -f \"serve \\\\.\")",
+      "mcp__Claude_in_Chrome__navigate",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "Bash(git -C /Users/wumingjuan/Desktop/decoframe status)",
+      "Bash(node -e ' *)",
+      "Bash(npx serve *)"
     ]
   }
 }

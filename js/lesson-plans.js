@@ -22,7 +22,7 @@ function avatarStack(studentIds) {
 }
 
 function updateCounts(lessons, students) {
-  topSubtitle.textContent = `${lessons.length} lessons · ${students.length} SEN students`
+  topSubtitle.textContent = `${lessons.length} lessons · ${students.length} students with support profiles`
 }
 
 function renderLessonCards() {
@@ -67,7 +67,7 @@ function renderLessonCards() {
         </div>
         <div class="flex items-center justify-between pt-4" style="border-top:1px solid #F3F4F6">
           <div class="flex" style="padding-left:6px">${avatarStack(lesson.studentIds)}</div>
-          <span style="font-size:13px;color:#6B7280;font-weight:500">${adjustmentCount} adjustments</span>
+          <span style="font-size:13px;color:#6B7280;font-weight:500">${adjustmentCount} planned supports</span>
         </div>
       </div>
     `

@@ -36,7 +36,7 @@
   let _currentToast = null
 
   // ── Rating modal state ────────────────────────────────────────────────────
-  let _stars = { clarity: 0, usefulness: 0, confidence: 0, trust: 0 }
+  let _stars = {}
 
   // ─────────────────────────────────────────────────────────────────────────
   //  1. MICRO-FEEDBACK TOAST
@@ -103,13 +103,15 @@
   const DIMS = [
     { key: 'clarity',    label: 'How clear was the information presented?',            sub: 'Clarity' },
     { key: 'usefulness', label: 'How useful were the adjustment suggestions?',          sub: 'Usefulness' },
-    { key: 'confidence', label: 'How confident did you feel planning for SEN students?',sub: 'Confidence' },
+    { key: 'confidence', label: 'How confident did you feel planning support for your students?',sub: 'Confidence' },
     { key: 'trust',      label: 'How much did you trust the suggestions provided?',     sub: 'Trust' },
+    { key: 'control',    label: 'Did you feel in control of the final support decision?', sub: 'Teacher control' },
+    { key: 'fit',        label: 'Did the suggestions feel appropriate for the individual student?', sub: 'Student fit' },
   ]
 
   function showRatingModal() {
     if (document.getElementById('adj-rating-modal')) return
-    _stars = { clarity: 0, usefulness: 0, confidence: 0, trust: 0 }
+    _stars = Object.fromEntries(DIMS.map((dim) => [dim.key, 0]))
 
     const overlay = _makeOverlay('adj-rating-modal')
     overlay.innerHTML = `
@@ -228,10 +230,7 @@
     const comment = document.getElementById('adj-rm-comment')?.value?.trim() || ''
     if (window.trackEvent) {
       trackEvent('post_task_rating', {
-        clarity:    _stars.clarity,
-        usefulness: _stars.usefulness,
-        confidence: _stars.confidence,
-        trust:      _stars.trust,
+        ..._stars,
         comment,
       })
     }
@@ -362,11 +361,60 @@
     return el
   }
 
+  function showExportPrivacyConfirm(onContinue) {
+    if (document.getElementById('adj-export-confirm-modal')) return
+
+    const overlay = _makeOverlay('adj-export-confirm-modal')
+    overlay.innerHTML = `
+      <div role="dialog" aria-modal="true" aria-labelledby="adj-export-title"
+        style="background:white;border-radius:20px;max-width:440px;width:100%;
+               box-shadow:0 24px 64px rgba(15,23,42,.22);animation:adjFadeIn .2s ease">
+        <div style="padding:24px 24px 18px;border-bottom:1px solid #F3F4F6">
+          <h2 id="adj-export-title" style="font-size:18px;font-weight:700;color:#111827;margin:0 0 8px">
+            Check before exporting
+          </h2>
+          <p style="font-size:13px;color:#6B7280;line-height:1.6;margin:0">
+            This report may include sensitive student support information. Please share it only with authorised staff.
+          </p>
+        </div>
+        <div style="padding:16px 24px;display:flex;align-items:center;justify-content:flex-end;gap:10px">
+          <button id="adj-export-cancel"
+            style="padding:9px 18px;border:1px solid #E5E7EB;border-radius:8px;
+                   background:white;font-size:13px;font-weight:500;color:#374151;
+                   cursor:pointer;font-family:inherit">Cancel
+          </button>
+          <button id="adj-export-continue"
+            style="padding:9px 18px;border:none;border-radius:8px;background:#1D9E75;
+                   font-size:13px;font-weight:600;color:white;cursor:pointer;
+                   font-family:inherit">Continue export
+          </button>
+        </div>
+      </div>
+    `
+
+    const close = () => overlay.remove()
+    const continueButton = overlay.querySelector('#adj-export-continue')
+    document.body.appendChild(overlay)
+    continueButton.focus()
+
+    overlay.querySelector('#adj-export-cancel').addEventListener('click', close)
+    continueButton.addEventListener('click', () => {
+      close()
+      if (typeof onContinue === 'function') onContinue()
+    })
+    overlay.addEventListener('click', e => { if (e.target === overlay) close() })
+    overlay.addEventListener('keydown', e => {
+      if (e.key === 'Escape') close()
+    })
+  }
+
   // ── Public API ─────────────────────────────────────────────────────────────
   window.AdjustFeedback = {
     showMicroFeedback,
     dismissToast,
     showRatingModal,
     showReflectionModal,
+    showExportPrivacyConfirm,
   }
+  window.showExportPrivacyConfirm = showExportPrivacyConfirm
 }())

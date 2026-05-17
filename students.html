@@ -21,13 +21,13 @@
 
   <div id="sidebar"></div>
 
-  <main class="ml-[220px] flex-1 overflow-y-auto">
+  <main class="md:ml-[220px] flex-1 overflow-y-auto">
 
     <!-- Top bar -->
     <header class="app-topbar sticky top-0 z-20">
       <div>
-        <h1>SEN student profiles</h1>
-        <p id="student-count">5 SEN students in this class</p>
+        <h1>Student support profiles</h1>
+        <p id="student-count">5 students with support profiles in this class</p>
       </div>
       <div class="flex items-center gap-3">
         <button id="add-student-btn" class="btn-solid">
@@ -77,7 +77,7 @@
                     Thursday's Science lesson needs prep
                   </p>
                   <p style="font-size:12px;color:#6B7280;margin:0">
-                    Liam + Maya need adjustments · 2 days away
+                    Liam + Maya may need support preparation · 2 days away
                   </p>
                 </div>
               </div>
@@ -90,7 +90,7 @@
                     Weekly summary is ready
                   </p>
                   <p style="font-size:12px;color:#6B7280;margin:0">
-                    Week 9 · 42 adjustments across 4 lessons
+                    Week 9 · planned supports across 4 lessons
                   </p>
                 </div>
               </div>
@@ -128,7 +128,7 @@
         <div class="flex items-start justify-between gap-4 mb-5">
           <div>
             <p class="page-label mb-2">New student</p>
-            <h2 class="text-lg font-semibold text-gray-900">Add SEN student profile</h2>
+            <h2 class="text-lg font-semibold text-gray-900">Add student support profile</h2>
             <p class="text-sm text-gray-500 mt-1">Capture the essentials so this student appears across profiles and lesson planning.</p>
           </div>
           <button id="close-student-modal" class="btn-ghost px-3">Close</button>
@@ -149,16 +149,16 @@
               <input id="student-class" name="cls" class="input-shell" placeholder="Class 5B" />
             </div>
             <div class="full-span">
-              <label class="field-label" for="student-needs">Learning needs</label>
+              <label class="field-label" for="student-needs">Support focus</label>
               <input id="student-needs" name="needs" class="input-shell" placeholder="Separate tags with commas" />
-              <p id="needs-preview" class="text-xs text-gray-400 mt-2">Add one or more tags such as Dyslexia, ASD, ADHD, Hearing.</p>
+              <p id="needs-preview" class="text-xs text-gray-400 mt-2">Add one or more support focus tags such as Reading Support, Routine Support, Attention Support, Access Support, or Hearing Support.</p>
             </div>
             <div class="full-span">
               <label class="field-label" for="student-notes">Teacher notes</label>
               <textarea id="student-notes" name="notes" class="input-shell min-h-[92px]"></textarea>
             </div>
             <div class="full-span">
-              <label class="field-label" for="student-strategies">Common strategies</label>
+              <label class="field-label" for="student-strategies">What works well</label>
               <textarea id="student-strategies" name="strategies" class="input-shell min-h-[92px]" placeholder="Add one strategy per line"></textarea>
             </div>
           </div>

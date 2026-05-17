@@ -17,6 +17,14 @@ const studentModalDescription = studentModal.querySelector('h2 + p')
 const studentSubmitButton = studentForm.querySelector('button[type="submit"]')
 let editingStudentId = null
 
+const DEFAULT_STRENGTHS = {
+  maya: ['Strong verbal reasoning and logic', 'Responds well to visual worked examples'],
+  liam: ['Responds well to predictable routines', 'Works well with clear structure'],
+  priya: ['Engages well in short interactive tasks', 'Responds well to movement breaks'],
+  jack: ['Confident with technology-supported tasks', 'Works well when alternative response options are available'],
+  sofia: ['Strong classroom participation when instructions are accessible', 'Benefits from written and visual support'],
+}
+
 function escapeHtml(value) {
   return String(value)
     .replaceAll('&', '&amp;')
@@ -47,7 +55,7 @@ function openModal(studentId = null) {
       return
     }
     studentModalLabel.textContent = 'Edit student'
-    studentModalTitle.textContent = 'Update SEN student profile'
+    studentModalTitle.textContent = 'Update student support profile'
     studentModalDescription.textContent = 'Keep this student profile current so lesson planning stays accurate across the app.'
     studentSubmitButton.textContent = 'Save changes'
     studentForm.elements.name.value = student.name
@@ -59,7 +67,7 @@ function openModal(studentId = null) {
     renderNeedsPreview(student.needs.map((need) => need.label))
   } else {
     studentModalLabel.textContent = 'New student'
-    studentModalTitle.textContent = 'Add SEN student profile'
+    studentModalTitle.textContent = 'Add student support profile'
     studentModalDescription.textContent = 'Capture the essentials so this student appears across profiles and lesson planning.'
     studentSubmitButton.textContent = 'Save student'
     studentForm.reset()
@@ -77,7 +85,7 @@ function closeModal() {
 
 function renderNeedsPreview(tags) {
   if (!tags.length) {
-    needsPreview.innerHTML = 'Add one or more tags such as Dyslexia, ASD, ADHD, Hearing.'
+    needsPreview.innerHTML = 'Add one or more support focus tags such as Reading Support, Routine Support, Attention Support, Access Support, or Hearing Support.'
     needsPreview.className = 'text-xs text-gray-400 mt-2'
     return
   }
@@ -85,7 +93,7 @@ function renderNeedsPreview(tags) {
   needsPreview.className = 'flex flex-wrap gap-1.5 mt-2'
   needsPreview.innerHTML = tags.map((tag) => {
     const styled = window.AdjustStore.styleNeed(tag)
-    return `<span class="tag" style="background:${styled.bg};color:${styled.text}">${styled.label}</span>`
+    return `<span class="tag" style="background:${styled.bg};color:${styled.text}">${escapeHtml(styled.label)}</span>`
   }).join('')
 }
 
@@ -103,11 +111,11 @@ function renderProfiles() {
   })
 
   const allStudents = window.AdjustStore.getStudents()
-  studentCount.textContent = `${allStudents.length} SEN students in this class`
+  studentCount.textContent = `${allStudents.length} students with support profiles in this class`
 
   profilesGrid.innerHTML = students.map((student) => {
     const needTags = student.needs.map((need) =>
-      `<span class="tag" style="background:${need.bg};color:${need.text}">${need.label}</span>`
+      `<span class="tag" style="background:${need.bg};color:${need.text}">${escapeHtml(window.AdjustStore.displaySupportFocusLabel(need.label))}</span>`
     ).join('')
 
     const strategies = student.strategies.map((strategy) =>
@@ -116,6 +124,13 @@ function renderProfiles() {
         <span>${escapeHtml(strategy)}</span>
       </li>`
     ).join('')
+    const strengths = (student.strengths?.length ? student.strengths : DEFAULT_STRENGTHS[student.id] || [])
+      .map((strength) =>
+        `<li class="flex items-start gap-2 text-sm text-gray-700">
+          <span style="width:6px;height:6px;border-radius:9999px;background:#059669;flex-shrink:0;margin-top:8px;display:inline-block"></span>
+          <span>${escapeHtml(strength)}</span>
+        </li>`
+      ).join('')
 
     return `
       <div class="surface-card surface-card-hover p-5 student-profile-card" data-student-id="${escapeHtml(student.id)}" data-student-name="${escapeHtml(student.name)}">
@@ -138,8 +153,13 @@ function renderProfiles() {
         </div>
 
         <div>
+          <div class="mb-4">
+            <p class="page-label mb-2" style="color:#047857">Student strengths</p>
+            <ul class="space-y-1.5">${strengths}</ul>
+          </div>
+
           <div>
-            <p class="page-label mb-2">Learning needs</p>
+            <p class="page-label mb-2" style="color:#9CA3AF;font-weight:500">Support focus</p>
             <div class="flex flex-wrap gap-1.5">${needTags}</div>
           </div>
 
@@ -149,12 +169,13 @@ function renderProfiles() {
           </div>
 
           <div>
-            <p class="page-label mb-2">Common strategies</p>
+            <p class="page-label mb-2">What works well</p>
             <ul class="space-y-1.5">${strategies}</ul>
           </div>
         </div>
 
         <div style="margin-top:16px;padding-top:16px;border-top:1px solid #F3F4F6">
+          <p style="font-size:11px;color:#9CA3AF;margin:0 0 10px">Last updated by teacher</p>
           <button
             onclick="window.location.href='planner.html'"
             style="width:100%;padding:9px 0;background:#059669;color:white;

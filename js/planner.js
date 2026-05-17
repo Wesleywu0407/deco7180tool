@@ -197,7 +197,7 @@ function renderContext() {
 
             <div class="flex items-center justify-between gap-3 pt-3 border-t border-gray-100">
               <p class="text-[12px] text-gray-400">
-                Choose students from the roster to tailor suggested adjustments.
+                Choose students from the roster to tailor support suggestions for your review.
               </p>
               <div class="flex items-center gap-3">
                 <button type="button" class="btn-ghost" id="cancel-new-lesson">Cancel</button>
@@ -335,7 +335,7 @@ function renderContext() {
           transition:background 0.15s"
           onmouseenter="this.style.background='#F0FDF4'"
           onmouseleave="this.style.background='white'">
-          ✓ Apply all adjustments
+          Review selected supports
         </button>
         <button onclick="alert('Lesson plan saved!')"
           style="flex:1;height:48px;display:flex;align-items:center;justify-content:center;
@@ -354,7 +354,7 @@ function renderContext() {
   }
 }
 
-// ─── Render: Suggested Adjustments (right column) ─────────────────────────────
+// ─── Render: Support suggestions (right column) ─────────────────────────────
 function renderAdjustments() {
   const filtersEl     = document.getElementById('adj-filters')
   const list          = document.getElementById('adjustments-list')
@@ -376,10 +376,10 @@ function renderAdjustments() {
           </svg>
         </div>
         <p style="font-size:12px;color:#6B7280;font-weight:500">Select students from the roster</p>
-        <p style="font-size:11px;color:#9CA3AF;margin-top:4px">Adjustments will appear here</p>
+        <p style="font-size:11px;color:#9CA3AF;margin-top:4px">Support suggestions will appear here</p>
       </div>
     `
-    if (progressLabel) progressLabel.textContent = '0 / 0 done'
+    if (progressLabel) progressLabel.textContent = '0 / 0 reviewed'
     if (progressBar)   progressBar.style.width   = '0%'
     return
   }
@@ -418,10 +418,10 @@ function renderAdjustments() {
 
   if (adjustments.length === 0) {
     list.innerHTML = `<p style="font-size:12px;color:#9CA3AF;font-style:italic;text-align:center;margin-top:24px">
-      Suggestions will appear as you build the lesson.</p>`
+      Support suggestions will appear as you build the lesson.</p>`
   } else if (visible.length === 0) {
     list.innerHTML = `<p style="font-size:12px;color:#9CA3AF;font-style:italic;text-align:center;margin-top:24px">
-      No ${activeFilter} adjustments for the selected students.</p>`
+      No ${activeFilter} suggestions for the selected students.</p>`
   } else {
     list.innerHTML = visible.map((adj, index) => {
       const student = window.AdjustStore.getStudent(adj.studentId)
@@ -462,6 +462,10 @@ function renderAdjustments() {
               <p style="font-size:13px;line-height:1.65;color:#374151;margin:0;
                 text-decoration:${adj.checked ? 'line-through' : 'none'};
                 transition:opacity 0.2s ease,text-decoration-color 0.2s ease">${adj.description}</p>
+              <p style="font-size:11px;line-height:1.55;color:#6B7280;margin:7px 0 0">
+                <span style="font-weight:600;color:#374151">Why this helps:</span>
+                ${adj.why || 'This connects the suggestion to the student profile and lesson context.'}
+              </p>
             </div>
             <label style="display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;position:relative">
               <input type="checkbox" ${adj.checked ? 'checked' : ''}
@@ -487,7 +491,7 @@ function renderAdjustments() {
   const checked = adjustments.filter(a => a.checked).length
   const total   = adjustments.length
   const pct     = total === 0 ? 0 : Math.round((checked / total) * 100)
-  if (progressLabel) progressLabel.textContent = `${checked} / ${total} done`
+  if (progressLabel) progressLabel.textContent = `${checked} / ${total} reviewed`
   if (progressBar)   progressBar.style.width   = pct + '%'
 }
 

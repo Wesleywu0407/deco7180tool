@@ -21,7 +21,7 @@
 
   <div id="sidebar"></div>
 
-  <main class="ml-[220px] flex-1 flex flex-col overflow-hidden">
+  <main class="md:ml-[220px] flex-1 flex flex-col overflow-hidden">
 
     <!-- ── Top bar ───────────────────────────────────────────────────────────── -->
     <header class="planner-topbar flex-shrink-0">
@@ -37,7 +37,7 @@
       </div>
 
       <div class="flex items-center gap-2">
-        <button class="planner-btn-ghost">
+        <button class="planner-btn-ghost" onclick="showExportPrivacyConfirm(() => trackEvent('report_exported',{pageId:'planner'}))">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
           </svg>
@@ -100,15 +100,15 @@
 
       </section>
 
-      <!-- ── RIGHT: Suggested Adjustments (320px) ────────────────────────────── -->
+      <!-- ── RIGHT: Support suggestions (320px) ────────────────────────────── -->
       <aside class="planner-col-right planner-panel flex flex-col flex-shrink-0">
 
         <!-- Sticky column header with progress + filter pills -->
         <div class="px-4 pt-4 pb-3 border-b border-gray-100 flex-shrink-0">
           <!-- Title + counter -->
           <div class="flex items-center justify-between mb-2">
-            <p class="planner-col-label">Suggested Adjustments</p>
-            <span id="adj-progress-label" class="text-[11px] font-semibold text-gray-500 tabular-nums">0 / 0 done</span>
+            <p class="planner-col-label">Support suggestions</p>
+            <span id="adj-progress-label" class="text-[11px] font-semibold text-gray-500 tabular-nums">0 / 0 reviewed</span>
           </div>
 
           <!-- Progress bar (4px) -->
@@ -119,6 +119,9 @@
           </div>
 
           <!-- Filter pills -->
+          <p style="font-size:11px;line-height:1.5;color:#6B7280;margin:10px 0 0">
+            These suggestions are starting points. Please adapt them to the student, lesson, and classroom context.
+          </p>
           <div id="adj-filters" class="flex flex-wrap gap-1.5 mt-3"></div>
         </div>
 

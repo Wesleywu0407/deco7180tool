@@ -3,7 +3,7 @@
 
 body {
   font-family: 'Inter', system-ui, sans-serif;
-  min-width: 1024px;
+  min-width: 0;
   color: #1f2937;
   background:
     radial-gradient(circle at top, rgba(29, 158, 117, 0.08), transparent 28%),
@@ -1369,7 +1369,7 @@ html, body {
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--text-primary);
-  min-width: 1120px;
+  min-width: 0;
   background: var(--app-bg);
 }
 
@@ -1676,6 +1676,18 @@ main > header,
   font-size: 13px;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.85);
+}
+
+.teacher-reflection-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 900px) {
+  .teacher-reflection-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .recommendation-actions {
@@ -2078,6 +2090,353 @@ main > header,
 .settings-pill {
   background: var(--surface-tint);
   color: var(--green);
+}
+
+/* ─── Mobile shell and responsive layout fixes ─────────────────────────────── */
+.mobile-nav-toggle,
+.mobile-menu-button,
+.mobile-sidebar-overlay {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  html,
+  body {
+    width: 100%;
+    min-width: 0 !important;
+    overflow-x: hidden;
+  }
+
+  body {
+    display: block;
+    height: auto !important;
+    min-height: 100vh;
+    overflow: auto !important;
+    overflow-x: hidden !important;
+  }
+
+  #sidebar aside {
+    width: 220px !important;
+    min-width: 220px !important;
+    transform: translateX(-100%);
+    transition: transform 0.22s ease;
+    z-index: 70;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+  }
+
+  #sidebar .mobile-nav-toggle {
+    position: fixed;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  #sidebar .mobile-menu-button {
+    position: fixed;
+    top: 14px;
+    left: 14px;
+    z-index: 80;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background: #FFFFFF;
+    border: 1px solid var(--border-soft);
+    box-shadow: var(--card-shadow);
+    cursor: pointer;
+  }
+
+  #sidebar .mobile-menu-button span {
+    width: 18px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--text-primary);
+  }
+
+  #sidebar .mobile-sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 65;
+    display: none;
+    background: rgba(15, 23, 42, 0.36);
+  }
+
+  #sidebar .mobile-nav-toggle:checked ~ aside {
+    transform: translateX(0);
+  }
+
+  #sidebar .mobile-nav-toggle:checked ~ .mobile-sidebar-overlay {
+    display: block;
+  }
+
+  main,
+  main.ml-\[220px\] {
+    width: 100% !important;
+    max-width: 100vw !important;
+    margin-left: 0 !important;
+    min-width: 0 !important;
+  }
+
+  main > div,
+  main > section,
+  main > header {
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  main p,
+  main h1,
+  main h2,
+  main h3,
+  main span {
+    overflow-wrap: anywhere;
+  }
+
+  main .px-8 > p,
+  main .px-6 > p {
+    max-width: calc(100vw - 48px);
+  }
+
+  main.flex.flex-col.overflow-hidden,
+  main.overflow-y-auto {
+    min-height: 100vh;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  .app-topbar,
+  .planner-topbar {
+    min-width: 0;
+    padding: 70px 16px 14px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .app-topbar > div,
+  .planner-topbar > div {
+    min-width: 0;
+  }
+
+  .app-topbar h1,
+  .planner-topbar h1 {
+    font-size: 20px;
+  }
+
+  .topbar-actions,
+  .app-topbar .flex.items-center.gap-3,
+  .planner-topbar .flex.items-center.gap-2 {
+    width: 100%;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: stretch;
+  }
+
+  .topbar-actions > button,
+  .app-topbar .flex.items-center.gap-3 > button,
+  .planner-topbar .planner-btn-ghost,
+  .planner-topbar .planner-btn-primary {
+    width: 100%;
+    flex: 1 1 auto;
+  }
+
+  #notif-container {
+    align-self: flex-end;
+  }
+
+  main .px-8,
+  main .px-6 {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden;
+  }
+
+  main .py-6 {
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+  }
+
+  main .space-y-8 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 24px !important;
+  }
+
+  main .space-y-6 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 18px !important;
+  }
+
+  #lesson-grid,
+  #profiles-grid,
+  #section-stats,
+  #report-overview,
+  #report-insights,
+  .grid.grid-cols-3,
+  .grid.grid-cols-2 {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .surface-card,
+  .summary-panel,
+  .support-guide-card,
+  .contact-card {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .lesson-card {
+    overflow: hidden;
+    padding: 18px 16px !important;
+    width: 100% !important;
+    max-width: calc(100vw - 32px) !important;
+  }
+
+  .lesson-card .lesson-title {
+    overflow-wrap: anywhere;
+  }
+
+  .lesson-card > div:last-child,
+  .lesson-card > div[style*="border-top"] {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .lesson-card > div:last-child > span,
+  .lesson-card > div[style*="border-top"] > span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    text-align: left !important;
+  }
+
+  .add-card {
+    min-height: 150px;
+  }
+
+  .recommendation-banner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 18px 16px;
+    border-radius: 14px;
+  }
+
+  .recommendation-copy {
+    max-width: none;
+  }
+
+  .recommendation-actions,
+  .recommendation-actions-row {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .recommendation-apply-btn,
+  .recommendation-dismiss-btn {
+    width: 100%;
+    justify-content: center;
+    white-space: normal;
+  }
+
+  .planner-layout {
+    flex-direction: column;
+    overflow: visible !important;
+    padding: 16px !important;
+    gap: 16px;
+  }
+
+  .planner-panel,
+  .planner-col-left,
+  .planner-col-middle,
+  .planner-col-right {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    flex: none !important;
+    overflow: visible !important;
+  }
+
+  .planner-col-left,
+  .planner-col-right {
+    max-height: none;
+  }
+
+  #roster,
+  #lesson-context,
+  #adjustments-list {
+    overflow: visible !important;
+    max-height: none;
+  }
+
+  .planner-save-footer > div,
+  #lesson-footer > div {
+    flex-direction: column;
+  }
+
+  .planner-save-footer button,
+  #lesson-footer button {
+    width: 100%;
+    flex: none !important;
+  }
+
+  #section-students > div > div:first-child {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
+  #section-students [style*="width:220px"],
+  #section-students [style*="width:150px"],
+  #section-students [style*="width:200px"] {
+    width: 100% !important;
+  }
+
+  #section-students [style*="width:200px"] {
+    flex-shrink: 1 !important;
+  }
+
+  .contact-card,
+  .summary-panel + div[style*="justify-content:space-between"] {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+
+  .summary-panel + div[style*="justify-content:space-between"] > div:last-child {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .summary-panel + div[style*="justify-content:space-between"] button,
+  .contact-card button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  #notes-btn {
+    display: none !important;
+  }
+
+  #notes-drawer {
+    width: 100vw !important;
+    transform: translateX(100vw) !important;
+  }
+
+  #notes-drawer[style*="translateX(0)"] {
+    transform: translateX(0) !important;
+  }
+
+  .settings-select {
+    min-width: 0;
+    max-width: 100%;
+  }
 }
 
 .focus-panel {

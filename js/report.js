@@ -6,8 +6,8 @@ document.getElementById('report-export-date').textContent = reportData.exportDat
 
 document.getElementById('report-overview').innerHTML = [
   { label: 'Lessons this week', value: reportData.lessonsThisWeek },
-  { label: 'SEN students', value: reportData.senStudents },
-  { label: 'Total adjustments', value: reportData.totalAdjustments },
+  { label: 'Students with support profiles', value: reportData.senStudents },
+  { label: 'Planned supports', value: reportData.totalAdjustments },
 ].map((item) => `
   <div class="surface-card p-5">
     <p class="text-sm text-gray-500">${item.label}</p>
@@ -30,7 +30,7 @@ const nextFocus = reportData.nextWeekFocus
 
 document.getElementById('report-insights').innerHTML = [
   {
-    title: 'Most common adjustment type',
+    title: 'Most common support type',
     body: `${reportData.mostCommonType} support was the strongest pattern in this week's planning.`,
   },
   {
@@ -38,7 +38,7 @@ document.getElementById('report-insights').innerHTML = [
     body: repeatedNames.length ? repeatedNames.join(', ') : 'No repeated visual support patterns were recorded this week.',
   },
   {
-    title: 'Suggested focus for next week',
+    title: 'Support focus for teacher review',
     body: nextFocus
       ? `${nextFocus.title} should prioritise visual scaffolds for ${nextFocus.studentIds.length} students.`
       : 'Continue monitoring recurring support patterns in upcoming lessons.',
