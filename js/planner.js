@@ -681,33 +681,39 @@ function renderAdjustments() {
 // ─── Actions ──────────────────────────────────────────────────────────────────
 function saveLessonPlan(event) {
   event.preventDefault()
-  if (!lessonFormState.title.trim() || !lessonFormState.subject.trim()
-    || !lessonFormState.goals.trim() || !lessonFormState.assessment.trim()) {
-    plannerSuccessMessage = 'Complete the lesson title, subject, learning goals, and assessment before saving.'
+
+  if (!lessonFormState.subject.trim() || !lessonFormState.year.trim()) {
+    plannerSuccessMessage = 'Add the subject and year level before saving this lesson.'
     renderContext()
     renderAdjustments()
     return
   }
 
+  const title = lessonFormState.title.trim()
+    || `${lessonFormState.subject.trim()} lesson`
+  const goals = lessonFormState.goals.trim()
+    || 'Learning goals to be added.'
+  const assessment = lessonFormState.assessment.trim()
+    || 'Assessment notes to be added.'
+  const lessonPayload = {
+    subject: lessonFormState.subject,
+    year: lessonFormState.year,
+    title,
+    date: lessonFormState.date,
+    session: lessonFormState.session,
+    duration: lessonFormState.duration,
+    goals,
+    assessment,
+    studentIds: selectedIds,
+  }
+
   // ── Save lesson data ───────────────────────────────────────────────────────
   let savedId
   if (isEditLesson && lesson.id) {
-    window.AdjustStore.updateLesson(lesson.id, {
-      subject: lessonFormState.subject, year: lessonFormState.year,
-      title: lessonFormState.title,    date: lessonFormState.date,
-      session: lessonFormState.session, duration: lessonFormState.duration,
-      goals: lessonFormState.goals,    assessment: lessonFormState.assessment,
-      studentIds: selectedIds,
-    })
+    window.AdjustStore.updateLesson(lesson.id, lessonPayload)
     savedId = lesson.id
   } else {
-    const saved = window.AdjustStore.saveLesson({
-      subject: lessonFormState.subject, year: lessonFormState.year,
-      title: lessonFormState.title,    date: lessonFormState.date,
-      session: lessonFormState.session, duration: lessonFormState.duration,
-      goals: lessonFormState.goals,    assessment: lessonFormState.assessment,
-      studentIds: selectedIds,
-    })
+    const saved = window.AdjustStore.saveLesson(lessonPayload)
     savedId = saved.id
   }
 
@@ -738,6 +744,11 @@ function saveLessonPlan(event) {
       options:  ['Yes, helped me think about students', 'Somewhat', 'Not really'],
       context:  'lesson_save',
     })
+  }
+
+  if (!isEditLesson) {
+    location.href = redirectUrl
+    return
   }
 
   // ── Reflection modal — redirects on dismiss ────────────────────────────────
