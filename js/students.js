@@ -8,18 +8,71 @@ const closeStudentModalButton = document.getElementById('close-student-modal')
 const cancelStudentButton = document.getElementById('cancel-student')
 const studentForm = document.getElementById('student-form')
 const studentSearch = document.getElementById('student-search')
-const studentNeedsInput = document.getElementById('student-needs')
+const studentDiagnosesInput = document.getElementById('student-diagnoses')
 const needsPreview = document.getElementById('needs-preview')
+const supportNeedPreview = document.getElementById('support-need-preview')
 const studentFormError = document.getElementById('student-form-error')
+const supportFocusOptions = document.getElementById('support-focus-options')
 const studentModalLabel = studentModal.querySelector('.page-label')
 const studentModalTitle = studentModal.querySelector('h2')
 const studentModalDescription = studentModal.querySelector('h2 + p')
 const studentSubmitButton = studentForm.querySelector('button[type="submit"]')
 let editingStudentId = null
+let selectedDiagnoses = []
+
+const diagnosisMap = {
+  Dyslexia: {
+    tag: 'Reading support',
+    description: 'Dyslexia — decoding is weaker than verbal comprehension. Reading-heavy tasks need visual alternatives.',
+  },
+  ASD: {
+    tag: 'Routine support',
+    description: 'ASD — benefits from predictable structure and advance notice of any changes to routine.',
+  },
+  ADHD: {
+    tag: 'Attention support',
+    description: 'ADHD — focus window is around 10 minutes. Movement breaks significantly improve engagement.',
+  },
+  'Physical disability': {
+    tag: 'Access support',
+    description: 'Physical disability — limited upper-limb mobility. Tech-assisted approaches work best.',
+  },
+  'Hearing impairment': {
+    tag: 'Hearing support',
+    description: 'Hearing impairment — wears hearing aids and relies on lip-reading and written support.',
+  },
+  'Communication delay': {
+    tag: 'Communication support',
+    description: 'Communication delay — benefits from extended processing time and clear step-by-step instructions.',
+  },
+  'Sensory processing disorder': {
+    tag: 'Sensory support',
+    description: 'Sensory processing differences — benefits from low-stimulus environment and movement breaks.',
+  },
+  'Social communication disorder': {
+    tag: 'Social support',
+    description: 'Social communication needs — benefits from structured group work and clear social expectations.',
+  },
+  'Anxiety disorder': {
+    tag: 'Emotional support',
+    description: 'Anxiety disorder — benefits from predictable routines and a calm check-in at lesson start.',
+  },
+  'Intellectual disability': {
+    tag: 'Learning support',
+    description: 'Intellectual disability — benefits from scaffolded tasks, visual instructions and extra time.',
+  },
+  'Other / Not specified': {
+    tag: 'Learning support',
+    description: 'Additional learning needs — teacher to add specific context in notes below.',
+  },
+}
+
+const DIAGNOSIS_OPTIONS = Object.keys(diagnosisMap)
 
 const DEFAULT_STRENGTHS = {
   maya: ['Strong verbal reasoning and logic', 'Responds well to visual worked examples'],
   liam: ['Responds well to predictable routines', 'Works well with clear structure'],
+  bella: ['Enthusiastic contributor in group discussions', 'Strong verbal comprehension'],
   priya: ['Engages well in short interactive tasks', 'Responds well to movement breaks'],
   jack: ['Confident with technology-supported tasks', 'Works well when alternative response options are available'],
   sofia: ['Strong classroom participation when instructions are accessible', 'Benefits from written and visual support'],
@@ -41,6 +94,68 @@ function parseList(value) {
     .filter(Boolean)
 }
 
+function normaliseDiagnosis(label) {
+  return String(label || '')
+    .trim()
+    .toLowerCase()
+    .replace(/\b\w/g, (char) => char.toUpperCase())
+}
+
+function getSupportTags(diagnoses) {
+  return diagnoses
+    .map((diagnosis) => diagnosisMap[diagnosis]?.tag)
+    .filter(Boolean)
+    .filter((tag, index, list) => list.indexOf(tag) === index)
+}
+
+function getSupportNeedText(diagnoses) {
+  return diagnoses
+    .map((diagnosis) => diagnosisMap[diagnosis]?.description)
+    .filter(Boolean)
+    .join(' ')
+}
+
+function diagnosesFromSupportTags(tags) {
+  return tags
+    .map((tag) => DIAGNOSIS_OPTIONS.find((diagnosis) => diagnosisMap[diagnosis].tag === tag))
+    .filter(Boolean)
+    .filter((diagnosis, index, list) => list.indexOf(diagnosis) === index)
+}
+
+function setSelectedDiagnoses(diagnoses) {
+  const allowed = new Map(DIAGNOSIS_OPTIONS.map((option) => [option.toLowerCase(), option]))
+  selectedDiagnoses = diagnoses
+    .map((diagnosis) => allowed.get(String(diagnosis).trim().toLowerCase()) || normaliseDiagnosis(diagnosis))
+    .filter((diagnosis) => diagnosisMap[diagnosis])
+    .filter((diagnosis, index, list) => list.indexOf(diagnosis) === index)
+  studentDiagnosesInput.value = selectedDiagnoses.join(', ')
+  renderDiagnosisOptions()
+  renderNeedsPreview(selectedDiagnoses)
+}
+
+function toggleDiagnosis(diagnosis) {
+  const exists = selectedDiagnoses.includes(diagnosis)
+  setSelectedDiagnoses(exists
+    ? selectedDiagnoses.filter((item) => item !== diagnosis)
+    : [...selectedDiagnoses, diagnosis])
+}
+
+function renderDiagnosisOptions() {
+  supportFocusOptions.innerHTML = DIAGNOSIS_OPTIONS.map((option) => {
+    const selected = selectedDiagnoses.includes(option)
+    return `
+      <button type="button"
+        onclick="toggleDiagnosis('${escapeHtml(option)}')"
+        aria-pressed="${selected ? 'true' : 'false'}"
+        style="padding:7px 11px;border-radius:999px;border:1px solid ${selected ? '#A7F3D0' : '#D1D5DB'};
+        background:${selected ? '#D1FAE5' : 'white'};color:${selected ? '#065F46' : '#374151'};
+        font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">
+        ${escapeHtml(option)}
+      </button>
+    `
+  }).join('')
+}
+
 function openModal(studentId = null) {
   editingStudentId = studentId
   studentModal.classList.remove('hidden')
@@ -60,18 +175,18 @@ function openModal(studentId = null) {
     studentSubmitButton.textContent = 'Save changes'
     studentForm.elements.name.value = student.name
     studentForm.elements.year.value = student.year
-    studentForm.elements.cls.value = student.cls
-    studentForm.elements.needs.value = student.needs.map((need) => need.label).join(', ')
-    studentForm.elements.notes.value = student.notes
-    studentForm.elements.strategies.value = student.strategies.join('\n')
-    renderNeedsPreview(student.needs.map((need) => need.label))
+    studentForm.elements.cls.value = student.classGroup || student.cls
+    setSelectedDiagnoses(student.diagnoses || diagnosesFromSupportTags(student.supportTags || student.needs.map((need) => need.label)))
+    studentForm.elements.notes.value = student.teacherNotes || student.notes
+    studentForm.elements.strategies.value = (student.whatWorksWell || student.strategies).join('\n')
   } else {
     studentModalLabel.textContent = 'New student'
     studentModalTitle.textContent = 'Add student support profile'
     studentModalDescription.textContent = 'Capture the essentials so this student appears across profiles and lesson planning.'
     studentSubmitButton.textContent = 'Save student'
     studentForm.reset()
-    renderNeedsPreview([])
+    studentForm.elements.year.value = 'Year 5'
+    setSelectedDiagnoses([])
   }
 
   document.getElementById('student-name').focus()
@@ -83,29 +198,39 @@ function closeModal() {
   studentModal.classList.remove('flex')
 }
 
-function renderNeedsPreview(tags) {
-  if (!tags.length) {
-    needsPreview.innerHTML = 'Add one or more support focus tags such as Reading Support, Routine Support, Attention Support, Access Support, or Hearing Support.'
-    needsPreview.className = 'text-xs text-gray-400 mt-2'
+function renderNeedsPreview(diagnoses) {
+  const supportTags = getSupportTags(diagnoses)
+  const description = getSupportNeedText(diagnoses)
+
+  if (!diagnoses.length) {
+    needsPreview.innerHTML = 'Choose one or more diagnoses.'
+    needsPreview.className = 'text-xs text-gray-400'
+    supportNeedPreview.textContent = ''
     return
   }
 
-  needsPreview.className = 'flex flex-wrap gap-1.5 mt-2'
-  needsPreview.innerHTML = tags.map((tag) => {
+  needsPreview.className = 'flex flex-wrap gap-1.5'
+  needsPreview.innerHTML = supportTags.map((tag) => {
     const styled = window.AdjustStore.styleNeed(tag)
     return `<span class="tag" style="background:${styled.bg};color:${styled.text}">${escapeHtml(styled.label)}</span>`
   }).join('')
+  supportNeedPreview.textContent = description
 }
 
 function renderProfiles() {
   const searchValue = studentSearch.value.trim().toLowerCase()
   const students = window.AdjustStore.getStudents().filter((student) => {
+    const diagnoses = student.diagnoses || diagnosesFromSupportTags(student.supportTags || student.needs.map((need) => need.label))
+    const generatedSupportNeed = student.supportNeed || getSupportNeedText(diagnoses)
     if (!searchValue) return true
     return [
       student.name,
       student.year,
-      student.cls,
-      student.notes,
+      student.classGroup || student.cls,
+      generatedSupportNeed,
+      student.teacherNotes || student.notes,
+      ...(student.whatWorksWell || student.strategies),
+      ...diagnoses,
       ...student.needs.map((need) => need.label),
     ].join(' ').toLowerCase().includes(searchValue)
   })
@@ -114,8 +239,11 @@ function renderProfiles() {
   studentCount.textContent = `${allStudents.length} students with support profiles in this class`
 
   profilesGrid.innerHTML = students.map((student) => {
+    const diagnoses = student.diagnoses || diagnosesFromSupportTags(student.supportTags || student.needs.map((need) => need.label))
+    const supportTags = student.supportTags || getSupportTags(diagnoses)
+    const generatedSupportNeed = student.supportNeed || getSupportNeedText(diagnoses)
     const needTags = student.needs.map((need) =>
-      `<span class="tag" style="background:${need.bg};color:${need.text}">${escapeHtml(window.AdjustStore.displaySupportFocusLabel(need.label))}</span>`
+      `<span class="tag" style="background:${need.bg};color:${need.text}">${escapeHtml(need.label)}</span>`
     ).join('')
 
     const strategies = student.strategies.map((strategy) =>
@@ -139,7 +267,7 @@ function renderProfiles() {
             <div class="avatar" style="width:44px;height:44px;font-size:13px;background:${student.avatarBg}">${student.initials}</div>
             <div>
               <p class="text-base font-semibold text-gray-900">${escapeHtml(student.name)}</p>
-              <p style="font-size:13px;color:#6B7280;margin-top:4px">${escapeHtml(student.year)} · ${escapeHtml(student.cls)}</p>
+              <p style="font-size:13px;color:#6B7280;margin-top:4px">${escapeHtml(student.year)} · ${escapeHtml(student.classGroup || student.cls)}</p>
             </div>
           </div>
           <button type="button" onclick="openEditStudentModal('${student.id}')"
@@ -158,18 +286,18 @@ function renderProfiles() {
             <ul class="space-y-1.5">${strengths}</ul>
           </div>
 
-          <div>
+          <div class="mb-4">
+            <p class="page-label mb-2" style="color:#047857">Support need</p>
+            <p style="font-size:14px;line-height:1.6;color:var(--text-secondary)">${escapeHtml(generatedSupportNeed)}</p>
+          </div>
+
+          <div class="mb-4">
             <p class="page-label mb-2" style="color:#9CA3AF;font-weight:500">Support focus</p>
             <div class="flex flex-wrap gap-1.5">${needTags}</div>
           </div>
 
-          <div class="mb-4">
-            <p class="page-label mb-2">Teacher notes</p>
-            <p style="font-size:14px;line-height:1.6;color:#374151">${escapeHtml(student.notes)}</p>
-          </div>
-
           <div>
-            <p class="page-label mb-2">What works well</p>
+            <p class="page-label mb-2">What works in class</p>
             <ul class="space-y-1.5">${strategies}</ul>
           </div>
         </div>
@@ -192,10 +320,6 @@ function renderProfiles() {
   }).join('')
 }
 
-studentNeedsInput.addEventListener('input', () => {
-  renderNeedsPreview(parseList(studentNeedsInput.value))
-})
-
 studentForm.addEventListener('submit', (event) => {
   event.preventDefault()
 
@@ -204,11 +328,13 @@ studentForm.addEventListener('submit', (event) => {
   const year = String(formData.get('year') || '').trim()
   const cls = String(formData.get('cls') || '').trim()
   const notes = String(formData.get('notes') || '').trim()
-  const needs = parseList(String(formData.get('needs') || ''))
+  const diagnoses = [...selectedDiagnoses]
+  const supportTags = getSupportTags(diagnoses)
+  const supportNeed = getSupportNeedText(diagnoses)
   const strategies = parseList(String(formData.get('strategies') || ''))
 
-  if (!name || !year || !cls || !needs.length) {
-    studentFormError.textContent = 'Add the student name, year level, class group, and at least one learning need.'
+  if (!name || !year || !cls || !diagnoses.length) {
+    studentFormError.textContent = 'Add the student name, year level, class group, and at least one diagnosis.'
     studentFormError.classList.remove('hidden')
     return
   }
@@ -217,19 +343,23 @@ studentForm.addEventListener('submit', (event) => {
     window.AdjustStore.updateStudent(editingStudentId, {
       name,
       year,
-      cls,
-      notes,
-      needs,
-      strategies,
+      classGroup: cls,
+      diagnoses,
+      supportTags,
+      supportNeed,
+      teacherNotes: notes,
+      whatWorksWell: strategies,
     })
   } else {
     window.AdjustStore.saveStudent({
       name,
       year,
-      cls,
-      notes,
-      needs,
-      strategies,
+      classGroup: cls,
+      diagnoses,
+      supportTags,
+      supportNeed,
+      teacherNotes: notes,
+      whatWorksWell: strategies,
     })
   }
 
@@ -249,5 +379,6 @@ studentModal.addEventListener('click', (event) => {
 studentSearch.addEventListener('input', renderProfiles)
 
 window.openEditStudentModal = openModal
+window.toggleDiagnosis = toggleDiagnosis
 
 renderProfiles()

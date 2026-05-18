@@ -1989,6 +1989,62 @@ main > header,
   opacity: 0.6;
 }
 
+.support-edit-textarea {
+  width: 100%;
+  min-height: 82px;
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  background: #FFFFFF;
+  padding: 10px 12px;
+  color: var(--text-primary);
+  font-size: 13px;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+.support-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.support-card-action {
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  background: #FFFFFF;
+  color: var(--text-secondary);
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.support-card-action:hover {
+  background: var(--surface-soft);
+  color: var(--text-primary);
+}
+
+.support-card-action.primary {
+  border-color: #A7F3D0;
+  background: #ECFDF5;
+  color: var(--green);
+}
+
+.teacher-edited-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 8px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #D1FAE5;
+  color: #047857;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .checkbox-box,
 .checkbox-box.checked {
   width: 18px;

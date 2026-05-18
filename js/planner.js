@@ -20,6 +20,8 @@ let plannerSuccessMessage = ''
 // ── UI filter / search state ───────────────────────────────────────────────────
 let activeFilter = 'all'   // 'all' | 'materials' | 'participation' | 'assessment' | 'technology'
 let rosterSearch = ''
+let editingSuggestionId = null
+const editedSuggestions = {}
 
 // ── Research / comparison metrics ─────────────────────────────────────────────
 const _pageStartTime      = Date.now()
@@ -45,11 +47,33 @@ function escapeHtml(v) {
     .replaceAll('"', '&quot;').replaceAll("'", '&#39;')
 }
 
+function rosterSupportLabel(label) {
+  const key = String(label || '').trim().toUpperCase()
+  return {
+    DYSLEXIA: 'Reading support',
+    ASD: 'Sensory support',
+    ADHD: 'Attention support',
+    PHYSICAL: 'Access support',
+    HEARING: 'Hearing support',
+    WEBSITE: 'Learning support',
+  }[key] || label
+}
+
 function syncAdjustments() {
   adjustments = window.AdjustStore.generateAdjustmentSuggestions(
     { ...lesson, ...lessonFormState, subject: lessonFormState.subject.toUpperCase() },
     selectedIds
   )
+  applyEditedSuggestions()
+}
+
+function applyEditedSuggestions() {
+  adjustments.forEach((adj) => {
+    if (editedSuggestions[adj.id]) {
+      adj.description = editedSuggestions[adj.id]
+      adj.editedByTeacher = true
+    }
+  })
 }
 
 // ─── Breadcrumb ───────────────────────────────────────────────────────────────
@@ -77,7 +101,7 @@ function renderRoster() {
     : visible.map(student => {
         const selected  = selectedIds.includes(student.id)
         const needTags  = student.needs.map(n =>
-          `<span class="tag" style="background:${n.bg};color:${n.text}">${n.label}</span>`
+          `<span class="tag" style="background:${n.bg};color:${n.text}">${escapeHtml(rosterSupportLabel(n.label))}</span>`
         ).join('')
 
         return `
@@ -354,6 +378,148 @@ function renderContext() {
   }
 }
 
+function lessonSummaryMeta() {
+  const title = isNewLesson ? lessonFormState.title : lesson.title
+  const subject = isNewLesson ? lessonFormState.subject : lesson.subject
+  const date = isNewLesson ? lessonFormState.date : lesson.date
+  const session = isNewLesson ? lessonFormState.session : lesson.session
+  return {
+    title: title || 'Untitled lesson',
+    subject: subject || 'Subject not set',
+    timing: [date, session].filter(Boolean).join(' · ') || 'Time not set',
+  }
+}
+
+function supportSummaryItems() {
+  const categoryPriority = {
+    Materials: 0,
+    Participation: 1,
+    Assessment: 2,
+    Technology: 3,
+  }
+  const reviewed = adjustments.filter((adj) => adj.checked)
+  const source = reviewed.length ? reviewed : adjustments
+  return [...source]
+    .sort((a, b) => (categoryPriority[a.category] ?? 99) - (categoryPriority[b.category] ?? 99))
+    .slice(0, 5)
+}
+
+function renderPreLessonSummary() {
+  const root = document.getElementById('prelesson-summary-root')
+  if (!root) return
+
+  const meta = lessonSummaryMeta()
+  const students = selectedIds.map((id) => window.AdjustStore.getStudent(id)).filter(Boolean)
+  const supportItems = supportSummaryItems()
+
+  const studentRows = students.length
+    ? students.map((student) => {
+        const strength = student.strengths?.[0] || 'Benefits from clear, planned support.'
+        return `
+          <li style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #F3F4F6">
+            <div class="avatar" style="width:28px;height:28px;min-width:28px;font-size:10px;background:${student.avatarBg}">${escapeHtml(student.initials)}</div>
+            <div style="min-width:0">
+              <p style="font-size:13px;font-weight:600;color:#111827;margin:0">${escapeHtml(student.name)}</p>
+              <p style="font-size:12px;line-height:1.5;color:#6B7280;margin:2px 0 0">${escapeHtml(strength)}</p>
+            </div>
+          </li>
+        `
+      }).join('')
+    : `<li style="font-size:13px;color:#9CA3AF;padding:8px 0">No students selected yet.</li>`
+
+  const supportRows = supportItems.length
+    ? supportItems.map((support) => `
+        <li style="display:flex;align-items:flex-start;gap:10px;padding:9px 0">
+          <span style="width:7px;height:7px;border-radius:999px;background:#059669;flex-shrink:0;margin-top:7px"></span>
+          <span style="font-size:13px;line-height:1.55;color:#374151">${escapeHtml(support.description)}</span>
+        </li>
+      `).join('')
+    : `<li style="font-size:13px;color:#9CA3AF;padding:8px 0">No support suggestions reviewed yet.</li>`
+
+  root.innerHTML = `
+    <div class="prelesson-overlay" role="presentation" onclick="if(event.target === this) closePreLessonSummary()"
+      style="position:fixed;inset:0;z-index:9997;background:rgba(15,23,42,0.38);display:flex;justify-content:flex-end">
+      <aside class="surface-card prelesson-panel" role="dialog" aria-modal="true" aria-labelledby="prelesson-title"
+        style="width:min(440px,100%);height:100%;border-radius:18px 0 0 18px;box-shadow:-18px 0 42px rgba(15,23,42,0.18);display:flex;flex-direction:column;background:white">
+        <div style="padding:22px 24px 16px;border-bottom:1px solid #F3F4F6">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+            <div>
+              <p class="planner-col-label" style="margin:0 0 8px;color:#059669">Before class</p>
+              <h2 id="prelesson-title" style="font-size:20px;font-weight:700;color:#111827;margin:0">Pre-lesson summary</h2>
+            </div>
+            <button type="button" onclick="closePreLessonSummary()" aria-label="Close pre-lesson summary"
+              style="background:white;border:1px solid #E5E7EB;border-radius:10px;color:#6B7280;cursor:pointer;font-size:18px;line-height:1;padding:7px 10px;font-family:inherit">
+              &times;
+            </button>
+          </div>
+          <div style="margin-top:16px;padding:14px;border-radius:14px;background:#F0FDF4;border:1px solid #D1FAE5">
+            <p style="font-size:15px;font-weight:700;color:#111827;margin:0 0 5px">${escapeHtml(meta.title)}</p>
+            <p style="font-size:13px;color:#047857;margin:0">${escapeHtml(meta.subject)} · ${escapeHtml(meta.timing)}</p>
+          </div>
+        </div>
+
+        <div style="padding:18px 24px;overflow-y:auto;flex:1">
+          <section style="margin-bottom:20px">
+            <h3 style="font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280;margin:0 0 8px">Students to keep in mind</h3>
+            <ul style="list-style:none;margin:0;padding:0">${studentRows}</ul>
+          </section>
+
+          <section>
+            <h3 style="font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280;margin:0 0 8px">Reviewed supports</h3>
+            <ul style="list-style:none;margin:0;padding:0">${supportRows}</ul>
+          </section>
+        </div>
+
+        <div style="padding:16px 24px;border-top:1px solid #F3F4F6;display:flex;gap:10px">
+          <button type="button" onclick="closePreLessonSummary()" class="btn-ghost" style="flex:1">Back</button>
+          <button type="button" onclick="savePreLessonSummary()" class="btn-solid" style="flex:1">Ready to teach</button>
+        </div>
+      </aside>
+    </div>
+  `
+
+  const closeButton = root.querySelector('[aria-label="Close pre-lesson summary"]')
+  closeButton?.focus()
+}
+
+function closePreLessonSummary() {
+  const root = document.getElementById('prelesson-summary-root')
+  if (root) root.innerHTML = ''
+}
+
+function savePreLessonSummary() {
+  let savedId = lesson.id
+  const lessonPayload = {
+    subject: lesson.subject,
+    year: lesson.year,
+    title: lesson.title,
+    date: lesson.date,
+    session: lesson.session,
+    duration: lesson.duration,
+    goals: lesson.goals,
+    assessment: lesson.assessment,
+    studentIds: selectedIds,
+  }
+
+  if (lesson.id) {
+    window.AdjustStore.updateLesson(lesson.id, lessonPayload)
+  } else {
+    const saved = window.AdjustStore.saveLesson(lessonPayload)
+    savedId = saved.id
+    lesson = saved
+  }
+
+  if (window.trackEvent) {
+    trackEvent('prelesson_ready_to_teach', {
+      lessonId: savedId,
+      reviewedSupports: adjustments.filter((adj) => adj.checked).length,
+      studentsSelected: selectedIds.length,
+    })
+  }
+
+  closePreLessonSummary()
+}
+
 // ─── Render: Support suggestions (right column) ─────────────────────────────
 function renderAdjustments() {
   const filtersEl     = document.getElementById('adj-filters')
@@ -445,6 +611,29 @@ function renderAdjustments() {
         ? '#ECFDF5'
         : '#FFFFFF'
 
+      const isEditing = editingSuggestionId === adj.id
+      const descriptionBlock = isEditing
+        ? `
+          <textarea id="support-edit-input" class="support-edit-textarea">${escapeHtml(adj.description)}</textarea>
+          <div class="support-card-actions">
+            <button type="button" class="support-card-action primary" onclick="saveSupportEdit('${adj.id}')">Save edit</button>
+            <button type="button" class="support-card-action" onclick="cancelSupportEdit()">Cancel</button>
+          </div>
+        `
+        : `
+          <p style="font-size:13px;line-height:1.65;color:#374151;margin:0;
+            text-decoration:${adj.checked ? 'line-through' : 'none'};
+            transition:opacity 0.2s ease,text-decoration-color 0.2s ease">${escapeHtml(adj.description)}</p>
+          ${adj.editedByTeacher ? '<span class="teacher-edited-badge">Edited by teacher</span>' : ''}
+          <p style="font-size:11px;line-height:1.55;color:#6B7280;margin:7px 0 0">
+            <span style="font-weight:600;color:#374151">Why this helps:</span>
+            ${escapeHtml(adj.why || 'This connects the suggestion to the student profile and lesson context.')}
+          </p>
+          <div class="support-card-actions">
+            <button type="button" class="support-card-action" onclick="startSupportEdit('${adj.id}')">Edit</button>
+          </div>
+        `
+
       return `
         <div class="adj-card ${adj.checked ? 'checked' : ''}" id="adj-${adj.id}"
           style="border-left:3px solid ${accent};background:${tint};opacity:${adj.checked ? '0.5' : '1'};
@@ -459,13 +648,7 @@ function renderAdjustments() {
                   font-weight:700;background:${student?.avatarBg || '#9CA3AF'}">${student?.initials || ''}</div>
                 <p style="font-size:12px;font-weight:500;color:#6B7280;margin:0">${adj.studentName}</p>
               </div>
-              <p style="font-size:13px;line-height:1.65;color:#374151;margin:0;
-                text-decoration:${adj.checked ? 'line-through' : 'none'};
-                transition:opacity 0.2s ease,text-decoration-color 0.2s ease">${adj.description}</p>
-              <p style="font-size:11px;line-height:1.55;color:#6B7280;margin:7px 0 0">
-                <span style="font-weight:600;color:#374151">Why this helps:</span>
-                ${adj.why || 'This connects the suggestion to the student profile and lesson context.'}
-              </p>
+              ${descriptionBlock}
             </div>
             <label style="display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;position:relative">
               <input type="checkbox" ${adj.checked ? 'checked' : ''}
@@ -625,6 +808,40 @@ function toggleAdjustment(id) {
   renderAdjustments()
 }
 
+function startSupportEdit(id) {
+  editingSuggestionId = id
+  renderAdjustments()
+  document.getElementById('support-edit-input')?.focus()
+}
+
+function cancelSupportEdit() {
+  editingSuggestionId = null
+  renderAdjustments()
+}
+
+function saveSupportEdit(id) {
+  const input = document.getElementById('support-edit-input')
+  const nextText = input?.value.trim()
+  if (!nextText) return
+
+  editedSuggestions[id] = nextText
+  const adj = adjustments.find((item) => item.id === id)
+  if (adj) {
+    adj.description = nextText
+    adj.editedByTeacher = true
+  }
+
+  if (window.trackEvent) {
+    trackEvent('support_suggestion_edited', {
+      adjustmentId: id,
+      lessonId: lesson?.id || 'new',
+    })
+  }
+
+  editingSuggestionId = null
+  renderAdjustments()
+}
+
 function filterRoster(value) {
   rosterSearch = value
   renderRoster()
@@ -636,13 +853,17 @@ function setAdjFilter(key) {
 }
 
 function applyAllAdjustments() {
-  document.querySelectorAll('#adjustments-list input[type=checkbox]')
-    .forEach(cb => { if (!cb.checked) cb.click() })
-  trackEvent('apply_all_clicked', { lessonId: currentLessonId })
+  renderPreLessonSummary()
+  trackEvent('prelesson_summary_opened', { lessonId: currentLessonId })
 }
 
 // ─── Expose to HTML onclick handlers ──────────────────────────────────────────
 window.applyAllAdjustments = applyAllAdjustments
+window.closePreLessonSummary = closePreLessonSummary
+window.savePreLessonSummary = savePreLessonSummary
+window.startSupportEdit = startSupportEdit
+window.cancelSupportEdit = cancelSupportEdit
+window.saveSupportEdit = saveSupportEdit
 window.toggleStudent    = toggleStudent
 window.toggleAdjustment = toggleAdjustment
 window.filterRoster     = filterRoster

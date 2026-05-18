@@ -2,47 +2,68 @@ const DEFAULT_STUDENTS = [
   {
     id: 'maya', initials: 'MR', name: 'Maya R.', color: 'blue',
     avatarBg: '#3B82F6',
-    needs: [{ label: 'Reading Support', bg: '#DBEAFE', text: '#1D4ED8' }],
-    year: 'Year 5', cls: 'Class 5B',
+    year: 'Year 5', classGroup: 'Class 5B',
     strengths: ['Strong verbal reasoning and logic', 'Responds well to visual worked examples'],
-    notes: "Maya's decoding is weaker but her verbal reasoning and logic are strong. Prioritise visual supports over dense text.",
-    strategies: ['Replace text instructions with visual diagrams', 'Provide colour-coded worked examples', 'Allow oral response instead of written assessment'],
+    diagnoses: ['Dyslexia'],
+    supportNeed: 'Dyslexia — decoding is weaker than verbal comprehension. Reading-heavy tasks need visual alternatives.',
+    supportTags: ['Reading support'],
+    teacherNotes: "Maya's decoding is weaker but her verbal reasoning and logic are strong. Prioritise visual supports over dense text.",
+    whatWorksWell: ['Replace text instructions with visual diagrams', 'Provide colour-coded worked examples', 'Allow oral response instead of written assessment'],
   },
   {
     id: 'liam', initials: 'LT', name: 'Liam T.', color: 'purple',
     avatarBg: '#7C3AED',
-    needs: [{ label: 'Routine Support', bg: '#EDE9FE', text: '#5B21B6' }],
-    year: 'Year 5', cls: 'Class 5B',
+    year: 'Year 5', classGroup: 'Class 5B',
     strengths: ['Responds well to predictable routines', 'Works well with clear structure'],
-    notes: 'Liam needs clear, consistent structure. Unexpected changes cause anxiety - always give advance notice of transitions.',
-    strategies: ['Display written lesson agenda at the start', 'Give 3-minute verbal warning before transitions', 'Keep worksheet layout consistent every time'],
+    diagnoses: ['ASD'],
+    supportNeed: 'ASD — benefits from predictable structure and advance notice of any changes to routine.',
+    supportTags: ['Routine support'],
+    teacherNotes: 'Liam needs clear, consistent structure. Unexpected changes cause anxiety - always give advance notice of transitions.',
+    whatWorksWell: ['Display written lesson agenda at the start', 'Give 3-minute verbal warning before transitions', 'Keep worksheet layout consistent every time'],
+  },
+  {
+    id: 'bella', initials: 'BO', name: 'Bella O.', color: 'purple',
+    avatarBg: '#7C3AED',
+    year: 'Year 5', classGroup: 'Class 5B',
+    strengths: ['Enthusiastic contributor in group discussions', 'Strong verbal comprehension'],
+    diagnoses: ['Communication delay'],
+    supportNeed: 'Communication delay — benefits from extended processing time and clear step-by-step instructions.',
+    supportTags: ['Communication support'],
+    teacherNotes: 'Bella benefits from extended processing time and clear verbal instructions. Avoid time pressure on written tasks.',
+    whatWorksWell: ['Allow verbal responses as an alternative to written work', 'Give instructions one step at a time', 'Pair written tasks with verbal explanation'],
   },
   {
     id: 'priya', initials: 'PK', name: 'Priya K.', color: 'amber',
     avatarBg: '#D97706',
-    needs: [{ label: 'Attention Support', bg: '#FEF3C7', text: '#92400E' }],
-    year: 'Year 5', cls: 'Class 5B',
+    year: 'Year 5', classGroup: 'Class 5B',
     strengths: ['Engages well in short interactive tasks', 'Responds well to movement breaks'],
-    notes: "Priya's focus window is around 10 minutes. Structured short tasks with movement breaks significantly improve engagement.",
-    strategies: ['Break lesson into 10-min timed segments', 'Display a visual countdown timer on the board', 'Present steps one at a time to avoid overload'],
+    diagnoses: ['ADHD'],
+    supportNeed: 'ADHD — focus window is around 10 minutes. Movement breaks significantly improve engagement.',
+    supportTags: ['Attention support'],
+    teacherNotes: "Priya's focus window is around 10 minutes. Structured short tasks with movement breaks significantly improve engagement.",
+    whatWorksWell: ['Break lesson into 10-min timed segments', 'Display a visual countdown timer on the board', 'Present steps one at a time to avoid overload'],
   },
   {
     id: 'jack', initials: 'JW', name: 'Jack W.', color: 'pink',
     avatarBg: '#DB2777',
-    needs: [{ label: 'Access Support', bg: '#FCE7F3', text: '#9D174D' }, { label: 'Reading Support', bg: '#DBEAFE', text: '#1D4ED8' }],
-    year: 'Year 5', cls: 'Class 5B',
+    year: 'Year 5', classGroup: 'Class 5B',
     strengths: ['Confident with technology-supported tasks', 'Works well when alternative response options are available'],
-    notes: 'Jack has limited upper-limb mobility making handwriting difficult, alongside dyslexia. Tech-assisted approaches work best.',
-    strategies: ['All tasks completed via iPad with stylus', 'Speech-to-text as alternative to written response', 'Digital visual diagrams replacing text-heavy materials'],
+    diagnoses: ['Physical disability', 'Dyslexia'],
+    supportNeed: 'Physical disability — limited upper-limb mobility. Tech-assisted approaches work best. Dyslexia — decoding is weaker than verbal comprehension. Reading-heavy tasks need visual alternatives.',
+    supportTags: ['Access support', 'Reading support'],
+    teacherNotes: 'Jack has limited upper-limb mobility making handwriting difficult, alongside dyslexia. Tech-assisted approaches work best.',
+    whatWorksWell: ['All tasks completed via iPad with stylus', 'Speech-to-text as alternative to written response', 'Digital visual diagrams replacing text-heavy materials'],
   },
   {
     id: 'sofia', initials: 'SM', name: 'Sofia M.', color: 'green',
     avatarBg: '#059669',
-    needs: [{ label: 'Hearing Support', bg: '#D1FAE5', text: '#065F46' }],
-    year: 'Year 5', cls: 'Class 5B',
+    year: 'Year 5', classGroup: 'Class 5B',
     strengths: ['Strong classroom participation when instructions are accessible', 'Benefits from written and visual support'],
-    notes: 'Sofia wears bilateral hearing aids. She relies heavily on lip-reading and written support. Ensure she is always seated at the front.',
-    strategies: ['Seat Sofia at the front of the classroom', 'Use written instructions alongside verbal explanations', 'Ensure captions are enabled on all video content'],
+    diagnoses: ['Hearing impairment'],
+    supportNeed: 'Hearing impairment — wears hearing aids and relies on lip-reading and written support.',
+    supportTags: ['Hearing support'],
+    teacherNotes: 'Sofia wears bilateral hearing aids. She relies heavily on lip-reading and written support. Ensure she is always seated at the front.',
+    whatWorksWell: ['Seat Sofia at the front of the classroom', 'Use written instructions alongside verbal explanations', 'Ensure captions are enabled on all video content'],
   },
 ]
 
@@ -116,8 +137,13 @@ const NEED_STYLES = {
   'reading support': { bg: '#DBEAFE', text: '#1D4ED8' },
   asd: { bg: '#EDE9FE', text: '#5B21B6' },
   'routine support': { bg: '#EDE9FE', text: '#5B21B6' },
+  'sensory support': { bg: '#D1FAE5', text: '#065F46' },
   adhd: { bg: '#FEF3C7', text: '#92400E' },
   'attention support': { bg: '#FEF3C7', text: '#92400E' },
+  'communication support': { bg: '#EDE9FE', text: '#5B21B6' },
+  'social support': { bg: '#E0F2FE', text: '#0369A1' },
+  'emotional support': { bg: '#FCE7F3', text: '#BE185D' },
+  'learning support': { bg: '#E5E7EB', text: '#4B5563' },
   physical: { bg: '#FCE7F3', text: '#9D174D' },
   'access support': { bg: '#FCE7F3', text: '#9D174D' },
   hearing: { bg: '#D1FAE5', text: '#065F46' },
@@ -128,11 +154,72 @@ const NEED_STYLES = {
 }
 
 const SUPPORT_FOCUS_LABELS = {
-  dyslexia: 'Reading Support',
-  asd: 'Routine Support',
-  adhd: 'Attention Support',
-  physical: 'Access Support',
-  hearing: 'Hearing Support',
+  dyslexia: 'Reading support',
+  asd: 'Routine support',
+  adhd: 'Attention support',
+  physical: 'Access support',
+  hearing: 'Hearing support',
+  website: 'Learning support',
+}
+
+const DIAGNOSIS_MAP = {
+  Dyslexia: {
+    tag: 'Reading support',
+    description: 'Dyslexia — decoding is weaker than verbal comprehension. Reading-heavy tasks need visual alternatives.',
+  },
+  ASD: {
+    tag: 'Routine support',
+    description: 'ASD — benefits from predictable structure and advance notice of any changes to routine.',
+  },
+  ADHD: {
+    tag: 'Attention support',
+    description: 'ADHD — focus window is around 10 minutes. Movement breaks significantly improve engagement.',
+  },
+  'Physical disability': {
+    tag: 'Access support',
+    description: 'Physical disability — limited upper-limb mobility. Tech-assisted approaches work best.',
+  },
+  'Hearing impairment': {
+    tag: 'Hearing support',
+    description: 'Hearing impairment — wears hearing aids and relies on lip-reading and written support.',
+  },
+  'Communication delay': {
+    tag: 'Communication support',
+    description: 'Communication delay — benefits from extended processing time and clear step-by-step instructions.',
+  },
+  'Sensory processing disorder': {
+    tag: 'Sensory support',
+    description: 'Sensory processing differences — benefits from low-stimulus environment and movement breaks.',
+  },
+  'Social communication disorder': {
+    tag: 'Social support',
+    description: 'Social communication needs — benefits from structured group work and clear social expectations.',
+  },
+  'Anxiety disorder': {
+    tag: 'Emotional support',
+    description: 'Anxiety disorder — benefits from predictable routines and a calm check-in at lesson start.',
+  },
+  'Intellectual disability': {
+    tag: 'Learning support',
+    description: 'Intellectual disability — benefits from scaffolded tasks, visual instructions and extra time.',
+  },
+  'Other / Not specified': {
+    tag: 'Learning support',
+    description: 'Additional learning needs — teacher to add specific context in notes below.',
+  },
+}
+
+const SUPPORT_TAG_DIAGNOSES = {
+  'Reading support': 'Dyslexia',
+  'Routine support': 'ASD',
+  'Attention support': 'ADHD',
+  'Access support': 'Physical disability',
+  'Hearing support': 'Hearing impairment',
+  'Communication support': 'Communication delay',
+  'Sensory support': 'Sensory processing disorder',
+  'Social support': 'Social communication disorder',
+  'Emotional support': 'Anxiety disorder',
+  'Learning support': 'Other / Not specified',
 }
 
 const AVATAR_PALETTE = [
@@ -200,16 +287,53 @@ function colorForName(name) {
 function styleNeed(label) {
   const key = label.trim().toLowerCase()
   const style = NEED_STYLES[key] || NEED_STYLES.default
-  return { label: SUPPORT_FOCUS_LABELS[key] || titleCase(label.trim()), bg: style.bg, text: style.text }
+  return { label: SUPPORT_FOCUS_LABELS[key] || label.trim(), bg: style.bg, text: style.text }
+}
+
+function supportTagsForStudent(student) {
+  if (Array.isArray(student.diagnoses) && student.diagnoses.length) {
+    return student.diagnoses
+      .map((diagnosis) => DIAGNOSIS_MAP[diagnosis]?.tag)
+      .filter(Boolean)
+      .filter((tag, index, list) => list.indexOf(tag) === index)
+  }
+
+  const rawTags = student.supportTags || student.needs || []
+  const tags = Array.isArray(rawTags) ? rawTags : [rawTags]
+  return tags
+    .map((need) => typeof need === 'string' ? styleNeed(need).label : styleNeed(need.label).label)
+    .filter(Boolean)
+}
+
+function diagnosesForStudent(student) {
+  if (Array.isArray(student.diagnoses) && student.diagnoses.length) {
+    return student.diagnoses
+      .filter((diagnosis) => DIAGNOSIS_MAP[diagnosis])
+      .filter((diagnosis, index, list) => list.indexOf(diagnosis) === index)
+  }
+
+  return supportTagsForStudent(student)
+    .map((tag) => SUPPORT_TAG_DIAGNOSES[tag])
+    .filter(Boolean)
+    .filter((diagnosis, index, list) => list.indexOf(diagnosis) === index)
+}
+
+function supportNeedForDiagnoses(diagnoses) {
+  return diagnoses
+    .map((diagnosis) => DIAGNOSIS_MAP[diagnosis]?.description)
+    .filter(Boolean)
+    .join(' ')
 }
 
 function displaySupportFocusLabel(label) {
   const key = String(label || '').trim().toLowerCase()
-  return SUPPORT_FOCUS_LABELS[key] || titleCase(label)
+  return SUPPORT_FOCUS_LABELS[key] || String(label || '').trim()
 }
 
 function normalizeStudent(student) {
   const palette = student.avatarBg && student.color ? { avatarBg: student.avatarBg, color: student.color } : colorForName(student.name)
+  const diagnoses = diagnosesForStudent(student)
+  const supportTags = supportTagsForStudent({ ...student, diagnoses })
 
   return {
     id: student.id || slugify(student.name),
@@ -217,12 +341,38 @@ function normalizeStudent(student) {
     name: student.name.trim(),
     color: palette.color,
     avatarBg: palette.avatarBg,
-    needs: student.needs.map((need) => typeof need === 'string' ? styleNeed(need) : styleNeed(need.label)),
     year: titleCase(student.year.trim()),
-    cls: titleCase(student.cls.trim()),
+    classGroup: (student.classGroup || student.cls).trim(),
     strengths: Array.isArray(student.strengths) ? student.strengths.map((strength) => strength.trim()).filter(Boolean) : [],
-    notes: student.notes.trim(),
-    strategies: student.strategies.map((strategy) => strategy.trim()).filter(Boolean),
+    diagnoses,
+    supportTags,
+    supportNeed: supportNeedForDiagnoses(diagnoses),
+    teacherNotes: (student.teacherNotes || student.notes || '').trim(),
+    whatWorksWell: (student.whatWorksWell || student.strategies || []).map((strategy) => strategy.trim()).filter(Boolean),
+  }
+}
+
+function hydrateStudent(student) {
+  const diagnoses = diagnosesForStudent(student)
+  const supportTags = supportTagsForStudent({ ...student, diagnoses })
+  const supportNeed = supportNeedForDiagnoses(diagnoses)
+  const normalized = {
+    ...student,
+    classGroup: student.classGroup || student.cls,
+    diagnoses,
+    supportTags,
+    supportNeed,
+    teacherNotes: student.teacherNotes || student.notes || '',
+    whatWorksWell: student.whatWorksWell || student.strategies || [],
+  }
+  const needs = supportTags.map((tag) => styleNeed(tag))
+
+  return {
+    ...normalized,
+    needs,
+    cls: normalized.classGroup,
+    notes: normalized.teacherNotes,
+    strategies: normalized.whatWorksWell,
   }
 }
 
@@ -257,7 +407,13 @@ function seedStore() {
   if (!storedStudents) {
     safeWrite(STORAGE_KEYS.students, DEFAULT_STUDENTS)
   } else {
-    const mergedStudents = [...storedStudents]
+    const defaultStudentsById = new Map(DEFAULT_STUDENTS.map((student) => [student.id, student]))
+    const mergedStudents = storedStudents
+      .filter((student) => student.id !== 'bob' && student.name !== 'bob')
+      .map((student) => {
+        const defaultStudent = defaultStudentsById.get(student.id)
+        return defaultStudent && !student.diagnoses ? defaultStudent : student
+      })
     DEFAULT_STUDENTS.forEach((student) => {
       if (!mergedStudents.some((entry) => entry.id === student.id)) {
         mergedStudents.push(student)
@@ -285,7 +441,7 @@ function seedStore() {
 }
 
 function getStudents() {
-  return clone(safeRead(STORAGE_KEYS.students, DEFAULT_STUDENTS))
+  return clone(safeRead(STORAGE_KEYS.students, DEFAULT_STUDENTS)).map(hydrateStudent)
 }
 
 function getLessons() {

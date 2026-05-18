@@ -120,6 +120,9 @@
 
     <!-- Content -->
     <div class="px-8 py-6">
+      <p style="font-size:13px;color:var(--text-secondary);margin:0 0 16px">
+        Strengths first. Support context is for your planning — handle all student information with care.
+      </p>
       <div class="grid grid-cols-2 gap-5" id="profiles-grid"></div>
     </div>
 
@@ -142,16 +145,26 @@
             </div>
             <div>
               <label class="field-label" for="student-year">Year level</label>
-              <input id="student-year" name="year" class="input-shell" placeholder="Year 5" />
+              <select id="student-year" name="year" class="input-shell">
+                <option>Year 1</option>
+                <option>Year 2</option>
+                <option>Year 3</option>
+                <option>Year 4</option>
+                <option selected>Year 5</option>
+                <option>Year 6</option>
+              </select>
             </div>
             <div>
               <label class="field-label" for="student-class">Class group</label>
               <input id="student-class" name="cls" class="input-shell" placeholder="Class 5B" />
             </div>
             <div class="full-span">
-              <label class="field-label" for="student-needs">Support focus</label>
-              <input id="student-needs" name="needs" class="input-shell" placeholder="Separate tags with commas" />
-              <p id="needs-preview" class="text-xs text-gray-400 mt-2">Add one or more support focus tags such as Reading Support, Routine Support, Attention Support, Access Support, or Hearing Support.</p>
+              <label class="field-label" for="student-diagnoses">Diagnosis</label>
+              <input id="student-diagnoses" name="diagnoses" type="hidden" />
+              <div id="support-focus-options" class="flex flex-wrap gap-2"></div>
+              <p class="text-xs text-gray-400 mt-3 mb-2">Support focus</p>
+              <div id="needs-preview" class="text-xs text-gray-400">Choose one or more diagnoses.</div>
+              <div id="support-need-preview" class="text-xs text-gray-400 mt-3"></div>
             </div>
             <div class="full-span">
               <label class="field-label" for="student-notes">Teacher notes</label>
