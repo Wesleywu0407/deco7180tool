@@ -7,10 +7,10 @@ let openMenuId = null
 
 function subjectChipStyle(subject) {
   const value = String(subject || '').toUpperCase()
-  if (value.includes('MATH')) return { bg: '#DBEAFE', text: '#1D4ED8' }
-  if (value.includes('ENGLISH')) return { bg: '#EDE9FE', text: '#5B21B6' }
-  if (value.includes('SCIENCE')) return { bg: '#D1FAE5', text: '#065F46' }
-  return { bg: '#ECFDF5', text: '#047857' }
+  if (value.includes('MATH')) return { bg: '#FEF3C7', text: '#D97706', accent: '#F59E0B' }
+  if (value.includes('ENGLISH')) return { bg: '#EDE9FE', text: '#7C3AED', accent: '#8B5CF6' }
+  if (value.includes('SCIENCE')) return { bg: '#D1FAE5', text: '#065F46', accent: '#10B981' }
+  return { bg: '#ECFDF5', text: '#047857', accent: '#059669' }
 }
 
 function avatarStack(studentIds) {
@@ -37,7 +37,7 @@ function renderLessonCards() {
     const chip = subjectChipStyle(lesson.subject)
 
     return `
-      <div class="lesson-card relative"
+      <div class="lesson-card relative" style="--lesson-accent:${chip.accent}"
            data-lesson-id="${lesson.id}">
         <div class="lesson-card-menu">
           <button class="lesson-card-menu-btn" type="button" data-menu-trigger="${lesson.id}" aria-label="Open lesson actions" aria-expanded="${openMenuId === lesson.id ? 'true' : 'false'}">

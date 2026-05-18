@@ -1755,6 +1755,18 @@ main > header,
   box-shadow: var(--card-shadow);
   background: #FFFFFF;
   transition: all 0.15s ease;
+  overflow: hidden;
+}
+
+.lesson-card::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  left: 0;
+  width: 5px;
+  border-radius: 0 999px 999px 0;
+  background: var(--lesson-accent, var(--green));
 }
 
 .lesson-card:hover {
