@@ -15,7 +15,7 @@
   <meta name="application-name" content="Adjust" />
   <meta name="apple-mobile-web-app-title" content="Adjust" />
   <meta name="theme-color" content="#059669" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css?v=student-search-layout-20260524" />
 </head>
 <body class="flex h-screen overflow-hidden">
 
@@ -29,14 +29,14 @@
         <h1>Student support profiles</h1>
         <p id="student-count">5 students with support profiles in this class</p>
       </div>
-      <div class="flex items-center gap-3">
+      <div class="student-profiles-actions flex items-center gap-3">
+        <div class="student-search-wrap relative">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35"/></svg>
+          <input id="student-search" type="text" placeholder="Search profiles..." class="app-search-input pl-9 pr-4" />
+        </div>
         <button id="add-student-btn" class="btn-solid">
           + Add student
         </button>
-        <div class="relative">
-          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35"/></svg>
-          <input id="student-search" type="text" placeholder="Search profiles..." class="app-search-input pl-9 pr-4 w-52" />
-        </div>
         <div id="notif-container" style="position:relative">
           <button id="notif-btn"
             onclick="toggleNotifications()"
@@ -189,7 +189,7 @@
   <script src="js/analytics.js"></script>
   <script src="js/feedback.js"></script>
   <script src="js/sidebar.js"></script>
-  <script src="js/students.js"></script>
+  <script src="js/students.js?v=student-modal-scroll-20260524"></script>
   <script>
   function toggleNotifications() {
     const d = document.getElementById('notif-dropdown')

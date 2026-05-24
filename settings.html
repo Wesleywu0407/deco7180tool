@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Adjust â€” Settings</title>
+  <title>Adjust ??Settings</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = { theme: { extend: { colors: { primary: '#059669' } } } }
@@ -15,9 +15,9 @@
   <meta name="application-name" content="Adjust" />
   <meta name="apple-mobile-web-app-title" content="Adjust" />
   <meta name="theme-color" content="#059669" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css?v=settings-mobile-20260524-3" />
 </head>
-<body class="flex h-screen overflow-hidden">
+<body class="settings-page flex h-screen overflow-hidden">
 
   <div id="sidebar"></div>
 
@@ -32,7 +32,7 @@
     </header>
 
     <!-- Content -->
-    <div class="px-8 py-6 max-w-2xl space-y-6">
+    <div class="settings-content px-8 py-6 max-w-2xl space-y-6">
       <div id="settings-success" class="status-banner" hidden>
         <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="m5 13 4 4L19 7" />
@@ -40,9 +40,9 @@
         <span>Profile updated successfully.</span>
       </div>
 
-      <!-- â”€â”€ 1. Profile â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+      <!-- ?€?€ 1. Profile ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€ -->
       <section class="surface-card p-6">
-        <div class="flex items-start justify-between gap-6 mb-5">
+        <div class="settings-profile-header flex items-start justify-between gap-6 mb-5">
           <div>
             <p class="page-label mb-3">Profile</p>
             <h2 class="text-lg font-semibold text-gray-900">Teacher profile</h2>
@@ -57,13 +57,13 @@
         <div id="profile-card-content"></div>
       </section>
 
-      <!-- â”€â”€ 2. Notifications â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+      <!-- ?€?€ 2. Notifications ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€ -->
       <section class="surface-card p-6 surface-card-hover">
         <p class="page-label mb-4">Notifications</p>
         <div class="space-y-5">
 
           <!-- Toggle 1 -->
-          <div class="flex items-center justify-between">
+          <div class="settings-toggle-row flex items-center justify-between">
             <div>
               <p class="text-sm font-semibold text-gray-800">Support review reminders</p>
               <p class="text-xs text-gray-400 mt-0.5">Get notified when new support suggestions are ready for teacher review.</p>
@@ -77,7 +77,7 @@
           <hr class="border-gray-100" />
 
           <!-- Toggle 2 -->
-          <div class="flex items-center justify-between">
+          <div class="settings-toggle-row flex items-center justify-between">
             <div>
               <p class="text-sm font-semibold text-gray-800">Weekly summary reminders</p>
               <p class="text-xs text-gray-400 mt-0.5">Receive a reminder at the start of each week to review your summary</p>
@@ -91,12 +91,12 @@
         </div>
       </section>
 
-      <!-- â”€â”€ 3. Display â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+      <!-- ?€?€ 3. Display ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€ -->
       <section class="surface-card p-6 surface-card-hover">
         <p class="page-label mb-4">Display</p>
         <div class="space-y-4">
 
-          <div class="flex items-center justify-between gap-6">
+          <div class="settings-display-row flex items-center justify-between gap-6">
             <div>
               <p class="text-sm font-semibold text-gray-800">Current week</p>
               <p class="text-xs text-gray-400 mt-0.5">Set the active teaching week</p>
@@ -111,7 +111,7 @@
 
           <hr class="border-gray-100" />
 
-          <div class="flex items-center justify-between gap-6">
+          <div class="settings-display-row flex items-center justify-between gap-6">
             <div>
               <p class="text-sm font-semibold text-gray-800">Class group</p>
               <p class="text-xs text-gray-400 mt-0.5">Select the active class to display</p>
@@ -126,10 +126,10 @@
         </div>
       </section>
 
-      <!-- â”€â”€ 4. Data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+      <!-- ?€?€ 4. Data ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€ -->
       <section class="surface-card p-6 surface-card-hover">
         <p class="page-label mb-4">Data</p>
-        <div class="flex items-center gap-3">
+        <div class="settings-data-actions flex items-center gap-3">
           <button class="btn-ghost" onclick="showExportPrivacyConfirm(() => trackEvent('report_exported',{pageId:'settings'}))">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
             Export all lesson plans

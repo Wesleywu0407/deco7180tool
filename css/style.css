@@ -2167,7 +2167,7 @@ main > header,
   display: none;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   html,
   body {
     width: 100%;
@@ -2280,6 +2280,7 @@ main > header,
   .app-topbar,
   .planner-topbar {
     min-width: 0;
+    position: relative;
     padding: 70px 16px 14px !important;
     display: flex;
     flex-direction: column;
@@ -2301,21 +2302,41 @@ main > header,
   .app-topbar .flex.items-center.gap-3,
   .planner-topbar .flex.items-center.gap-2 {
     width: 100%;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    padding-right: 64px;
   }
 
   .topbar-actions > button,
   .app-topbar .flex.items-center.gap-3 > button,
   .planner-topbar .planner-btn-ghost,
   .planner-topbar .planner-btn-primary {
-    width: 100%;
-    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+    flex: 0 0 auto;
+    padding: 0.7rem 1rem;
+  }
+
+  .topbar-actions .btn-ghost,
+  .topbar-actions .btn-solid {
+    font-size: 13px;
   }
 
   #notif-container {
-    align-self: flex-end;
+    position: absolute !important;
+    top: 16px;
+    right: 16px;
+    align-self: auto;
+    z-index: 3;
+  }
+
+  #notif-btn {
+    width: 36px;
+    height: 36px;
   }
 
   main .px-8,
@@ -2415,8 +2436,15 @@ main > header,
   }
 
   .planner-layout {
-    flex-direction: column;
-    overflow: visible !important;
+    display: flex !important;
+    flex: 0 0 auto !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    height: auto !important;
+    min-height: 100vh;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
     padding: 16px !important;
     gap: 16px;
   }
@@ -2428,12 +2456,20 @@ main > header,
     width: 100% !important;
     min-width: 0 !important;
     max-width: 100% !important;
-    flex: none !important;
+    flex: 0 0 auto !important;
+    flex-basis: auto !important;
     overflow: visible !important;
   }
 
   .planner-col-left,
+  .planner-col-middle,
   .planner-col-right {
+    flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+    flex-basis: auto !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
     max-height: none;
   }
 
@@ -2442,6 +2478,76 @@ main > header,
   #adjustments-list {
     overflow: visible !important;
     max-height: none;
+  }
+
+  .planner-col-right > div:first-child {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  .planner-col-right > div:first-child > .flex.items-center.justify-between {
+    align-items: flex-start !important;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+  }
+
+  #adj-progress-label {
+    flex-shrink: 0;
+  }
+
+  #adj-filters {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px !important;
+  }
+
+  #adj-filters .adj-filter-btn {
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+    padding: 7px 8px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  #adjustments-list {
+    padding: 12px !important;
+  }
+
+  #adjustments-list .adj-card {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    padding: 12px !important;
+  }
+
+  #adjustments-list .adj-card > div[style*="display:flex"] {
+    align-items: flex-start !important;
+    gap: 10px !important;
+    min-width: 0;
+  }
+
+  #adjustments-list .adj-card > div[style*="display:flex"] > div:first-child {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+
+  #adjustments-list .adj-card p,
+  #adjustments-list .adj-card span {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  #adjustments-list .support-card-actions {
+    gap: 6px;
+  }
+
+  #adjustments-list .support-card-action {
+    min-width: 64px;
+    flex: 0 1 auto;
   }
 
   .planner-save-footer > div,
@@ -2511,4 +2617,690 @@ main > header,
   border-left: 1px solid var(--border-soft);
   background: #FFFFFF;
   box-shadow: -8px 0 24px rgba(17,24,39,0.08);
+}
+
+.student-profiles-actions {
+  min-width: 0;
+}
+
+.student-search-wrap {
+  width: 13rem;
+  min-width: 0;
+}
+
+.student-search-wrap .app-search-input {
+  width: 100%;
+}
+
+#student-modal.flex {
+  align-items: flex-start !important;
+  justify-content: center !important;
+  z-index: 100 !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  padding: 32px 24px !important;
+}
+
+#student-modal > .surface-card {
+  width: min(100%, 42rem);
+  max-height: calc(100vh - 64px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#support-focus-options {
+  max-width: 100%;
+  min-width: 0;
+}
+
+#support-focus-options button {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.lesson-form-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+}
+
+.lesson-form-note {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  line-height: 1.5;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.lesson-form-buttons {
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  body {
+    overflow-y: auto !important;
+  }
+
+  main {
+    overflow-y: auto !important;
+  }
+
+  .planner-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+
+  .planner-col-left,
+  .planner-col-middle,
+  .planner-col-right {
+    width: calc(100vw - 32px) !important;
+    max-width: calc(100vw - 32px) !important;
+    min-width: 0 !important;
+    flex: 0 0 auto !important;
+    overflow: visible !important;
+  }
+
+  .planner-col-right {
+    flex-basis: auto !important;
+  }
+
+  .planner-panel {
+    width: calc(100vw - 32px) !important;
+    max-width: calc(100vw - 32px) !important;
+    min-width: 0 !important;
+  }
+
+  .suggestion-card,
+  .suggestion-card *,
+  .adj-card,
+  .adj-card * {
+    max-width: 100% !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+  }
+
+  .lesson-form-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
+  .lesson-form-note {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+  }
+
+  .lesson-form-buttons {
+    width: 100% !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+  }
+
+  .lesson-form-buttons > button {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  #lesson-context .surface-card,
+  #lesson-edit-form,
+  #lesson-edit-form .settings-profile-grid,
+  #lesson-edit-form .input-shell {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .app-topbar .student-profiles-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    gap: 10px !important;
+    padding-right: 64px !important;
+  }
+
+  .student-search-wrap {
+    order: 1;
+    width: 100% !important;
+  }
+
+  .student-profiles-actions #add-student-btn {
+    order: 2;
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .student-profiles-actions > .icon-button,
+  .student-profiles-actions > .avatar {
+    display: none !important;
+  }
+
+  .student-profiles-actions #notif-container {
+    position: absolute !important;
+    top: 16px;
+    right: 16px;
+    order: 0;
+  }
+
+  #student-modal.flex {
+    align-items: flex-start !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    padding: 18px 12px !important;
+  }
+
+  #student-modal > .surface-card {
+    width: calc(100vw - 48px) !important;
+    flex: 0 0 calc(100vw - 48px) !important;
+    max-height: calc(100vh - 36px) !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    border-radius: 16px !important;
+    padding: 20px !important;
+  }
+
+  #student-modal > .surface-card * {
+    max-width: 100% !important;
+  }
+
+  #student-modal .flex.items-start.justify-between {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start !important;
+    min-width: 0;
+    gap: 12px !important;
+  }
+
+  #student-modal .flex.items-start.justify-between > div:first-child {
+    min-width: 0;
+  }
+
+  #close-student-modal {
+    display: none !important;
+  }
+
+  #student-form,
+  #student-form .settings-profile-grid,
+  #student-form .input-shell,
+  #support-focus-options,
+  #needs-preview,
+  #support-need-preview {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #student-form .input-shell,
+  #student-form textarea,
+  #student-form select,
+  #student-form input {
+    width: calc(100vw - 88px) !important;
+    max-width: calc(100vw - 88px) !important;
+  }
+
+  #support-focus-options,
+  #needs-preview.flex {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #support-focus-options button,
+  #needs-preview .tag {
+    width: fit-content;
+    max-width: 100% !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+    text-align: left;
+  }
+
+  #support-need-preview {
+    display: block !important;
+    width: calc(100vw - 88px) !important;
+    max-width: calc(100vw - 88px) !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+    line-height: 1.5 !important;
+  }
+
+  body.summary-page {
+    display: block !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  body.summary-page .summary-main-scroll {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+    overscroll-behavior: auto !important;
+  }
+
+  body.summary-page #summary-content {
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow: visible !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    padding-bottom: 96px !important;
+  }
+
+  body.summary-page .recommendation-banner,
+  body.summary-page .summary-panel,
+  body.summary-page #section-stats,
+  body.summary-page #section-students,
+  body.summary-page #section-lessons,
+  body.summary-page #section-patterns,
+  body.summary-page #summary-content > div {
+    width: calc(100vw - 32px) !important;
+    max-width: calc(100vw - 32px) !important;
+    min-width: 0 !important;
+    overflow-x: visible !important;
+  }
+
+  body.summary-page .recommendation-banner {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 16px !important;
+    margin-top: 0 !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+  }
+
+  body.summary-page .recommendation-banner *,
+  body.summary-page .summary-panel *,
+  body.summary-page #section-stats * {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  body.summary-page .recommendation-banner > .flex-1 {
+    flex: 0 1 auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  body.summary-page .recommendation-title,
+  body.summary-page .recommendation-copy,
+  body.summary-page .recommendation-powered {
+    max-width: 100% !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+  }
+
+  body.summary-page .recommendation-badge {
+    display: inline-block !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+    line-height: 1.35 !important;
+  }
+
+  body.summary-page .recommendation-actions,
+  body.summary-page .recommendation-actions-row {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    align-items: stretch !important;
+  }
+
+  body.summary-page .recommendation-apply-btn,
+  body.summary-page .recommendation-dismiss-btn {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  body.summary-page #section-stats {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  body.summary-page .summary-panel {
+    padding: 18px 14px !important;
+    overflow: hidden !important;
+  }
+
+  body.summary-page .summary-panel > div:first-child {
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  body.summary-page #section-students > div > div:first-child {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    padding: 14px !important;
+  }
+
+  body.summary-page .summary-student-card {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
+  body.summary-page .summary-student-main {
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr) !important;
+    align-items: start !important;
+    width: 100% !important;
+  }
+
+  body.summary-page .summary-support-tags {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 6px !important;
+    width: 100% !important;
+  }
+
+  body.summary-page .summary-support-tags span {
+    width: fit-content !important;
+    max-width: 100% !important;
+  }
+
+  body.summary-page .summary-progress-track {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex-shrink: 1 !important;
+  }
+
+  body.summary-page #section-students > div > div:first-child > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: 0 1 auto !important;
+  }
+
+  body.summary-page #section-students > div > div:first-child > div:first-child {
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr) !important;
+    align-items: start !important;
+  }
+
+  body.summary-page #section-students > div > div:first-child > div:first-child > div:last-child {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  body.summary-page #section-students div[style*="display:flex;gap:4px;flex-wrap:wrap"] {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 6px !important;
+    width: 100% !important;
+  }
+
+  body.summary-page #section-students div[style*="display:flex;gap:4px;flex-wrap:wrap"] span {
+    width: fit-content !important;
+    max-width: 100% !important;
+  }
+
+  body.summary-page #section-students span {
+    max-width: 100% !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  body.summary-page #section-students div[style*="width:200px"] {
+    width: 100% !important;
+    flex-shrink: 1 !important;
+  }
+
+  body.summary-page #section-students > div > div:first-child > div:last-child {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 6px !important;
+  }
+
+  body.summary-page #section-students > div > div:first-child > div:last-child > div:first-child {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  body.summary-page #section-students div[style*="height:8px"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex-shrink: 1 !important;
+  }
+
+  body.summary-page #section-lessons > div {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: start !important;
+    gap: 12px !important;
+    padding: 14px !important;
+  }
+
+  body.summary-page .summary-lesson-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: start !important;
+    gap: 12px !important;
+  }
+
+  body.summary-page #section-lessons > div > div:first-child {
+    min-width: 0 !important;
+    align-items: flex-start !important;
+  }
+
+  body.summary-page #section-lessons > div > div:first-child > div:last-child {
+    min-width: 0 !important;
+  }
+
+  body.summary-page #section-lessons > div > div:last-child {
+    margin-left: 0 !important;
+  }
+
+  body.summary-page #section-lessons span,
+  body.summary-page #section-lessons div {
+    overflow-wrap: anywhere !important;
+  }
+
+  body.summary-page #section-patterns > div {
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 13px 14px !important;
+  }
+
+  body.summary-page .summary-pattern-row {
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr) auto !important;
+    align-items: center !important;
+  }
+
+  body.summary-page #section-patterns > div > span {
+    width: auto !important;
+    min-width: 0 !important;
+    flex-shrink: 1 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  body.summary-page #section-patterns > div > div:last-child {
+    grid-column: 1 / -1;
+    width: 100% !important;
+  }
+
+  body.summary-page #notes-btn {
+    display: inline-flex !important;
+    position: fixed !important;
+    top: auto !important;
+    left: 16px !important;
+    right: auto !important;
+    bottom: 16px !important;
+    z-index: 90 !important;
+    width: calc(100vw - 32px) !important;
+    max-width: none !important;
+    justify-content: center !important;
+    padding: 10px 14px !important;
+    border-left-width: 3px !important;
+    border-radius: 12px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.16) !important;
+  }
+
+  body.summary-page #notes-drawer {
+    width: 100vw !important;
+    transform: translateX(100vw) !important;
+  }
+
+  body.summary-page #notes-drawer.is-open {
+    transform: translateX(0) !important;
+  }
+
+  body.summary-page #notes-drawer[style*="translateX(0)"] {
+    transform: translateX(0) !important;
+  }
+
+  body.settings-page {
+    display: block !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  body.settings-page main {
+    width: 100% !important;
+    max-width: 100vw !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+  }
+
+  body.settings-page .settings-content {
+    width: min(320px, calc(100vw - 32px)) !important;
+    max-width: min(320px, calc(100vw - 32px)) !important;
+    margin: 0 auto !important;
+    padding: 20px 0 32px !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  body.settings-page .surface-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    padding: 22px 20px !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  body.settings-page .settings-profile-header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 14px !important;
+  }
+
+  body.settings-page .settings-profile-header > div {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  body.settings-page #edit-profile-btn {
+    width: 100% !important;
+    justify-content: center !important;
+    flex-shrink: 1 !important;
+  }
+
+  body.settings-page #profile-card-content > .flex {
+    align-items: flex-start !important;
+    gap: 14px !important;
+  }
+
+  body.settings-page #profile-card-content .w-14 {
+    width: 52px !important;
+    height: 52px !important;
+  }
+
+  body.settings-page #profile-card-content p,
+  body.settings-page #profile-card-content span {
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+  }
+
+  body.settings-page .settings-profile-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 18px !important;
+  }
+
+  body.settings-page .settings-toggle-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 40px !important;
+    align-items: center !important;
+    gap: 14px !important;
+  }
+
+  body.settings-page .settings-toggle-row > div {
+    min-width: 0 !important;
+  }
+
+  body.settings-page .settings-toggle-row button {
+    width: 40px !important;
+    height: 22px !important;
+  }
+
+  body.settings-page .settings-toggle-row button span {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  body.settings-page .settings-display-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
+  body.settings-page .settings-select {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  body.settings-page .settings-data-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
+  body.settings-page .settings-data-actions .btn-ghost {
+    width: 100% !important;
+    justify-content: center !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    text-align: center !important;
+    min-height: 50px;
+  }
 }

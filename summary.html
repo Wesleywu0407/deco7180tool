@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Adjust â€” Weekly Summary</title>
+  <title>Adjust ??Weekly Summary</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = { theme: { extend: { colors: { primary: '#059669' } } } }
@@ -15,14 +15,14 @@
   <meta name="application-name" content="Adjust" />
   <meta name="apple-mobile-web-app-title" content="Adjust" />
   <meta name="theme-color" content="#059669" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css?v=summary-mobile-20260524-10" />
 </head>
-<body class="flex h-screen overflow-hidden">
+<body class="summary-page flex h-screen overflow-hidden">
 
   <div id="sidebar"></div>
 
-  <!-- â”€â”€ Main scrollable area â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
-  <main class="md:ml-[220px] flex-1 min-h-0 overflow-y-auto" style="overscroll-behavior:contain">
+  <!-- ?€?€ Main scrollable area ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€ -->
+  <main class="summary-main-scroll md:ml-[220px] flex-1 min-h-0 overflow-y-auto" style="overscroll-behavior:contain">
 
     <!-- Top bar -->
     <header class="app-topbar sticky top-0 z-20">
@@ -106,12 +106,12 @@
       </div>
     </header>
 
-    <!-- â”€â”€ Content: 5 vertical sections â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- ?€?€ Content: 5 vertical sections ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€ -->
     <div class="px-8 py-6 space-y-4 pb-20" id="summary-content">
 
       <div id="ai-hero-banner" class="recommendation-banner" style="margin-bottom:0">
         <div class="recommendation-icon" aria-hidden="true">
-          <span class="recommendation-spark">âœ¦</span>
+          <span class="recommendation-spark">&#10022;</span>
         </div>
         <div class="flex-1">
           <span class="recommendation-badge">Support suggestion for teacher review</span>
@@ -127,7 +127,7 @@
         </div>
       </div>
 
-      <!-- Section A: Stats â€” 3 equal cards -->
+      <!-- Section A: Stats ??3 equal cards -->
       <div id="section-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px"></div>
 
       <!-- Section C: Support coverage check -->
@@ -137,8 +137,7 @@
           <a href="report.html?week=9"
              onclick="event.preventDefault();showExportPrivacyConfirm(() => { trackEvent('report_exported',{pageId:'summary'}); window.location.href='report.html?week=9' })"
              style="font-size:13px;font-weight:600;color:#059669;text-decoration:none">
-            Export report â†’
-          </a>
+            Export report ??          </a>
         </div>
         <div id="section-students" style="display:flex;flex-direction:column;gap:10px"></div>
       </div>
@@ -192,7 +191,7 @@ padding:24px 28px;display:flex;align-items:center;justify-content:space-between;
     </div>
   </main>
 
-  <!-- â”€â”€ Floating Researcher Notes button (fixed top-right) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <!-- ?€?€ Floating Researcher Notes button (fixed top-right) ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€ -->
   <button id="notes-btn" onclick="openNotesDrawer()"
     style="
       position:fixed; top:72px; right:24px; z-index:100;
@@ -219,7 +218,7 @@ padding:24px 28px;display:flex;align-items:center;justify-content:space-between;
     Researcher Notes
   </button>
 
-  <!-- â”€â”€ Overlay (behind drawer, closes on click) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <!-- ?€?€ Overlay (behind drawer, closes on click) ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€ -->
   <div id="notes-overlay"
     onclick="closeNotesDrawer()"
     style="
@@ -230,7 +229,7 @@ padding:24px 28px;display:flex;align-items:center;justify-content:space-between;
     ">
   </div>
 
-  <!-- â”€â”€ Researcher Notes Drawer (slides in from right) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <!-- ?€?€ Researcher Notes Drawer (slides in from right) ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€ -->
   <div id="notes-drawer"
     style="
       position:fixed; top:0; right:0; z-index:1000;
@@ -314,11 +313,11 @@ padding:24px 28px;display:flex;align-items:center;justify-content:space-between;
     </button>
     <span id="notes-saved-msg"
       style="display:none;font-size:12px;color:#059669;text-align:center;margin-top:10px;font-weight:500">
-      âœ“ Notes saved
+      ??Notes saved
     </span>
   </div>
 
-  <!-- â”€â”€ Focus mode overlay + panel (kept for JS compatibility) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <!-- ?€?€ Focus mode overlay + panel (kept for JS compatibility) ?€?€?€?€?€?€?€?€?€?€?€?€?€?€ -->
   <div id="focus-overlay" class="focus-overlay hidden"></div>
   <aside id="focus-panel" class="focus-panel hidden">
     <div class="flex items-start justify-between gap-4 mb-5">
@@ -349,7 +348,7 @@ padding:24px 28px;display:flex;align-items:center;justify-content:space-between;
   <script src="js/analytics.js"></script>
   <script src="js/feedback.js"></script>
   <script src="js/sidebar.js"></script>
-  <script src="js/summary.js"></script>
+  <script src="js/summary.js?v=summary-mobile-rows-20260524-7"></script>
 
   <script>
     function toggleNotifications() {
@@ -374,9 +373,11 @@ padding:24px 28px;display:flex;align-items:center;justify-content:space-between;
       }
     })
 
-    // â”€â”€ Notes drawer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ?€?€ Notes drawer ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
     function openNotesDrawer() {
-      document.getElementById('notes-drawer').style.transform = 'translateX(0)'
+      const drawer = document.getElementById('notes-drawer')
+      drawer.classList.add('is-open')
+      drawer.style.setProperty('transform', 'translateX(0)', 'important')
       const overlay = document.getElementById('notes-overlay')
       overlay.style.opacity = '1'
       overlay.style.pointerEvents = 'auto'
@@ -384,7 +385,9 @@ padding:24px 28px;display:flex;align-items:center;justify-content:space-between;
     }
 
     function closeNotesDrawer() {
-      document.getElementById('notes-drawer').style.transform = 'translateX(320px)'
+      const drawer = document.getElementById('notes-drawer')
+      drawer.classList.remove('is-open')
+      drawer.style.setProperty('transform', 'translateX(100vw)', 'important')
       const overlay = document.getElementById('notes-overlay')
       overlay.style.opacity = '0'
       overlay.style.pointerEvents = 'none'

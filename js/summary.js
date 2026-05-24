@@ -1,6 +1,6 @@
 renderSidebar('summary')
 
-// â”€â”€ Category mapping â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ?€?€ Category mapping ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
 function mapCategory(category) {
   if (category === 'Materials') return 'Visual'
   if (category === 'Participation') return 'Participation'
@@ -41,7 +41,7 @@ function sparklineSvg(values, color) {
   `
 }
 
-// â”€â”€ Metrics computation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ?€?€ Metrics computation ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
 function getSummaryMetrics() {
   const allLessons = window.AdjustStore.getLessons()
   const allStudents = window.AdjustStore.getStudents()
@@ -101,7 +101,7 @@ function getSummaryMetrics() {
   }
 }
 
-// â”€â”€ Section A: Stats cards â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ?€?€ Section A: Stats cards ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
 function renderStats(metrics) {
   const cards = [
     {
@@ -176,7 +176,7 @@ function renderStats(metrics) {
   `).join('')
 }
 
-// â”€â”€ Section B: AI Summary â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ?€?€ Section B: AI Summary ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
 function renderAISummary(metrics) {
   const section = document.getElementById('section-ai')
   if (!section) return
@@ -224,7 +224,7 @@ function renderAISummary(metrics) {
   `
 }
 
-// â”€â”€ Section C: Support coverage check â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ?€?€ Section C: Support coverage check ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
 function renderStudentRows(metrics) {
   const sorted = [...metrics.stats].sort((a, b) => b.items - a.items)
 
@@ -255,14 +255,14 @@ function renderStudentRows(metrics) {
 
     return `
       <div style="cursor:pointer" onclick="toggleStudentSummaryDetail('${stat.studentId}')">
-        <div style="
+        <div class="summary-student-card" style="
           display:flex; align-items:center; gap:16px;
           background:white;
           border-radius:16px; padding:16px 18px;
           box-shadow:0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
         ">
           <!-- Avatar + Name + Need tags -->
-          <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;width:220px">
+          <div class="summary-student-main" style="display:flex;align-items:center;gap:10px;flex-shrink:0;width:220px">
             <div style="
               width:40px; height:40px; border-radius:9999px;
               background:${student.avatarBg};
@@ -271,11 +271,11 @@ function renderStudentRows(metrics) {
             ">${student.initials}</div>
             <div>
               <div style="font-size:14px;font-weight:600;color:#111827;margin-bottom:4px">${student.name}</div>
-              <div style="display:flex;gap:4px;flex-wrap:wrap">${needTags}</div>
+              <div class="summary-support-tags" style="display:flex;gap:4px;flex-wrap:wrap">${needTags}</div>
             </div>
           </div>
 
-          <!-- Item Â· lesson count â€” never truncate -->
+          <!-- Item Â· lesson count ??never truncate -->
           <div style="flex-shrink:0;width:150px">
             <span style="font-size:13px;color:#6B7280;white-space:nowrap">
               ${stat.items} supports Â· ${stat.lessons} ${stat.lessons === 1 ? 'lesson' : 'lessons'}
@@ -284,7 +284,7 @@ function renderStudentRows(metrics) {
 
           <!-- Bar (200px) + review status label -->
           <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0">
-            <div style="
+            <div class="summary-progress-track" style="
               width:200px; flex-shrink:0;
               height:8px; background:#E5E7EB;
               border-radius:9999px; overflow:hidden;
@@ -314,14 +314,14 @@ function renderStudentRows(metrics) {
   }).join('')
 }
 
-// â”€â”€ Section D: Most demanding lessons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ?€?€ Section D: Most demanding lessons ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
 const RANK_COLORS = ['#EF4444', '#F97316', '#F59E0B', '#9CA3AF']
 
 function renderDemandingLessons(metrics) {
   const sorted = [...metrics.lessonSummaries].sort((a, b) => b.count - a.count).slice(0, 4)
 
   document.getElementById('section-lessons').innerHTML = sorted.map((entry, i) => `
-    <div style="
+    <div class="summary-lesson-row" style="
       display:flex; align-items:center; justify-content:space-between;
       background:white;
       border-radius:16px; padding:14px 16px;
@@ -356,7 +356,7 @@ function renderDemandingLessons(metrics) {
   `).join('')
 }
 
-// â”€â”€ Section E: Support patterns â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ?€?€ Section E: Support patterns ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
 const PATTERN_CONFIG = [
   { key: 'Visual',        label: 'Visual scaffolds',      color: '#059669', badgeBg: '#D1FAE5', badgeText: '#065F46' },
   { key: 'Participation', label: 'Participation',          color: '#F59E0B', badgeBg: '#FEF3C7', badgeText: '#92400E' },
@@ -375,7 +375,7 @@ function renderSupportPatterns(metrics) {
     if (showMostUsed) mostUsedAssigned = true
 
     return `
-      <div style="display:flex;align-items:center;gap:14px;background:white;border-radius:16px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04)">
+      <div class="summary-pattern-row" style="display:flex;align-items:center;gap:14px;background:white;border-radius:16px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04)">
         <!-- Coloured dot -->
         <div style="
           width:10px; height:10px; border-radius:9999px;
@@ -410,7 +410,7 @@ function renderSupportPatterns(metrics) {
   }).join('')
 }
 
-// â”€â”€ Focus mode (kept for compatibility) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ?€?€ Focus mode (kept for compatibility) ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
 function closeFocusMode() {
   const overlay = document.getElementById('focus-overlay')
   const panel = document.getElementById('focus-panel')
@@ -422,7 +422,7 @@ function closeFocusMode() {
   }, 220)
 }
 
-// â”€â”€ Main render â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ?€?€ Main render ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
 function renderSummaryPage() {
   const metrics = getSummaryMetrics()
   renderStats(metrics)
@@ -439,13 +439,115 @@ function toggleStudentSummaryDetail(studentId) {
     expandedStudentIds.add(studentId)
   }
   renderStudentRows(getSummaryMetrics())
+  applySummaryMobileLayout()
 }
 
 window.toggleStudentSummaryDetail = toggleStudentSummaryDetail
 
-renderSummaryPage()
+function applySummaryMobileLayout() {
+  if (!window.matchMedia?.('(max-width: 768px)').matches) return
 
-// â”€â”€ Global click handler (close focus panel if open) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  document.querySelectorAll('.summary-student-card').forEach((card) => {
+    card.style.flexDirection = 'column'
+    card.style.alignItems = 'stretch'
+    card.style.gap = '10px'
+    card.style.padding = '12px'
+    card.style.borderRadius = '14px'
+    card.style.width = 'calc(100% - 24px)'
+    card.style.maxWidth = 'calc(100% - 24px)'
+    card.style.boxSizing = 'border-box'
+    card.style.marginLeft = 'auto'
+    card.style.marginRight = 'auto'
+  })
+
+  document.querySelectorAll('.summary-student-main').forEach((row) => {
+    row.style.display = 'grid'
+    row.style.gridTemplateColumns = 'auto minmax(0, 1fr)'
+    row.style.alignItems = 'start'
+    row.style.width = '100%'
+    row.style.gap = '8px'
+    const avatar = row.firstElementChild
+    if (avatar) {
+      avatar.style.width = '34px'
+      avatar.style.height = '34px'
+      avatar.style.fontSize = '11px'
+    }
+    const name = row.querySelector('div[style*="font-size:14px"]')
+    if (name) name.style.fontSize = '13px'
+  })
+
+  document.querySelectorAll('.summary-support-tags').forEach((tags) => {
+    tags.style.display = 'grid'
+    tags.style.gridTemplateColumns = 'minmax(0, 1fr)'
+    tags.style.gap = '6px'
+    tags.style.width = '100%'
+    tags.querySelectorAll('span').forEach((tag) => {
+      tag.style.width = 'fit-content'
+      tag.style.maxWidth = '100%'
+      tag.style.whiteSpace = 'normal'
+      tag.style.fontSize = '10px'
+      tag.style.padding = '2px 8px'
+      tag.style.letterSpacing = '0.04em'
+    })
+  })
+
+  document.querySelectorAll('.summary-progress-track').forEach((track) => {
+    track.style.width = 'calc(100% - 28px)'
+    track.style.marginRight = '14px'
+    track.style.marginLeft = '0'
+    track.style.maxWidth = '100%'
+    track.style.flexShrink = '1'
+    track.style.height = '7px'
+  })
+
+  document.querySelectorAll('#section-students span').forEach((span) => {
+    if (span.textContent.includes('supports')) span.style.fontSize = '12px'
+  })
+
+  document.querySelectorAll('#section-students .summary-student-card > div:last-child span').forEach((span) => {
+    span.style.fontSize = '11px'
+  })
+
+  document.querySelectorAll('.summary-lesson-row').forEach((row) => {
+    row.style.width = 'calc(100% - 24px)'
+    row.style.maxWidth = 'calc(100% - 24px)'
+    row.style.boxSizing = 'border-box'
+    row.style.marginLeft = 'auto'
+    row.style.marginRight = 'auto'
+    row.style.display = 'grid'
+    row.style.gridTemplateColumns = 'minmax(0, 1fr) auto'
+    row.style.alignItems = 'start'
+    row.style.gap = '10px'
+    const supportCount = row.lastElementChild
+    if (supportCount) {
+      supportCount.style.marginLeft = '6px'
+      supportCount.style.minWidth = '42px'
+    }
+  })
+
+  document.querySelectorAll('.summary-pattern-row').forEach((row) => {
+    row.style.display = 'grid'
+    row.style.gridTemplateColumns = 'auto minmax(0, 1fr) auto'
+    row.style.alignItems = 'center'
+    const label = row.querySelector('span')
+    if (label) {
+      label.style.width = 'auto'
+      label.style.minWidth = '0'
+      label.style.flexWrap = 'wrap'
+      label.style.gap = '6px'
+    }
+    const bar = row.lastElementChild
+    if (bar) {
+      bar.style.gridColumn = '1 / -1'
+      bar.style.width = '100%'
+    }
+  })
+}
+
+renderSummaryPage()
+applySummaryMobileLayout()
+window.addEventListener('resize', applySummaryMobileLayout)
+// ?€?€ Global click handler (close focus panel if open) ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
 document.addEventListener('click', (event) => {
   const closeFocus = event.target.closest('#close-focus-panel')
   const focusOverlay = event.target.closest('#focus-overlay')

@@ -189,7 +189,19 @@ function openModal(studentId = null) {
     setSelectedDiagnoses([])
   }
 
-  document.getElementById('student-name').focus()
+  const modalCard = studentModal.querySelector('.surface-card')
+  const nameInput = document.getElementById('student-name')
+  requestAnimationFrame(() => {
+    studentModal.scrollTop = 0
+    if (modalCard) modalCard.scrollTop = 0
+    try {
+      nameInput.focus({ preventScroll: true })
+    } catch (error) {
+      nameInput.focus()
+      studentModal.scrollTop = 0
+      if (modalCard) modalCard.scrollTop = 0
+    }
+  })
 }
 
 function closeModal() {
